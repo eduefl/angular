@@ -1,0 +1,35 @@
+<h5>*NgIf </h5>
+
+
+<div *ngIf="cursos.length > 0"  >
+  Lista de Cursos Aqui! 
+</div>
+<div *ngIf="cursos.length == 0"  >
+    Nao existem cursos para serem listados 
+</div>
+  
+
+<br><br><br>
+
+
+<div *ngIf="sinal"  >
+    Luz acessa 
+  </div>
+  <div *ngIf="!sinal"  >
+      Luz apagada
+  </div>
+  <br><br><br>
+
+  <button (click) ="trocaEstado()"> interruptor </button>
+
+  <h5>Hidden como alternativa </h5>
+
+
+  <div [hidden]="! sinal"  >
+      Luz acessa 
+    </div>
+    <div [hidden]=" sinal"  >
+        Luz apagada
+    </div>
+    <br><br><br>
+  

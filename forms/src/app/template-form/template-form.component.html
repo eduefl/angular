@@ -1,0 +1,56 @@
+<form #f = "ngForm" (ngSubmit)="onSubmit(f)" >
+  <div class="form-group"
+    [class.was-validated]="!nome.valid && nome.touched"
+    
+  >
+    <label for="nome">Nome</label>
+    <input type="text"
+     class="form-control" 
+     id="nome" 
+     placeholder="Nome" 
+     aria-describedby="nomeHelp" 
+     name="nome" 
+     [(ngModel)]="usuario.nome" 
+     required
+     #nome = "ngModel"
+    >
+    <small id="nomeHelp" class="form-text text-muted">We'll never share nothing with no one cuse we are selfish.</small>
+    <!--div>
+      {{ nome.className }}
+    </div!-->
+    <span 
+    *ngIf="!nome.valid && nome.touched"
+     class="glyphicon glyphicon-remove form-control-feedback"
+      aria-hidden="true"></span>
+    <span *ngIf="!nome.valid && nome.touched"
+     id="nome"
+      class="sr-only">(error)</span>
+    <div *ngIf="!nome.valid && nome.touched" class="allert alert-danger" role="alert" >
+      Name is mandatory
+    </div>
+  </div>
+
+  <div class="form-group"
+  [class.was-validated]="!email.valid && email.touched"
+  >
+    
+    <label for="email">Email</label>
+    <input type="email"
+     class="form-control"
+     id="email" 
+     placeholder="nome@email.com" 
+     aria-describedby="emailHelp" 
+     name="email" 
+     [(ngModel)]="usuario.email" 
+     required 
+     email #email= "ngModel"
+    >
+    <div *ngIf="!email.valid && email.touched" class="allert alert-danger" role="alert" >
+        Email not valid
+      </div>
+  
+    <small id="emailHelp" class="form-text text-muted">your email boomer.</small>
+  </div>
+  <button type="submit" class="btn btn-primary">Submeta-se</button>
+
+</form>

@@ -1,0 +1,15 @@
+<h5>Diretiva *ngFir </h5>
+
+<select name="singleSelect" ng-model="data.singleSelect">
+    <option *ngFor = "let curso of cursos, let i = index" >
+        {{i}} {{ curso }}
+      </option>  
+  </select><br>
+
+<ul>
+  <li *ngFor = "let curso of cursos, let i = index" >
+     {{i}} {{ curso }}
+  </li>
+    
+
+</ul>

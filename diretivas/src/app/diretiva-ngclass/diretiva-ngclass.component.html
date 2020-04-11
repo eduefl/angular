@@ -1,0 +1,26 @@
+<h1>
+  <i class = "glyphicon"
+  [class.glyphicon-star-empty] ="!meuFavorito"
+  [class.glyphicon-star] ="meuFavorito"
+  (click)="onClick()"
+  ></i>
+
+
+
+</h1>
+
+
+<h1>
+    <i class = "glyphicon"
+    [ngClass]="{
+                'glyphicon-star-empty':  !meuFavorito ,
+                'glyphicon-star':  meuFavorito
+              }"
+    (click)="onClick()"
+    ></i>
+  
+    <button type="button" class="btn btn" aria-label="Left Align" (click)="onClick()">
+        <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+      </button>
+  
+  </h1>

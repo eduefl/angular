@@ -1,0 +1,162 @@
+
+<section></section>
+        <!--article>
+          <h3> Interpolation / Interpolacao</h3>
+          <p> String reenderizada com interpolacao   {{ url }} </p>
+
+          <p> O resultado de 1345.25 * 12   e    {{ 1345.25 * 12  }} </p>
+          <p> O resultado de 1 + 1 nao e    {{ 1 + 1 + getvalor()  }} </p>
+          <p> Curso de Angular e gosto do curso: {{ cursoAngular && getCurtirCurso( ) }}  </p>
+        </article>
+
+        <article>
+            <h3>Interpolacao </h3>            
+            <img src="{{ urlImagem }}">
+
+            <h3>Property binding</h3>
+            <img [src]="urlImagem">
+
+            <h3>Jeito "Correto"</h3>
+            <img bind-src="urlImagem">
+            
+
+
+        </article-->
+
+<!-- 
+    
+    https://valor-software.com/ngx-bootstrap/#/documentation#getting-started         
+
+    https://getbootstrap.com/docs/4.4/components/alerts/
+
+    npm install ng2-bootstrap bootstrap --save
+
+
+
+
+
+-->
+
+<!--
+        <article>
+            <h3>Class e Styple Biding</h3>
+
+            <div>
+                Selecione Uma classe: 
+                <select #classe (change)="0">
+                    <option value = "alert alert-primary" >Alerta Primario</option>
+                    <option value = "alert alert-secondary" >Alerta Secundario</option>
+                    <option value = "alert alert-success" >Alerta Sucesso</option>
+                    <option value = "alert alert-danger" >Alerta Perigo</option>
+                    <option value = "alert alert-warning" >Alerta Aviso</option>
+                    <option value = "alert alert-info" >Alerta Informe</option>                                                                                                    
+                    <option value = "alert alert-light" >Alerta Claro</option>                    
+                    <option value = "alert alert-dark" >Alerta Escuro</option>                    
+                </select>
+                <br><br>
+
+                <div class="alert  {{classe.value}}" role="alert"   >
+                    Texto colorido conforme valor do combobox.
+                </div>
+                     <div class="alert " role="alert"
+                         [class.alert-primary]="classe.value == 'alert alert-primary'">
+                        A simple primary alert—check it out!
+                      </div>
+                      <div class="alert " role="alert"
+                      [class.alert-secondary]="classe.value == 'alert alert-secondary'">
+                        A simple secondary alert—check it out!
+                      </div>
+                      <div class="alert " role="alert"
+                        [class.alert-success]="classe.value == 'alert alert-success'">                            
+                        A simple success alert—check it out!
+                      </div>
+                      <div class="alert " role="alert"
+                      [class.alert-danger]="classe.value == 'alert alert-danger'"> 
+                        A simple danger alert—check it out!
+                      </div>
+                      <div class="alert " role="alert"
+                      [class.alert-warning]="classe.value == 'alert alert-warning'"> 
+                        A simple warning alert—check it out!
+                      </div>
+                      <div class="alert " role="alert"
+                      [class.alert-info]="classe.value == 'alert alert-info'"> 
+                        A simple info alert—check it out!
+                      </div>
+                      <div class="alert " role="alert"
+                      [class.alert-light]="classe.value == 'alert alert-light'"> 
+                        A simple light alert—check it out!
+                      </div>
+                      <div class="alert " role="alert"
+                      [class.alert-dark]="classe.value == 'alert alert-dark'"> 
+                        A simple dark alert—check it out!
+                      </div>
+
+
+                      <div class="alert-danger " role="alert"
+                        [style.display]="classe.value=='alert alert-danger' ? 'block' : 'none'"> 
+                        Esse texto aparece somente em caso de erro 
+                      </div>
+
+
+            </div>
+        </article>
+      
+      </section>
+
+      -->
+            <!-- https://developer.mozilla.org/en-US/docs/Web/Events-->
+<!--
+      <section>
+    
+
+          <article>
+              <h3>
+                  Event Biding 
+              </h3>
+              <div>
+                  <button (click) = "boatClickado()"
+                   class = "btn btn-primary" > me click !</button>
+              </div>
+              <br><br><br>
+              <label for="text">Texto:</label> <br>
+              <input id="text" type="text" 
+              (keyup)="onKeyUp($event)" 
+              (keyup.enter) = "salvarValor(campoInput.value)"
+              (blur) = "blurValor(campoInput.value)"
+              #campoInput
+               />
+
+               <p>Valor atual: {{valorAtual}} </p>
+               <p>Valor quando perdeu o foco : {{valorBlur}} </p>
+               <p>Valor Salvo: {{valorSalvo}} </p>
+
+               <br>
+               <br>
+               <span  
+                 (mouseover) ="onMouseOverOut()" 
+                 (mouseout) ="onMouseOverOut()"
+                 [class.highlight] ="isMouseOver" 
+                
+                >Passe o mouse aqui </span>
+
+          </article>
+
+         
+      </section>
+
+      -->
+
+ <!--app-meu-form></app-meu-form-->
+ <section class ="input-output-properties">
+   <article>
+     <h3>Input/Output Properties</h3>
+     <app-curso  [nome]="nomeDoCurso" ></app-curso>
+
+     <contador [valor] = "valorInicial"
+     (mudouValor) = "onMudouValor($event)"
+     
+     ></contador>
+
+   </article>
+ </section>
+      

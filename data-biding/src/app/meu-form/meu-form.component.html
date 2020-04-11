@@ -1,0 +1,44 @@
+<section>
+        <article>
+          <h3>Two way data biding</h3>
+          <div>
+
+            <input type="text" 
+            [value] =  "nome"
+            (input) = "nome = $event.target.value"
+            
+            />
+
+
+
+            <p>Voce digitou: {{nome}} </p>
+
+
+
+            <input type="text" 
+            [ngModel] =  "nome"
+            (ngModelChange) = "nome = $event" 
+            
+            />
+             
+
+             <input type="text"  [(ngModel)]="nome" >
+
+
+
+          </div>
+
+          <div>
+            <p>Meu nome e {{pessoa.nome}} e tenho {{pessoa.idade}} anos de idade  </p>
+            <label for="nome">Nome:</label>
+            <input  type="text"  [(ngModel)]="pessoa.nome"> <br><br>
+
+            <label for="Idade">Idade:</label> <br>
+            <input type="text"  [(ngModel)]="pessoa.idade"> 
+
+          </div>
+
+
+        </article>
+
+      </section>
