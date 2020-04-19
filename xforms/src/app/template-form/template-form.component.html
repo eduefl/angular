@@ -1,6 +1,9 @@
 <!-- 
   Css Source always use this link to get CSS BOOSTSTRAP
   https://getbootstrap.com/docs/3.4/  
+  
+  https://www.the-art-of-web.com/html/html5-form-validation/
+  
  -->
 <form #f="ngForm" (ngSubmit)="onSubmit(f)"  >
   <div class="form-group">
@@ -14,6 +17,7 @@
       placeholder="Nome" 
       [ngModel]="usuario.nome"
       name="nome"
+      required
     >    
   </div>
   <div class="form-group">
@@ -24,6 +28,8 @@
         placeholder="nome@email.com"
         [ngModel]="usuario.email"
         name="email"        
+        required
+        email
       >    
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
