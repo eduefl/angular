@@ -12,7 +12,7 @@
       class="form-control"
       id="nome" 
       placeholder="Nome" 
-      ngModel
+      [ngModel]="usuario.nome"
       name="nome"
     >    
   </div>
@@ -22,7 +22,7 @@
         class="form-control"
         id="email" 
         placeholder="nome@email.com"
-        ngModel
+        [ngModel]="usuario.email"
         name="email"        
       >    
     </div>
