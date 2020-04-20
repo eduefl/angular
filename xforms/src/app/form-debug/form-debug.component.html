@@ -1,3 +1,15 @@
-<p>
-  form-debug works!
-</p>
+<div style="margin-top: 20px" *ngIf="form"  >
+  <div>
+    Form Details 
+  </div>
+  <pre>
+    Form Valid : {{ form.valid }}
+  </pre>
+  <pre>
+     Form Submitted : {{ form.submitted }}
+  </pre>
+  <pre>
+    Values: <br> {{ form.value | json }}
+  </pre>
+  
+</div>
