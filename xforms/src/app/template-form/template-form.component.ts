@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/map';
+import { ReturnStatement } from '@angular/compiler/src/output/output_ast';
 
 
 @Component({
@@ -35,7 +36,7 @@ export class TemplateFormComponent implements OnInit {
 
   }
 
-  consultaCep(cep){
+  consultaCep(cep, form){
 
     //Nova variável "cep" somente com dígitos.
     cep = cep.replace(/\D/g, ''); // Expressao regular que faz a subistituicao de qualquer valor nao numerico
@@ -60,7 +61,7 @@ export class TemplateFormComponent implements OnInit {
         //this.http.get(`https://viacep.com.br/ws/${cep}/json`)
         this.http.get(`http://cep.republicavirtual.com.br/web_cep.php?cep=${cep}&formato=json`)         
         .map(dados => dados.json())
-        .subscribe(dados => console.log(dados));
+        .subscribe(dados => this.populaDadosForm(dados, form, cep));
 
 
       }
@@ -73,6 +74,36 @@ export class TemplateFormComponent implements OnInit {
 
     //console.log(cep);
 
+  }
+
+
+  populaDadosForm(dados, form, cep){
+   form.setValue(
+
+
+    {
+      nome : form.value.nome,
+      email : form.value.email,
+      endereco : {
+        cep :   this.formatCep(cep) ,
+        numero : ''  ,
+        complemento:  dados.tipo_logradouro   ,
+        rua : dados.logradouro  ,
+        bairro : dados.bairro   ,
+        cidade : dados.cidade  ,
+        estado : dados.uf  
+     }
+   }
+            
+
+    )
+
+
+  }
+
+  formatCep(cep){
+    return cep.substring(0, 5) + "-" + cep.substring(5, 8) 
+    
   }
 
   aplicaCssErro(campo){
