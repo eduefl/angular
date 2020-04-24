@@ -84,7 +84,7 @@
           ngModel
           required
           #cep = "ngModel"
-          (blur)="consultaCep($event.target.value)"
+          (blur)="consultaCep($event.target.value , f)"
         >
 
 
@@ -143,11 +143,11 @@
     <div class="col-sm-12">
       <input type="text" 
         class="form-control"
-        id="rua" 
-        [ngModel]="usuario.rua"
+        id="rua"       
         name="rua"
+        ngModel
         required
-        #rua="ngModel"
+        #rua= "ngModel"
       >    
       <app-campo-control-erro
         [mostrarErro] = "verificaValidTouched(rua)"
