@@ -84,6 +84,7 @@
           ngModel
           required
           #cep = "ngModel"
+          (blur)="consultaCep($event.target.value)"
         >
 
 
