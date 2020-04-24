@@ -38,6 +38,8 @@ export class TemplateFormComponent implements OnInit {
 
   consultaCep(cep, form){
 
+    this.resetaDadosForm(form);
+
     //Nova variável "cep" somente com dígitos.
     cep = cep.replace(/\D/g, ''); // Expressao regular que faz a subistituicao de qualquer valor nao numerico
 
@@ -77,33 +79,56 @@ export class TemplateFormComponent implements OnInit {
   }
 
 
-  populaDadosForm(dados, form, cep){
-   form.setValue(
+  populaDadosForm(dados, formulario, cep){
+    /*/formulario.setValue(
+ 
+ 
+     {
+       nome : formulario.value.nome,
+       email : formulario.value.email,
+       endereco : {
+         cep :   this.formatCep(cep) ,
+         numero : ''  ,
+         complemento:  dados.tipo_logradouro   ,
+         rua : dados.logradouro  ,
+         bairro : dados.bairro   ,
+         cidade : dados.cidade  ,
+         estado : dados.uf  
+      }
+    });/*/
 
-
-    {
-      nome : form.value.nome,
-      email : form.value.email,
-      endereco : {
+    formulario.form.patchValue({
+      endereco : { 
         cep :   this.formatCep(cep) ,
-        numero : ''  ,
         complemento:  dados.tipo_logradouro   ,
         rua : dados.logradouro  ,
         bairro : dados.bairro   ,
         cidade : dados.cidade  ,
         estado : dados.uf  
-     }
-   }
-            
-
+     }      }
     )
-
-
-  }
-
+ 
+ 
+   }
+ 
   formatCep(cep){
     return cep.substring(0, 5) + "-" + cep.substring(5, 8) 
     
+  }
+
+  resetaDadosForm(formulario){
+
+    formulario.form.patchValue({
+      endereco : { 
+        complemento:  null  ,
+        rua : null  ,
+        bairro : null   ,
+        cidade : null  ,
+        estado : null  
+     }      }
+    )
+ 
+
   }
 
   aplicaCssErro(campo){
