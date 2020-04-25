@@ -4,14 +4,18 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { ReturnStatement } from '@angular/compiler/src/output/output_ast';
 
+/*/
+  used to test the post 
+  https://resttesttest.com/#
 
+/*/
 @Component({
   selector: 'app-template-form',
   templateUrl: './template-form.component.html',
   styleUrls: ['./template-form.component.css']
 })
 export class TemplateFormComponent implements OnInit {
-
+ 
   usuario: any = {
     nome: null,
     email: null
@@ -21,6 +25,10 @@ export class TemplateFormComponent implements OnInit {
 //    console.log(form.value);
 //    console.log(this.usuario);
     console.log(form)
+
+    this.http.post('https://httpbin.org/post', JSON.stringify(form.value))
+    .map (res => res )
+    .subscribe(dados => console.log(dados));
     
 
   }
@@ -34,6 +42,75 @@ export class TemplateFormComponent implements OnInit {
   {
     return !campo.valid && campo.touched
 
+  }
+  
+
+
+  populaDadosForm(dados, formulario, cep)
+  {
+    /*/formulario.setValue(
+ 
+ 
+     {
+       nome : formulario.value.nome,
+       email : formulario.value.email,
+       endereco : {
+         cep :   this.formatCep(cep) ,
+         numero : ''  ,
+         complemento:  dados.tipo_logradouro   ,
+         rua : dados.logradouro  ,
+         bairro : dados.bairro   ,
+         cidade : dados.cidade  ,
+         estado : dados.uf  
+      }
+    });/*/
+    
+    if (!("debug" in dados)) {
+      formulario.form.patchValue({
+        endereco : { 
+          cep :   this.formatCep(cep) ,
+          complemento:  dados.tipo_logradouro   ,
+          rua : dados.logradouro  ,
+          bairro : dados.bairro   ,
+          cidade : dados.cidade  ,
+          estado : dados.uf  
+      }      }
+      )
+    }
+    else{
+      alert('cep nao encontrado')
+ 
+ 
+   }
+
+  }
+ 
+  
+  resetaDadosForm(formulario){
+
+    formulario.form.patchValue({
+      endereco : { 
+        complemento:  null  ,
+        rua : null  ,
+        bairro : null   ,
+        cidade : null  ,
+        estado : null  
+     }      }
+    )
+ 
+
+  }
+
+  aplicaCssErro(campo){
+    return {
+      'has-error':    this.verificaValidTouched(campo) ,
+      'has-feedback': this.verificaValidTouched(campo)   
+    }
+  }
+
+  formatCep(cep: any) {
+   return cep.substring(0, 5) + "-" + cep.substring(5, 8);
+  
   }
 
   consultaCep(cep, form){
@@ -80,77 +157,5 @@ export class TemplateFormComponent implements OnInit {
 
 
     }
-
-
-
-    //console.log(cep);
-
   }
-
-  
-
-
-  populaDadosForm(dados, formulario, cep){
-    /*/formulario.setValue(
- 
- 
-     {
-       nome : formulario.value.nome,
-       email : formulario.value.email,
-       endereco : {
-         cep :   this.formatCep(cep) ,
-         numero : ''  ,
-         complemento:  dados.tipo_logradouro   ,
-         rua : dados.logradouro  ,
-         bairro : dados.bairro   ,
-         cidade : dados.cidade  ,
-         estado : dados.uf  
-      }
-    });/*/
-    
-    if (!("debug" in dados)) {
-      formulario.form.patchValue({
-        endereco : { 
-          cep :   this.formatCep(cep) ,
-          complemento:  dados.tipo_logradouro   ,
-          rua : dados.logradouro  ,
-          bairro : dados.bairro   ,
-          cidade : dados.cidade  ,
-          estado : dados.uf  
-      }      }
-      )
-    }
-    else{
-      alert('cep nao encontrado')
- 
- 
-   }
- 
-  formatCep(cep){
-    return cep.substring(0, 5) + "-" + cep.substring(5, 8) 
-    
-  }
-
-  resetaDadosForm(formulario){
-
-    formulario.form.patchValue({
-      endereco : { 
-        complemento:  null  ,
-        rua : null  ,
-        bairro : null   ,
-        cidade : null  ,
-        estado : null  
-     }      }
-    )
- 
-
-  }
-
-  aplicaCssErro(campo){
-    return {
-      'has-error':    this.verificaValidTouched(campo) ,
-      'has-feedback': this.verificaValidTouched(campo)   
-    }
-  }
-
 }
