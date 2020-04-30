@@ -10,6 +10,7 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 export class DataFormComponent implements OnInit {
 
   formulario: FormGroup;
+  submit: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,11 +35,38 @@ export class DataFormComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.formulario.value);
+    if (this.submit)
+    {
+      console.log(this.formulario);
 
-    this.http.post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
-    .map (res => res )
-    .subscribe(dados => console.log(dados));
+      this.http.post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
+      .map (res => res )
+      .subscribe(dados => {
+        console.log(dados);
+        // Reser FOrm
+        this.formulario.reset();
+        }, 
+        // cath error 
+        (error: any) => alert("Something Wrong")
+        );
+    }
+    else{
+      this.submit = true;
+    }
+
+  }
+
+  resetForm(){
+    if ( confirm("do you really want to reset the form ?") == true )
+    {    
+      this.formulario.reset();
+    }
+    else
+    {
+      alert("ok")
+    }
+    this.submit = false;
+    return null
 
   }
 
