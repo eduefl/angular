@@ -1,6 +1,6 @@
 import { Http } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-data-form',
@@ -27,8 +27,8 @@ export class DataFormComponent implements OnInit {
     });/*/
 
     this.formulario= this.formBuilder.group({
-      nome: [null],
-      email: [null]      
+      nome: [null, Validators.required],
+      email: [null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]]      
     })
 
 
