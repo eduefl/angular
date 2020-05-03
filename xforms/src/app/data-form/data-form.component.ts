@@ -70,4 +70,33 @@ export class DataFormComponent implements OnInit {
 
   }
 
+  verificaValidTouched(campo)
+  {
+    //this.formulario.controls[campo]; //do the same  as the next line
+    //this.formulario.get(campo) //do the same  as the previous line
+
+    return !this.formulario.get(campo).valid && this.formulario.get(campo).touched
+
+  }
+  verificaInvalidEmail()
+  {
+    let mailField = this.formulario.get('email');
+   // console.log(mailField.errors);
+    if (mailField.errors){
+      return mailField.errors['pattern'] && mailField.touched;
+      //in my case is different fro  the example because i use pattern not the propery e-mail.
+
+
+    }
+  }
+
+  
+  aplicaCssErro(campo){
+    return {
+      'has-error':    this.verificaValidTouched(campo) ,
+      'has-feedback': this.verificaValidTouched(campo)   
+    }
+  }
+
+
 }
