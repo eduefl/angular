@@ -196,10 +196,10 @@ export class DataFormComponent implements OnInit {
           estado : dados.uf  
       }      }
       );/*/
-      let adress = this.formulario.get('endereco');
-      adress.get('cep').setValue(this.formatCep(cep));
-      adress.get('complemento').setValue(dados.tipo_logradouro);
-      adress.get('rua').setValue(dados.logradouro);
+      this.formulario.get('endereco').get('complemento').setValue(dados.tipo_logradouro); // this works  
+      this.formulario.get('endereco.rua').setValue(dados.logradouro); //this also works 
+      let adress = this.formulario.get('endereco'); // this also also works all these ways are correct
+      adress.get('cep').setValue(this.formatCep(cep)); 
       adress.get('bairro').setValue(dados.bairro);
       adress.get('cidade').setValue(dados.cidade);
       adress.get('estado').setValue(dados.uf);
