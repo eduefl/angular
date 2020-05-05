@@ -22,20 +22,25 @@ export class DataFormComponent implements OnInit {
 
     /*/this.formulario = new FormGroup( {
 
-      nome: new FormControl(null),
-      email: new FormControl(null)
+      nome    : new FormControl(null),
+      email   : new FormControl(null),
+      endreco : new FormGroup({
+        cep: new FormControl(null)
+      })
     });/*/
 
     this.formulario= this.formBuilder.group({
-      nome: [null, Validators.required],
-      email: [null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]],      
-      cep: [null, Validators.required],
-      numero: [null, Validators.required],
-      complemento: [null],
-      rua: [null, Validators.required],
-      bairro: [null, Validators.required],
-      cidade: [null, Validators.required],
-      estado: [null, Validators.required]      
+      nome    : [null, Validators.required],
+      email   : [null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]],      
+      endreco : this.formBuilder.group({
+        cep         : [null, Validators.required],
+        numero      : [null, Validators.required],
+        complemento : [null],
+        rua         : [null, Validators.required],
+        bairro      : [null, Validators.required],
+        cidade      : [null, Validators.required],
+        estado      : [null, Validators.required]
+      })      
     })
 
 

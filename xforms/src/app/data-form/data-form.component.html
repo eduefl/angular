@@ -62,11 +62,11 @@
 
 
 
-  <div>
+  <div formGroupName="endreco">
     <div class="form-group"  >
 
       <div class="col-md-3"
-        [ngClass]="aplicaCssErro('cep')" 
+        [ngClass]="aplicaCssErro('endreco.cep')" 
       >
         <label for="cep" class="control-label">CEP</label>
         <input
@@ -78,7 +78,7 @@
 
 
         <app-campo-control-erro
-          [mostrarErro] = "verificaValidTouched('cep')"
+          [mostrarErro] = "verificaValidTouched('endreco.cep')"
           msgErro     = "Cep is not valid"
         ></app-campo-control-erro>
 
@@ -86,7 +86,7 @@
       
       </div>
       <div class="col-md-3"
-        [ngClass]="aplicaCssErro('numero')" 
+        [ngClass]="aplicaCssErro('endreco.numero')" 
       >
           <label for="numero" class="control-label">Numero</label>
           <input
@@ -97,7 +97,7 @@
           >
     
         <app-campo-control-erro
-          [mostrarErro] = "verificaValidTouched('numero')"
+          [mostrarErro] = "verificaValidTouched('endreco.numero')"
           msgErro     = "number is not valid"
         ></app-campo-control-erro>
     
@@ -115,7 +115,7 @@
     </div>
 
     <div class="form-group"
-      [ngClass]="aplicaCssErro('rua')" 
+      [ngClass]="aplicaCssErro('endreco.rua')" 
     >
     <div class="col-sm-12">
       <label 
@@ -131,7 +131,7 @@
         formControlName="rua" 
       >    
       <app-campo-control-erro
-        [mostrarErro] = "verificaValidTouched('rua')"
+        [mostrarErro] = "verificaValidTouched('endreco.rua')"
         msgErro     = "Street is not valid"
       ></app-campo-control-erro>
 
@@ -142,7 +142,7 @@
     <div class="form-group"  >
 
       <div class="col-md-5"
-        [ngClass]="aplicaCssErro('bairro')" 
+        [ngClass]="aplicaCssErro('endreco.bairro')" 
       >
         <label for="bairro" class="control-label">Bairro</label>
         <input
@@ -155,7 +155,7 @@
         
         
         <app-campo-control-erro
-          [mostrarErro] = "verificaValidTouched('bairro')"
+          [mostrarErro] = "verificaValidTouched('endreco.bairro')"
           msgErro     = "Neighborhood  is not valid"
         ></app-campo-control-erro>
     
@@ -164,7 +164,7 @@
       
       </div>
       <div class="col-md-4"
-        [ngClass]="aplicaCssErro('cidade')" 
+        [ngClass]="aplicaCssErro('endreco.cidade')" 
       >
         <label for="cidade" class="control-label">Cidade</label>
         <input
@@ -176,14 +176,14 @@
   
   
         <app-campo-control-erro
-          [mostrarErro] = "verificaValidTouched('cidade')"
+          [mostrarErro] = "verificaValidTouched('endreco.cidade')"
           msgErro     = "City  is not valid"
         ></app-campo-control-erro>
   
       
       </div>      
       <div class="col-md-3"
-        [ngClass]="aplicaCssErro('estado')" 
+        [ngClass]="aplicaCssErro('endreco.estado')" 
       >
         <label for="estado" class="control-label">Estado</label>
         <input
@@ -195,7 +195,7 @@
   
   
         <app-campo-control-erro
-          [mostrarErro] = "verificaValidTouched('estado')"
+          [mostrarErro] = "verificaValidTouched('endreco.estado')"
           msgErro     = "State  is not valid"
         ></app-campo-control-erro>
 
