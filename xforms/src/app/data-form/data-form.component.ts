@@ -24,7 +24,7 @@ export class DataFormComponent implements OnInit {
 
       nome    : new FormControl(null,Validators.required),
       email   : new FormControl(null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]),
-      endreco : new FormGroup({
+      endereco : new FormGroup({
         cep         : new FormControl(null,Validators.required),
         numero      : new FormControl(null,Validators.required),
         complemento : new FormControl(null,),
@@ -38,7 +38,7 @@ export class DataFormComponent implements OnInit {
     this.formulario= this.formBuilder.group({
       nome    : [null, Validators.required],
       email   : [null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]],      
-      endreco : this.formBuilder.group({
+      endereco : this.formBuilder.group({
         cep         : [null, Validators.required],
         numero      : [null, Validators.required],
         complemento : [null],
@@ -115,6 +115,118 @@ export class DataFormComponent implements OnInit {
       'has-feedback': this.verificaValidTouched(campo)   
     }
   }
+  consultaCep(){
+    
+    let cep = this.formulario.get('endereco.cep').value
 
+    this.resetaDadosForm();
+
+    //Nova variável "cep" somente com dígitos.
+    cep = cep.replace(/\D/g, ''); // Expressao regular que faz a subistituicao de qualquer valor nao numerico
+
+    //Verifica se campo cep possui valor informado.
+    if (cep != "") {
+      
+
+      //Expressão regular para validar o CEP.
+      var validacep = /^[0-9]{8}$/;
+
+      
+
+      //Valida o formato do CEP.
+      if(validacep.test(cep)) {
+           /*/Important 
+          In the original example was used the webservice from ViaCep
+          But it is blocked in Russia so as an alternative i have used
+          republicavirtual that has access here so some adapt probably will be necessary.
+
+          Remembering that this block happens in Chrome only so if it  is needed we can test in
+           opera wit viacep but also as a chalenge lets try do it with the new webservice.
+
+        /*/
+        // this.http.get("https://viacep.com.br/ws/"+ cep +"/json"); // Also possible
+        //this.http.get(`https://viacep.com.br/ws/${cep}/json`)
+        this.http.get(`http://cep.republicavirtual.com.br/web_cep.php?cep=${cep}&formato=json`)         
+        .map(dados => dados.json())
+        .subscribe(dados => this.populaDadosForm(dados,  cep));
+
+
+
+      }
+      else{
+        alert('cep em formato invalido')
+
+
+      }
+
+
+
+    }
+  }
+
+
+  populaDadosForm(dados, cep)
+  {
+    /*/formulario.setValue(
+ 
+ 
+     {
+       nome : formulario.value.nome,
+       email : formulario.value.email,
+       endereco : {
+         cep :   this.formatCep(cep) ,
+         numero : ''  ,
+         complemento:  dados.tipo_logradouro   ,
+         rua : dados.logradouro  ,
+         bairro : dados.bairro   ,
+         cidade : dados.cidade  ,
+         estado : dados.uf  
+      }
+    });/*/
+
+    if (!("debug" in dados)) {
+
+      this.formulario.patchValue({
+        endereco : { 
+          cep :   this.formatCep(cep) ,
+          complemento:  dados.tipo_logradouro   ,
+          rua : dados.logradouro  ,
+          bairro : dados.bairro   ,
+          cidade : dados.cidade  ,
+          estado : dados.uf  
+      }      }
+      );
+//      this.formulario.get('nome').setValue('consultado');
+    }
+    else{
+      alert('cep nao encontrado')
+ 
+ 
+   }
+
+  }
+
+  formatCep(cep: any) {
+    return cep.substring(0, 5) + "-" + cep.substring(5, 8);
+   
+   }
+ 
+
+  resetaDadosForm(){
+  
+    this.formulario.patchValue({
+      endereco : { 
+        complemento:  null  ,
+        rua : null  ,
+        bairro : null   ,
+        cidade : null  ,
+        estado : null  
+     }      }
+    );
+    
+
+ 
+
+  }
 
 }
