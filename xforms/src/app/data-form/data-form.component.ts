@@ -186,7 +186,7 @@ export class DataFormComponent implements OnInit {
 
     if (!("debug" in dados)) {
 
-      this.formulario.patchValue({
+      /*/this.formulario.patchValue({
         endereco : { 
           cep :   this.formatCep(cep) ,
           complemento:  dados.tipo_logradouro   ,
@@ -195,7 +195,17 @@ export class DataFormComponent implements OnInit {
           cidade : dados.cidade  ,
           estado : dados.uf  
       }      }
-      );
+      );/*/
+      let adress = this.formulario.get('endereco');
+      adress.get('cep').setValue(this.formatCep(cep));
+      adress.get('complemento').setValue(dados.tipo_logradouro);
+      adress.get('rua').setValue(dados.logradouro);
+      adress.get('bairro').setValue(dados.bairro);
+      adress.get('cidade').setValue(dados.cidade);
+      adress.get('estado').setValue(dados.uf);
+      
+
+
 //      this.formulario.get('nome').setValue('consultado');
     }
     else{
