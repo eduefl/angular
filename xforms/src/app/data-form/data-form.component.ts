@@ -20,7 +20,7 @@ export class DataFormComponent implements OnInit {
 
   ngOnInit() {
 
-    this.formulario = new FormGroup( {
+    /*/this.formulario = new FormGroup( {
 
       nome    : new FormControl(null,Validators.required),
       email   : new FormControl(null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]),
@@ -33,9 +33,9 @@ export class DataFormComponent implements OnInit {
         cidade      : new FormControl(null,Validators.required),
         estado      :  new FormControl(null,Validators.required)
       })
-    });
+    });/*/
 
-    /*/this.formulario= this.formBuilder.group({
+    this.formulario= this.formBuilder.group({
       nome    : [null, Validators.required],
       email   : [null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]],      
       endreco : this.formBuilder.group({
@@ -47,7 +47,7 @@ export class DataFormComponent implements OnInit {
         cidade      : [null, Validators.required],
         estado      : [null, Validators.required]
       })      
-    })/*/
+    })
 
 
   }
