@@ -186,7 +186,7 @@ export class DataFormComponent implements OnInit {
 
     if (!("debug" in dados)) {
 
-      /*/this.formulario.patchValue({
+      this.formulario.patchValue({
         endereco : { 
           cep :   this.formatCep(cep) ,
           complemento:  dados.tipo_logradouro   ,
@@ -195,7 +195,9 @@ export class DataFormComponent implements OnInit {
           cidade : dados.cidade  ,
           estado : dados.uf  
       }      }
-      );/*/
+      );
+
+      /*/ the same but with set value examples
       this.formulario.get('endereco').get('complemento').setValue(dados.tipo_logradouro); // this works  
       this.formulario.get('endereco.rua').setValue(dados.logradouro); //this also works 
       let adress = this.formulario.get('endereco'); // this also also works all these ways are correct
@@ -203,7 +205,7 @@ export class DataFormComponent implements OnInit {
       adress.get('bairro').setValue(dados.bairro);
       adress.get('cidade').setValue(dados.cidade);
       adress.get('estado').setValue(dados.uf);
-      
+      /*/
 
 
 //      this.formulario.get('nome').setValue('consultado');
