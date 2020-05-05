@@ -28,7 +28,14 @@ export class DataFormComponent implements OnInit {
 
     this.formulario= this.formBuilder.group({
       nome: [null, Validators.required],
-      email: [null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]]      
+      email: [null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]],      
+      cep: [null, Validators.required],
+      numero: [null, Validators.required],
+      complemento: [null],
+      rua: [null, Validators.required],
+      bairro: [null, Validators.required],
+      cidade: [null, Validators.required],
+      estado: [null, Validators.required]      
     })
 
 
@@ -70,7 +77,7 @@ export class DataFormComponent implements OnInit {
 
   }
 
-  verificaValidTouched(campo)
+  verificaValidTouched(campo: string)
   {
     //this.formulario.controls[campo]; //do the same  as the next line
     //this.formulario.get(campo) //do the same  as the previous line
@@ -91,7 +98,7 @@ export class DataFormComponent implements OnInit {
   }
 
   
-  aplicaCssErro(campo){
+  aplicaCssErro(campo: string){
     return {
       'has-error':    this.verificaValidTouched(campo) ,
       'has-feedback': this.verificaValidTouched(campo)   
