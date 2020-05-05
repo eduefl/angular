@@ -20,16 +20,22 @@ export class DataFormComponent implements OnInit {
 
   ngOnInit() {
 
-    /*/this.formulario = new FormGroup( {
+    this.formulario = new FormGroup( {
 
-      nome    : new FormControl(null),
-      email   : new FormControl(null),
+      nome    : new FormControl(null,Validators.required),
+      email   : new FormControl(null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]),
       endreco : new FormGroup({
-        cep: new FormControl(null)
+        cep         : new FormControl(null,Validators.required),
+        numero      : new FormControl(null,Validators.required),
+        complemento : new FormControl(null,),
+        rua         : new FormControl(null,Validators.required),
+        bairro      : new FormControl(null,Validators.required),
+        cidade      : new FormControl(null,Validators.required),
+        estado      :  new FormControl(null,Validators.required)
       })
-    });/*/
+    });
 
-    this.formulario= this.formBuilder.group({
+    /*/this.formulario= this.formBuilder.group({
       nome    : [null, Validators.required],
       email   : [null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]],      
       endreco : this.formBuilder.group({
@@ -41,7 +47,7 @@ export class DataFormComponent implements OnInit {
         cidade      : [null, Validators.required],
         estado      : [null, Validators.required]
       })      
-    })
+    })/*/
 
 
   }
