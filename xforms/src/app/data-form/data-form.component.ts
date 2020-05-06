@@ -78,11 +78,7 @@ export class DataFormComponent implements OnInit {
 
         });/*/
 
-        Object.keys(this.formulario.controls).forEach(campo => {
-          console.log(campo);
-          const controle = this.formulario.get(campo);
-          controle.markAsDirty();
-        })
+        this.checkFormValid(this.formulario)
 
       }
           
@@ -104,6 +100,23 @@ export class DataFormComponent implements OnInit {
     }
     this.submit = false;
     return null
+
+  }
+
+  checkFormValid(formGroup : FormGroup ){
+
+    Object.keys(formGroup.controls).forEach(campo => {
+      console.log(campo);
+      const controle = formGroup.get(campo);
+      controle.markAsDirty();
+      if( controle instanceof FormGroup)
+      {
+        this.checkFormValid(controle);
+
+      }
+    })
+
+
 
   }
 
