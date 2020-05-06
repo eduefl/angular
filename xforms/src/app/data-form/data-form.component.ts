@@ -55,18 +55,37 @@ export class DataFormComponent implements OnInit {
   onSubmit(){
     if (this.submit)
     {
-      console.log(this.formulario);
+      if (this.formulario.valid)
+      {
+        console.log(this.formulario);
 
-      this.http.post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
-      .map (res => res )
-      .subscribe(dados => {
-        console.log(dados);
-        // Reser FOrm
-        this.formulario.reset();
-        }, 
-        // cath error 
-        (error: any) => alert("Something Wrong")
+        this.http.post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
+        .map (res => res )
+        .subscribe(dados => {
+          console.log(dados);
+          // Reser FOrm
+          this.formulario.reset();
+          }, 
+          // cath error 
+          (error: any) => alert("Something Wrong")
         );
+      }
+      else
+      {
+        alert('formulario invalido')
+        /*/
+        Object.keys(this.formulario.controls).forEach(function(campo){
+
+        });/*/
+
+        Object.keys(this.formulario.controls).forEach(campo => {
+          console.log(campo);
+          const controle = this.formulario.get(campo);
+          controle.markAsDirty();
+        })
+
+      }
+          
     }
     else{
       this.submit = true;
@@ -93,7 +112,7 @@ export class DataFormComponent implements OnInit {
     //this.formulario.controls[campo]; //do the same  as the next line
     //this.formulario.get(campo) //do the same  as the previous line
 
-    return !this.formulario.get(campo).valid && this.formulario.get(campo).touched
+    return !this.formulario.get(campo).valid && (this.formulario.get(campo).touched || this.formulario.get(campo).dirty)
 
   }
   verificaInvalidEmail()
