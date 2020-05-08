@@ -1,3 +1,5 @@
+import { EstadoBr } from './../shared/models/estado-br';
+import { DropdownService } from './../shared/services/dropdown.service';
 import { Http } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
@@ -11,14 +13,25 @@ export class DataFormComponent implements OnInit {
 
   formulario: FormGroup;
   submit: boolean = true;
+  estados : EstadoBr[];
 
   constructor(
     private formBuilder: FormBuilder,
-    private http : Http
+    private http : Http,
+    private dropdownService : DropdownService,
+
 
   ) { }
 
   ngOnInit() {
+
+    this.dropdownService.getEstadosBr()
+      .subscribe(dados =>
+        {
+          this.estados = dados;
+          console.log(dados);
+        }
+        );
 
     /*/this.formulario = new FormGroup( {
 
@@ -37,7 +50,7 @@ export class DataFormComponent implements OnInit {
 
     this.formulario= this.formBuilder.group({
       nome    : [null, Validators.required],
-      email   : [null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]],      
+      email   : [null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]],
       endereco : this.formBuilder.group({
         cep         : [null, Validators.required],
         numero      : [null, Validators.required],
@@ -46,7 +59,7 @@ export class DataFormComponent implements OnInit {
         bairro      : [null, Validators.required],
         cidade      : [null, Validators.required],
         estado      : [null, Validators.required]
-      })      
+      })
     })
 
 
@@ -65,8 +78,8 @@ export class DataFormComponent implements OnInit {
           console.log(dados);
           // Reser FOrm
           this.formulario.reset();
-          }, 
-          // cath error 
+          },
+          // cath error
           (error: any) => alert("Something Wrong")
         );
       }
@@ -81,7 +94,7 @@ export class DataFormComponent implements OnInit {
         this.checkFormValid(this.formulario)
 
       }
-          
+
     }
     else{
       this.submit = true;
@@ -91,7 +104,7 @@ export class DataFormComponent implements OnInit {
 
   resetForm(){
     if ( confirm("do you really want to reset the form ?") == true )
-    {    
+    {
       this.formulario.reset();
     }
     else
@@ -140,15 +153,15 @@ export class DataFormComponent implements OnInit {
     }
   }
 
-  
+
   aplicaCssErro(campo: string){
     return {
       'has-error':    this.verificaValidTouched(campo) ,
-      'has-feedback': this.verificaValidTouched(campo)   
+      'has-feedback': this.verificaValidTouched(campo)
     }
   }
   consultaCep(){
-    
+
     let cep = this.formulario.get('endereco.cep').value
 
     this.resetaDadosForm();
@@ -158,16 +171,16 @@ export class DataFormComponent implements OnInit {
 
     //Verifica se campo cep possui valor informado.
     if (cep != "") {
-      
+
 
       //Expressão regular para validar o CEP.
       var validacep = /^[0-9]{8}$/;
 
-      
+
 
       //Valida o formato do CEP.
       if(validacep.test(cep)) {
-           /*/Important 
+           /*/Important
           In the original example was used the webservice from ViaCep
           But it is blocked in Russia so as an alternative i have used
           republicavirtual that has access here so some adapt probably will be necessary.
@@ -178,7 +191,7 @@ export class DataFormComponent implements OnInit {
         /*/
         // this.http.get("https://viacep.com.br/ws/"+ cep +"/json"); // Also possible
         //this.http.get(`https://viacep.com.br/ws/${cep}/json`)
-        this.http.get(`http://cep.republicavirtual.com.br/web_cep.php?cep=${cep}&formato=json`)         
+        this.http.get(`http://cep.republicavirtual.com.br/web_cep.php?cep=${cep}&formato=json`)
         .map(dados => dados.json())
         .subscribe(dados => this.populaDadosForm(dados,  cep));
 
@@ -200,8 +213,8 @@ export class DataFormComponent implements OnInit {
   populaDadosForm(dados, cep)
   {
     /*/formulario.setValue(
- 
- 
+
+
      {
        nome : formulario.value.nome,
        email : formulario.value.email,
@@ -212,28 +225,28 @@ export class DataFormComponent implements OnInit {
          rua : dados.logradouro  ,
          bairro : dados.bairro   ,
          cidade : dados.cidade  ,
-         estado : dados.uf  
+         estado : dados.uf
       }
     });/*/
 
     if (!("debug" in dados)) {
 
       this.formulario.patchValue({
-        endereco : { 
+        endereco : {
           cep :   this.formatCep(cep) ,
           complemento:  dados.tipo_logradouro   ,
           rua : dados.logradouro  ,
           bairro : dados.bairro   ,
           cidade : dados.cidade  ,
-          estado : dados.uf  
+          estado : dados.uf
       }      }
       );
 
       /*/ the same but with set value examples
-      this.formulario.get('endereco').get('complemento').setValue(dados.tipo_logradouro); // this works  
-      this.formulario.get('endereco.rua').setValue(dados.logradouro); //this also works 
+      this.formulario.get('endereco').get('complemento').setValue(dados.tipo_logradouro); // this works
+      this.formulario.get('endereco.rua').setValue(dados.logradouro); //this also works
       let adress = this.formulario.get('endereco'); // this also also works all these ways are correct
-      adress.get('cep').setValue(this.formatCep(cep)); 
+      adress.get('cep').setValue(this.formatCep(cep));
       adress.get('bairro').setValue(dados.bairro);
       adress.get('cidade').setValue(dados.cidade);
       adress.get('estado').setValue(dados.uf);
@@ -244,32 +257,32 @@ export class DataFormComponent implements OnInit {
     }
     else{
       alert('cep nao encontrado')
- 
- 
+
+
    }
 
   }
 
   formatCep(cep: any) {
     return cep.substring(0, 5) + "-" + cep.substring(5, 8);
-   
+
    }
- 
+
 
   resetaDadosForm(){
-  
+
     this.formulario.patchValue({
-      endereco : { 
+      endereco : {
         complemento:  null  ,
         rua : null  ,
         bairro : null   ,
         cidade : null  ,
-        estado : null  
+        estado : null
      }      }
     );
-    
 
- 
+
+
 
   }
 
