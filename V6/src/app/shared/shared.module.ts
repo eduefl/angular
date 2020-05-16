@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 @NgModule({
   imports: [
     CommonModule,
-    HttpModule
+    // HttpModule
 
   ],
   declarations: [
