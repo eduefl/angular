@@ -1,4 +1,4 @@
-import { HttpModule } from '@angular/http';
+// import { HttpModule } from '@angular/http'; //used befor V6
 import { DropdownService } from './services/dropdown.service';
 import { CampoControlErroComponent } from './campo-control-erro/campo-control-erro.component';
 import { FormDebugComponent } from './form-debug/form-debug.component';
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 @NgModule({
   imports: [
     CommonModule,
-    // HttpModule
+    // HttpModule //used befor V6
 
   ],
   declarations: [
