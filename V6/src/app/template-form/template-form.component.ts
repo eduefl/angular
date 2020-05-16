@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
+// import { Http } from '@angular/http'; used befor V6
+import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { ReturnStatement } from '@angular/compiler/src/output/output_ast';
@@ -19,15 +20,14 @@ export class TemplateFormComponent implements OnInit {
   usuario: any = {
     nome: null,
     email: null
-  }
+  };
 
-  onSubmit(form){
+  onSubmit(form) {
 //    console.log(form.value);
 //    console.log(this.usuario);
-    console.log(form)
+    console.log(form);
 
     this.http.post('https://httpbin.org/post', JSON.stringify(form.value))
-    .pipe(map (res => res ))
     .subscribe(dados => {
       console.log(dados);
       form.form.reset();
@@ -37,21 +37,19 @@ export class TemplateFormComponent implements OnInit {
 
   }
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient ) { }
 
   ngOnInit() {
   }
 
-  verificaValidTouched(campo)
-  {
-    return !campo.valid && campo.touched
+  verificaValidTouched(campo) {
+    return !campo.valid && campo.touched;
 
   }
 
 
 
-  populaDadosForm(dados, formulario, cep)
-  {
+  populaDadosForm(dados, formulario, cep) {
     /*/formulario.setValue(
 
 
@@ -69,7 +67,7 @@ export class TemplateFormComponent implements OnInit {
       }
     });/*/
 
-    if (!("debug" in dados)) {
+    if (!('debug' in dados)) {
       formulario.form.patchValue({
         endereco : {
           cep :   this.formatCep(cep) ,
@@ -79,10 +77,9 @@ export class TemplateFormComponent implements OnInit {
           cidade : dados.cidade  ,
           estado : dados.uf
       }      }
-      )
-    }
-    else{
-      alert('cep nao encontrado')
+      );
+    } else {
+      alert('cep nao encontrado');
 
 
    }
@@ -90,7 +87,7 @@ export class TemplateFormComponent implements OnInit {
   }
 
 
-  resetaDadosForm(formulario){
+  resetaDadosForm(formulario) {
 
     formulario.form.patchValue({
       endereco : {
@@ -100,41 +97,41 @@ export class TemplateFormComponent implements OnInit {
         cidade : null  ,
         estado : null
      }      }
-    )
+    );
 
 
   }
 
-  aplicaCssErro(campo){
+  aplicaCssErro(campo) {
     return {
       'has-error':    this.verificaValidTouched(campo) ,
       'has-feedback': this.verificaValidTouched(campo)
-    }
+    };
   }
 
   formatCep(cep: any) {
-   return cep.substring(0, 5) + "-" + cep.substring(5, 8);
+   return cep.substring(0, 5) + '-' + cep.substring(5, 8);
 
   }
 
-  consultaCep(cep, form){
+  consultaCep(cep, form) {
 
     this.resetaDadosForm(form);
 
-    //Nova variável "cep" somente com dígitos.
+    // Nova variável "cep" somente com dígitos.
     cep = cep.replace(/\D/g, ''); // Expressao regular que faz a subistituicao de qualquer valor nao numerico
 
-    //Verifica se campo cep possui valor informado.
-    if (cep != "") {
+    // Verifica se campo cep possui valor informado.
+    if (cep !== '') {
 
 
-      //Expressão regular para validar o CEP.
-      var validacep = /^[0-9]{8}$/;
+      // Expressão regular para validar o CEP.
+      const validacep = /^[0-9]{8}$/;
 
 
 
-      //Valida o formato do CEP.
-      if(validacep.test(cep)) {
+      //  Valida o formato do CEP.
+      if (validacep.test(cep)) {
            /*/Important
           In the original example was used the webservice from ViaCep
           But it is blocked in Russia so as an alternative i have used
@@ -145,15 +142,13 @@ export class TemplateFormComponent implements OnInit {
 
         /*/
         // this.http.get("https://viacep.com.br/ws/"+ cep +"/json"); // Also possible
-        //this.http.get(`https://viacep.com.br/ws/${cep}/json`)
+        // this.http.get(`https://viacep.com.br/ws/${cep}/json`)
         this.http.get(`http://cep.republicavirtual.com.br/web_cep.php?cep=${cep}&formato=json`)
-        .pipe(map(dados => dados.json()))
         .subscribe(dados => this.populaDadosForm(dados, form, cep));
 
 
-      }
-      else{
-        alert('cep em formato invalido')
+      } else {
+        alert('cep em formato invalido');
 
 
       }

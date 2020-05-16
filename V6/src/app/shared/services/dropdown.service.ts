@@ -1,15 +1,17 @@
-import { Http, Response } from '@angular/http';
+import { EstadoBr } from './../models/estado-br';
+// import { Http, Response } from '@angular/http'; // used before Angular V6
+import { HttpClient } from '@angular/common/http';
+
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 @Injectable()
 export class DropdownService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
-  getEstadosBr(){
-    return this.http.get('assets/dados/estados.json')
-      .pipe(map((res: Response)=> res.json()));
+  getEstadosBr() {
+    return this.http.get<EstadoBr[]>('assets/dados/estados.json');
 
   }
 

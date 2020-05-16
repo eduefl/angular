@@ -1,6 +1,7 @@
 import { EstadoBr } from './../shared/models/estado-br';
 import { DropdownService } from './../shared/services/dropdown.service';
-import { Http } from '@angular/http';
+// import { Http } from '@angular/http'; //used before V6
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators';
@@ -13,13 +14,13 @@ import { map } from 'rxjs/operators';
 export class DataFormComponent implements OnInit {
 
   formulario: FormGroup;
-  submit: boolean = true;
-  estados : EstadoBr[];
+  submit = true;
+  estados: EstadoBr[];
 
   constructor(
     private formBuilder: FormBuilder,
-    private http : Http,
-    private dropdownService : DropdownService,
+    private http: HttpClient,
+    private dropdownService: DropdownService,
 
 
   ) { }
@@ -27,16 +28,16 @@ export class DataFormComponent implements OnInit {
   ngOnInit() {
 
     this.dropdownService.getEstadosBr()
-      .subscribe(dados =>
-        {
+      .subscribe(dados => {
           this.estados = dados;
           console.log(dados);
         }
         );
-
+  // tslint:disable: max-line-length
     /*/this.formulario = new FormGroup( {
 
       nome    : new FormControl(null,Validators.required),
+      // tslint:disable-next-line: max-line-length
       email   : new FormControl(null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]),
       endereco : new FormGroup({
         cep         : new FormControl(null,Validators.required),
@@ -49,9 +50,9 @@ export class DataFormComponent implements OnInit {
       })
     });/*/
 
-    this.formulario= this.formBuilder.group({
+    this.formulario = this.formBuilder.group({
       nome    : [null, Validators.required],
-      email   : [null,[Validators.required, Validators.pattern("[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")]],
+      email   : [null, [Validators.required, Validators.pattern('[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*')]],
       endereco : this.formBuilder.group({
         cep         : [null, Validators.required],
         numero      : [null, Validators.required],
@@ -61,126 +62,113 @@ export class DataFormComponent implements OnInit {
         cidade      : [null, Validators.required],
         estado      : [null, Validators.required]
       })
-    })
+    });
 
 
   }
 
-  onSubmit(){
-    if (this.submit)
-    {
-      if (this.formulario.valid)
-      {
+  onSubmit() {
+    if (this.submit) {
+      if (this.formulario.valid) {
         console.log(this.formulario);
 
         this.http.post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
-        .pipe(map (res => res ))
         .subscribe(dados => {
           console.log(dados);
           // Reser FOrm
           this.formulario.reset();
           },
           // cath error
-          (error: any) => alert("Something Wrong")
+          (error: any) => alert('Something Wrong')
         );
-      }
-      else
-      {
-        alert('formulario invalido')
+      } else {
+        alert('formulario invalido');
         /*/
         Object.keys(this.formulario.controls).forEach(function(campo){
 
         });/*/
 
-        this.checkFormValid(this.formulario)
+        this.checkFormValid(this.formulario);
 
       }
 
-    }
-    else{
+    } else {
       this.submit = true;
     }
 
   }
 
-  resetForm(){
-    if ( confirm("do you really want to reset the form ?") == true )
-    {
+  resetForm() {
+    if ( confirm('do you really want to reset the form ?') === true ) {
       this.formulario.reset();
-    }
-    else
-    {
-      alert("ok")
+    } else {
+      alert('ok');
     }
     this.submit = false;
-    return null
+    return null;
 
   }
 
-  checkFormValid(formGroup : FormGroup ){
+  checkFormValid(formGroup: FormGroup ) {
 
     Object.keys(formGroup.controls).forEach(campo => {
       console.log(campo);
       const controle = formGroup.get(campo);
       controle.markAsDirty();
-      if( controle instanceof FormGroup)
-      {
+      if ( controle instanceof FormGroup) {
         this.checkFormValid(controle);
-
       }
-    })
+    });
 
 
 
   }
 
-  verificaValidTouched(campo: string)
-  {
-    //this.formulario.controls[campo]; //do the same  as the next line
-    //this.formulario.get(campo) //do the same  as the previous line
+  verificaValidTouched(campo: string) {
+    // this.formulario.controls[campo]; //do the same  as the next line
+    // this.formulario.get(campo) //do the same  as the previous line
 
-    return !this.formulario.get(campo).valid && (this.formulario.get(campo).touched || this.formulario.get(campo).dirty)
+    return !this.formulario.get(campo).valid && (this.formulario.get(campo).touched || this.formulario.get(campo).dirty);
 
   }
-  verificaInvalidEmail()
-  {
-    let mailField = this.formulario.get('email');
+  verificaInvalidEmail() {
+    const mailField = this.formulario.get('email');
    // console.log(mailField.errors);
-    if (mailField.errors){
+    if (mailField.errors) {
       return mailField.errors['pattern'] && mailField.touched;
-      //in my case is different fro  the example because i use pattern not the propery e-mail.
+      // in my case is different fro  the example because i use pattern not the propery e-mail.
 
 
     }
   }
 
 
-  aplicaCssErro(campo: string){
+  aplicaCssErro(campo: string) {
     return {
       'has-error':    this.verificaValidTouched(campo) ,
       'has-feedback': this.verificaValidTouched(campo)
-    }
+    };
   }
-  consultaCep(){
+  consultaCep() {
 
-    let cep = this.formulario.get('endereco.cep').value
+    let cep = this.formulario.get('endereco.cep').value;
 
     this.resetaDadosForm();
 
-    //Nova variável "cep" somente com dígitos.
+    // Nova variável "cep" somente com dígitos.
     cep = cep.replace(/\D/g, ''); // Expressao regular que faz a subistituicao de qualquer valor nao numerico
 
-    //Verifica se campo cep possui valor informado.
-    if (cep != "") {
+    // Verifica se campo cep possui valor informado.
+    if (cep !== '') {
 
 
-      //Expressão regular para validar o CEP.
-      var validacep = /^[0-9]{8}$/;
+      // Expressão regular para validar o CEP.
+      const validacep = /^[0-9]{8}$/;
 
 
 
-      //Valida o formato do CEP.
-      if(validacep.test(cep)) {
+      // Valida o formato do CEP.
+      if (validacep.test(cep)) {
            /*/Important
           In the original example was used the webservice from ViaCep
           But it is blocked in Russia so as an alternative i have used
@@ -191,16 +179,14 @@ export class DataFormComponent implements OnInit {
 
         /*/
         // this.http.get("https://viacep.com.br/ws/"+ cep +"/json"); // Also possible
-        //this.http.get(`https://viacep.com.br/ws/${cep}/json`)
+        // this.http.get(`https://viacep.com.br/ws/${cep}/json`)
         this.http.get(`http://cep.republicavirtual.com.br/web_cep.php?cep=${cep}&formato=json`)
-        .pipe(map(dados => dados.json()))
         .subscribe(dados => this.populaDadosForm(dados,  cep));
 
 
 
-      }
-      else{
-        alert('cep em formato invalido')
+      } else {
+        alert('cep em formato invalido');
 
 
       }
@@ -211,8 +197,7 @@ export class DataFormComponent implements OnInit {
   }
 
 
-  populaDadosForm(dados, cep)
-  {
+  populaDadosForm(dados, cep)  {
     /*/formulario.setValue(
 
 
@@ -230,7 +215,7 @@ export class DataFormComponent implements OnInit {
       }
     });/*/
 
-    if (!("debug" in dados)) {
+    if (!('debug' in dados)) {
 
       this.formulario.patchValue({
         endereco : {
@@ -255,9 +240,8 @@ export class DataFormComponent implements OnInit {
 
 
 //      this.formulario.get('nome').setValue('consultado');
-    }
-    else{
-      alert('cep nao encontrado')
+    } else {
+      alert('cep nao encontrado');
 
 
    }
@@ -265,12 +249,12 @@ export class DataFormComponent implements OnInit {
   }
 
   formatCep(cep: any) {
-    return cep.substring(0, 5) + "-" + cep.substring(5, 8);
+    return cep.substring(0, 5) + '-' + cep.substring(5, 8);
 
    }
 
 
-  resetaDadosForm(){
+  resetaDadosForm() {
 
     this.formulario.patchValue({
       endereco : {
