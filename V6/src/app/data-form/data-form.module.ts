@@ -10,7 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     ReactiveFormsModule,
     SharedModule,
-    HttpModule
+    // HttpModule used before V6
   ],
   declarations: [
     DataFormComponent
