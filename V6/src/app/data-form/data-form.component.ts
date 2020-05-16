@@ -33,7 +33,7 @@ export class DataFormComponent implements OnInit {
           console.log(dados);
         }
         );
-
+  // tslint:disable: max-line-length
     /*/this.formulario = new FormGroup( {
 
       nome    : new FormControl(null,Validators.required),
