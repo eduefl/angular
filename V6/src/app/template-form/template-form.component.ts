@@ -28,7 +28,6 @@ export class TemplateFormComponent implements OnInit {
     console.log(form);
 
     this.http.post('https://httpbin.org/post', JSON.stringify(form.value))
-    .pipe(map (res => res ))
     .subscribe(dados => {
       console.log(dados);
       form.form.reset();
