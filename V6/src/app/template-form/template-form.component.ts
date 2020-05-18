@@ -1,3 +1,4 @@
+import { ConsultaCepService } from './../shared/services/consulta-cep.service';
 import { Component, OnInit } from '@angular/core';
 // import { Http } from '@angular/http'; used befor V6
 import { HttpClient } from '@angular/common/http';
@@ -21,6 +22,8 @@ export class TemplateFormComponent implements OnInit {
     nome: null,
     email: null
   };
+  xcep: string;
+  bkbCep: string;
 
   onSubmit(form) {
 //    console.log(form.value);
@@ -37,7 +40,8 @@ export class TemplateFormComponent implements OnInit {
 
   }
 
-  constructor(private http: HttpClient ) { }
+  constructor(private http: HttpClient,
+    private cepService: ConsultaCepService ) { }
 
   ngOnInit() {
   }
@@ -68,9 +72,16 @@ export class TemplateFormComponent implements OnInit {
     });/*/
 
     if (!('debug' in dados)) {
+      const validacep = /^[0-9]{8}$/;
+      if (validacep.test(cep)) {
+        this.xcep = this.formatCep(cep); } else {
+          this.xcep = this.bkbCep;
+        }
+
+
       formulario.form.patchValue({
         endereco : {
-          cep :   this.formatCep(cep) ,
+          cep :   this.xcep ,
           complemento:  dados.tipo_logradouro   ,
           rua : dados.logradouro  ,
           bairro : dados.bairro   ,
@@ -117,44 +128,18 @@ export class TemplateFormComponent implements OnInit {
   consultaCep(cep, form) {
 
     this.resetaDadosForm(form);
+    this.bkbCep = cep;
 
     // Nova variável "cep" somente com dígitos.
     cep = cep.replace(/\D/g, ''); // Expressao regular que faz a subistituicao de qualquer valor nao numerico
 
-    // Verifica se campo cep possui valor informado.
-    if (cep !== '') {
-
-
-      // Expressão regular para validar o CEP.
-      const validacep = /^[0-9]{8}$/;
-
-
-
-      //  Valida o formato do CEP.
-      if (validacep.test(cep)) {
-           /*/Important
-          In the original example was used the webservice from ViaCep
-          But it is blocked in Russia so as an alternative i have used
-          republicavirtual that has access here so some adapt probably will be necessary.
-
-          Remembering that this block happens in Chrome only so if it  is needed we can test in
-           opera wit viacep but also as a chalenge lets try do it with the new webservice.
-
-        /*/
-        // this.http.get("https://viacep.com.br/ws/"+ cep +"/json"); // Also possible
-        // this.http.get(`https://viacep.com.br/ws/${cep}/json`)
-        this.http.get(`http://cep.republicavirtual.com.br/web_cep.php?cep=${cep}&formato=json`)
+    if (cep != null && cep !== '') {
+      this.cepService.consultaCep(cep)
         .subscribe(dados => this.populaDadosForm(dados, form, cep));
-
-
-      } else {
-        alert('cep em formato invalido');
-
-
-      }
-
-
-
     }
+
+
+    // Verifica se campo cep possui valor informado.
+
   }
 }
