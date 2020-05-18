@@ -1,3 +1,4 @@
+import { ConsultaCepService } from './../shared/services/consulta-cep.service';
 import { EstadoBr } from './../shared/models/estado-br';
 import { DropdownService } from './../shared/services/dropdown.service';
 // import { Http } from '@angular/http'; //used before V6
@@ -16,11 +17,13 @@ export class DataFormComponent implements OnInit {
   formulario: FormGroup;
   submit = true;
   estados: EstadoBr[];
+  xcep: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private dropdownService: DropdownService,
+    private cepService: ConsultaCepService
 
 
   ) { }
@@ -151,53 +154,19 @@ export class DataFormComponent implements OnInit {
   }
   consultaCep() {
 
-    let cep = this.formulario.get('endereco.cep').value;
-
+    const cep = (this.formulario.get('endereco.cep').value).replace(/\D/g, '') ; // Nova variável "cep" somente com dígitos.
     this.resetaDadosForm();
 
-    // Nova variável "cep" somente com dígitos.
-    cep = cep.replace(/\D/g, ''); // Expressao regular que faz a subistituicao de qualquer valor nao numerico
-
-    // Verifica se campo cep possui valor informado.
-    if (cep !== '') {
-
-
-      // Expressão regular para validar o CEP.
-      const validacep = /^[0-9]{8}$/;
-
-
-
-      // Valida o formato do CEP.
-      if (validacep.test(cep)) {
-           /*/Important
-          In the original example was used the webservice from ViaCep
-          But it is blocked in Russia so as an alternative i have used
-          republicavirtual that has access here so some adapt probably will be necessary.
-
-          Remembering that this block happens in Chrome only so if it  is needed we can test in
-           opera wit viacep but also as a chalenge lets try do it with the new webservice.
-
-        /*/
-        // this.http.get("https://viacep.com.br/ws/"+ cep +"/json"); // Also possible
-        // this.http.get(`https://viacep.com.br/ws/${cep}/json`)
-        this.http.get(`http://cep.republicavirtual.com.br/web_cep.php?cep=${cep}&formato=json`)
-        .subscribe(dados => this.populaDadosForm(dados,  cep));
-
-
-
-      } else {
-        alert('cep em formato invalido');
-
-
+    if (cep != null && cep !== '') {
+        this.cepService.consultaCep(cep)
+          .subscribe(dados => this.populaDadosForm(dados,  cep));
       }
 
-
-
-    }
   }
 
 
-  populaDadosForm(dados, cep)  {
+  populaDadosForm(dados, cep) {
+
     /*/formulario.setValue(
 
 
@@ -216,10 +185,16 @@ export class DataFormComponent implements OnInit {
     });/*/
 
     if (!('debug' in dados)) {
+      const validacep = /^[0-9]{8}$/;
+      if (validacep.test(cep)) {
+        this.xcep = this.formatCep(cep); } else {
+          this.xcep = this.formulario.get('endereco.cep').value;
+        }
+
 
       this.formulario.patchValue({
         endereco : {
-          cep :   this.formatCep(cep) ,
+          cep :   this.xcep ,
           complemento:  dados.tipo_logradouro   ,
           rua : dados.logradouro  ,
           bairro : dados.bairro   ,
