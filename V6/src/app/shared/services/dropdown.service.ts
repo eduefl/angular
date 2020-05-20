@@ -21,6 +21,15 @@ export class DropdownService {
     ];
   }
 
+  gettecnologias() {
+    return [
+      {nome: 'java', desc: 'Java'},
+      {nome: 'advpl', desc: 'Protheus'},
+      {nome: 'php', desc: 'Php'},
+      {nome: 'vb6', desc: 'Visual Basic 6'}
+    ];
+  }
+
 
 
 }
