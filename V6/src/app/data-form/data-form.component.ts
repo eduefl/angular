@@ -21,6 +21,7 @@ export class DataFormComponent implements OnInit {
   estados: Observable<EstadoBr[]>;
   cargos: any[];
   tecnologias: any[];
+  newsLetterOp: any[];
 
   xcep: string;
 
@@ -38,6 +39,8 @@ export class DataFormComponent implements OnInit {
     this.estados        = this.dropdownService.getEstadosBr();
     this.cargos         = this.dropdownService.getcargos();
     this.tecnologias    = this.dropdownService.gettecnologias();
+    this.newsLetterOp   = this.dropdownService.geNewsLetter();
+
 
 
     /*/this.dropdownService.getEstadosBr()
@@ -75,8 +78,9 @@ export class DataFormComponent implements OnInit {
         cidade      : [null, Validators.required],
         estado      : [null, Validators.required]
       }),
-      cargo: [null],
-      tecnologia: [null]
+      cargo       : [null],
+      tecnologia  : [null],
+      newsLetter   : ['y']
     });
 
 
