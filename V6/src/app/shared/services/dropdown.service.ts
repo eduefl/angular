@@ -28,6 +28,14 @@ export class DropdownService {
       {nome: 'php', desc: 'Php'},
       {nome: 'vb6', desc: 'Visual Basic 6'}
     ];
+
+  }
+  geNewsLetter() {
+    return [
+      {valor: 'y', desc: 'Da'},
+      {valor: 'n', desc: 'Niet'}
+    ];
+
   }
 
 
