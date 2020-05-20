@@ -206,20 +206,30 @@
 
   <div class="form-group">
     <div class="col-md-3"
-    [ngClass]="aplicaCssErro('cargo')"
-  >
-    <label for="cargo" class="control-label">Cargo</label>
-    <select
-      class="form-control"
-      id="cargo"
-      formControlName="cargo"
-      [compareWith]= "compararCargos"
-    >
-      <option *ngFor="let cargo of cargos" [ngValue]= "cargo" > {{ cargo.desc }}</option>
-    </select>
-
-
-  </div>
+        [ngClass]="aplicaCssErro('cargo')"
+      >
+      <label label for="cargo" class="control-label">Cargo</label>
+      <select
+       class="form-control"
+       id="cargo"
+       formControlName="cargo"
+       [compareWith]= "compararCargos">
+       <option *ngFor="let cargo of cargos" [ngValue]= "cargo" > {{ cargo.desc }}</option>
+      </select>
+    </div>
+    <div class="col-md-3"
+        [ngClass]="aplicaCssErro('tecnologia')"
+      >
+      <label label for="tecnologia" class="control-label">Tecnologia</label>
+      <select
+       class="form-control"
+       id="tecnologia"
+       formControlName="tecnologia"
+       multiple
+       >
+       <option *ngFor="let tecnologia of tecnologias" [value]= "tecnologia.nome" > {{ tecnologia.desc }}</option>
+      </select>
+    </div>
 
   </div>
 
@@ -232,7 +242,7 @@
 
 
     <button
-     class="btn"
+     class="btn-default"
       (click)="resetForm()"
      >
       Cancelar
@@ -240,10 +250,17 @@
 
 
     <button
-     class="btn"
-      (click)="setCarg()"
+    class="btn-info"
+    (click)="setCarg()"
      >
-      Set
+      Set Cargo
+    </button>
+
+    <button
+    class="btn-info"
+    (click)="setTec()"
+     >
+      Set tecnologia
     </button>
 
     <app-form-debug [form] = "formulario"></app-form-debug>
