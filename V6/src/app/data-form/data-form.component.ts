@@ -4,7 +4,7 @@ import { DropdownService } from './../shared/services/dropdown.service';
 // import { Http } from '@angular/http'; //used before V6
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -301,6 +301,20 @@ export class DataFormComponent implements OnInit {
   setTec() {
     this.formulario.get('tecnologia').setValue(['vb6', 'advpl']);
 
+  }
+
+  requiredMinCheckBox(min = 1) {
+    const validator = ( formArray: FormArray ) => {
+      const values = formArray.controls;
+      let totalChecked = 0;
+      for (let i = 0; i < values.length; i++) {
+        if (values[i].value) {
+          totalChecked += 1 ;
+        }
+      }
+        return totalChecked >= min ? null : { required: true };
+    };
+    return validator;
   }
 
 
