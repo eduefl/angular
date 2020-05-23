@@ -23,6 +23,7 @@ export class DataFormComponent implements OnInit {
   cargos: any[];
   tecnologias: any[];
   newsLetterOp: any[];
+  nMinCheckBox =  4;
 
   frameworks =  ['Angluar', 'React', 'Vue', 'Sencha'];
 
@@ -92,7 +93,7 @@ export class DataFormComponent implements OnInit {
   buildFrameworks() {
 
     const values = this.frameworks.map(v => new FormControl(false));
-    return this.formBuilder.array(values , FormValidations.requiredMinCheckBox(3) );
+    return this.formBuilder.array(values , FormValidations.requiredMinCheckBox(this.nMinCheckBox) );
 
     /*/return[
       new FormControl(false),
@@ -303,7 +304,20 @@ export class DataFormComponent implements OnInit {
     this.formulario.get('tecnologia').setValue(['vb6', 'advpl']);
 
   }
+  getStrOpc() {
+    let cMessage: string;
+    if (this.nMinCheckBox === 1) {
+      cMessage = 'opcao';
+    } else {
+      cMessage = 'opcoes';
+
+    }
+
+  return cMessage;
+  }
 
 
 
 }
+
+
