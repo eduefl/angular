@@ -74,7 +74,7 @@ export class DataFormComponent implements OnInit {
       nome    : [null, Validators.required],
       email   : [null, [Validators.required, Validators.pattern('[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*')]],
       endereco : this.formBuilder.group({
-        cep         : [null, Validators.required],
+        cep         : [null, [Validators.required, FormValidations.cepValidator]],
         numero      : [null, Validators.required],
         complemento : [null],
         rua         : [null, Validators.required],
@@ -181,6 +181,13 @@ export class DataFormComponent implements OnInit {
     return !this.formulario.get(campo).valid && (this.formulario.get(campo).touched || this.formulario.get(campo).dirty);
 
   }
+
+  verificaValidRequired(campo: string) {
+
+    return this.formulario.get(campo).hasError('required') && (this.formulario.get(campo).touched || this.formulario.get(campo).dirty);
+
+  }
+
   verificaInvalidEmail() {
     const mailField = this.formulario.get('email');
    // console.log(mailField.errors);

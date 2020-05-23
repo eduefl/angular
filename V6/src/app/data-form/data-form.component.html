@@ -77,8 +77,12 @@
           (blur)="consultaCep()">
 
 
+          <app-campo-control-erro
+          [mostrarErro] = "verificaValidRequired('endereco.cep')"
+          msgErro     = "Cep is mandatory"
+        ></app-campo-control-erro>
         <app-campo-control-erro
-          [mostrarErro] = "verificaValidTouched('endereco.cep')"
+          [mostrarErro] = "formulario.get('endereco.cep').hasError('cepInvalido')"
           msgErro     = "Cep is not valid"
         ></app-campo-control-erro>
 
