@@ -23,6 +23,8 @@ export class DataFormComponent implements OnInit {
   tecnologias: any[];
   newsLetterOp: any[];
 
+  frameworks =  ['Angluar', 'React', 'Vue', 'Sencha'];
+
   xcep: string;
 
   constructor(
@@ -81,19 +83,44 @@ export class DataFormComponent implements OnInit {
       cargo       : [null],
       tecnologia  : [null],
       newsLetter  : ['y'],
-      termos      : [false, Validators.pattern('true')]
+      termos      : [false, Validators.pattern('true')],
+      frameworks  : this.buildFrameworks()
     });
+  }
 
+  buildFrameworks() {
+
+    const values = this.frameworks.map(v => new FormControl(false));
+    return this.formBuilder.array(values);
+
+    /*/return[
+      new FormControl(false),
+      new FormControl(false),
+      new FormControl(false),
+      new FormControl(false)
+    ]/*/
 
 
   }
 
   onSubmit() {
     if (this.submit) {
-      if (this.formulario.valid) {
-        console.log(this.formulario);
+     console.log(this.formulario);
 
-        this.http.post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
+     let valueSubmit = Object.assign({  }, this.formulario.value);
+
+     valueSubmit = Object.assign (valueSubmit, {
+       frameworks: valueSubmit.frameworks
+       .map((v, i) => v ? this.frameworks[i] : null)
+       .filter(v => v !== null )
+     });
+
+     console.log(valueSubmit);
+
+
+      if (this.formulario.valid) {
+
+        this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
         .subscribe(dados => {
           console.log(dados);
           // Reser FOrm
