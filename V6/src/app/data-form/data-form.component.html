@@ -279,6 +279,11 @@
             <input type="checkbox" [formControlName]= "i" > {{ frameworks [i] }}
           </label>
         </div>
+        <app-campo-control-erro
+          [mostrarErro] = " !formulario.get('frameworks').valid"
+          msgErro     = "Selecione uma opcao"
+        ></app-campo-control-erro>
+
       </div>
     </div>
 
