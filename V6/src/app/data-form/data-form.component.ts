@@ -1,3 +1,4 @@
+import { FormValidations } from './../shared/form-validations';
 import { ConsultaCepService } from './../shared/services/consulta-cep.service';
 import { EstadoBr } from './../shared/models/estado-br';
 import { DropdownService } from './../shared/services/dropdown.service';
@@ -91,7 +92,7 @@ export class DataFormComponent implements OnInit {
   buildFrameworks() {
 
     const values = this.frameworks.map(v => new FormControl(false));
-    return this.formBuilder.array(values , this.requiredMinCheckBox(2) );
+    return this.formBuilder.array(values , FormValidations.requiredMinCheckBox(3) );
 
     /*/return[
       new FormControl(false),
@@ -303,22 +304,6 @@ export class DataFormComponent implements OnInit {
 
   }
 
-  requiredMinCheckBox(min = 1) {
-    const validator = ( formArray: FormArray ) => {
-      /*/const values = formArray.controls;
-      let totalChecked = 0;
-      for (let i = 0; i < values.length; i++) {
-        if (values[i].value) {
-          totalChecked += 1 ;
-        }
-      }/*/
-      const totalChecked = formArray.controls
-        .map(v => v.value)
-        .reduce(((total, current) => current ? total + current : total) , 0 );
-        return totalChecked >= min ? null : { required: true };
-    };
-    return validator;
-  }
 
 
 }
