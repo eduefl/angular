@@ -1,4 +1,4 @@
-import { FormArray, FormControl } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 export class FormValidations {
 
@@ -26,9 +26,8 @@ export class FormValidations {
 
     if (cep && cep !== '' ) {
       if (cep.length >= 7) {
-        if (cep.substr(5,1) ==='-')
-        {
-          cep = cep.substr(0,5)  + cep.substr(6,cep.length);
+        if (cep.substr(5, 1) === '-') {
+          cep = cep.substr(0, 5)  + cep.substr(6, cep.length);
           console.log(cep);
         }
 
@@ -39,6 +38,39 @@ export class FormValidations {
       return validacep.test(cep) ? null : { cepInvalido: true };
     }
     return null;
+  }
+
+  static equalsTo(otherField: string) {
+
+    const validator = ( formControl: FormControl ) => {
+      if (otherField == null) {
+
+        throw new Error ('é necessario informar um campo');
+      }
+
+      if (!formControl.root || !(<FormGroup>formControl.root).controls) {
+
+        return null;
+      }
+
+      const field = (<FormGroup>formControl.root).get(otherField);
+
+      if (!field) {
+        throw new Error ('é necessario informar um campo existente na raiz');
+
+      }
+
+      if (field.value !== formControl.value ) {
+        return { equalsTo: otherField };
+      }
+
+      return null;
+    };
+    return validator;
+
+
+
+
   }
 }
 
