@@ -1,3 +1,4 @@
+import { VerificaEmailService } from './services/verifica-email.service';
 import { FormValidations } from './../shared/form-validations';
 import { ConsultaCepService } from './../shared/services/consulta-cep.service';
 import { EstadoBr } from './../shared/models/estado-br';
@@ -33,12 +34,16 @@ export class DataFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private dropdownService: DropdownService,
-    private cepService: ConsultaCepService
+    private cepService: ConsultaCepService,
+    private verificaEmailService: VerificaEmailService
 
 
   ) { }
 
   ngOnInit() {
+
+
+    // this.verificaEmailService.verificarEmail('email@email.com').subscribe();
 
     this.estados        = this.dropdownService.getEstadosBr();
     this.cargos         = this.dropdownService.getcargos();
@@ -72,7 +77,8 @@ export class DataFormComponent implements OnInit {
 
     this.formulario = this.formBuilder.group({
       nome          : [null, Validators.required],
-      email         : [null, [Validators.required, Validators.pattern('[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*')]],
+      email         : [null, [Validators.required, Validators.pattern('[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*')]
+                          , [this.validarEmail.bind(this) ]],
       confirmEmail  : [null, [FormValidations.equalsTo('email')]],
       endereco      : this.formBuilder.group({
         cep           : [null, [Validators.required, FormValidations.cepValidator]],
@@ -321,7 +327,13 @@ export class DataFormComponent implements OnInit {
 
     }
 
-  return cMessage;
+    return cMessage;
+  }
+
+  validarEmail(formControl: FormControl) {
+
+    return this.verificaEmailService.verificarEmail(formControl.value)
+      .pipe(map( emailexiste => emailexiste ? {emailInvalid: true } : null ));
   }
 
 

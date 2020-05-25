@@ -56,6 +56,19 @@
        msgErro     = "email Invalido"
     ></app-campo-control-erro>
 
+    <app-campo-control-erro
+      [mostrarErro] = "formulario.get('email').status.localeCompare('PENDING') ===0 "
+       msgErro     = "Validando email"
+    ></app-campo-control-erro>
+    <app-campo-control-erro
+      [mostrarErro] = "formulario.get('email').status.localeCompare('VALID') ===0 "
+       msgErro     = "Email Valido!"
+    ></app-campo-control-erro>
+    <app-campo-control-erro
+      [mostrarErro] = "formulario.get('email').hasError('emailInvalid')"
+       msgErro     = "Email ja cadastrado!"
+    ></app-campo-control-erro>
+
 
     </div>
   </div>
