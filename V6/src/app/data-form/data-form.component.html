@@ -24,10 +24,10 @@
 
     </div>
     <!--Diferrent from the class in the clas this control is one div before but i liked this style :) -->
-    <app-campo-control-erro
-      [mostrarErro] = "verificaValidTouched('nome')"
-      msgErro     = "Name is mandatory"
-    ></app-campo-control-erro>
+    <app-error-msg
+      [control]= "formulario.get('nome')"
+      label     = "n@me"
+    ></app-error-msg>
 
   </div>
 
