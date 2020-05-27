@@ -28,11 +28,11 @@ export class TemplateFormComponent implements OnInit {
   onSubmit(form) {
 //    console.log(form.value);
 //    console.log(this.usuario);
-    console.log(form);
+    // console.log(form);
 
     this.http.post('https://httpbin.org/post', JSON.stringify(form.value))
     .subscribe(dados => {
-      console.log(dados);
+     //  console.log(dados);
       form.form.reset();
 
     });

@@ -14,6 +14,10 @@ export class ErrorMsgComponent implements OnInit {
 
   @Input() control: FormControl;
   @Input() label: string;
+  @Input() noNeedTouch = false;
+  @Input() custMessag: string;
+
+
 
 
   constructor() { }
@@ -23,12 +27,20 @@ export class ErrorMsgComponent implements OnInit {
   }
 
   get errorMessage() {
+    // console.log(this.label);
+    // console.log(this.noNeedTouch);
+
 
     for (const propertyName in this.control.errors) {
       if (this.control.errors.hasOwnProperty(propertyName) &&
-        this.control.touched) {
+         (this.control.touched || this.noNeedTouch )) {
           // to do
-          return FormValidations.getErrorMsg(this.label, propertyName, this.control.errors[propertyName]);
+         //  console.log(this.control.errors[propertyName]);
+          if (this.custMessag != null && this.custMessag !== '') {
+            return this.custMessag;
+          } else {
+            return FormValidations.getErrorMsg(this.label, propertyName, this.control.errors[propertyName]);
+          }
         }
     }
     return null;

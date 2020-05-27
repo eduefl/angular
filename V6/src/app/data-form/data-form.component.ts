@@ -24,7 +24,8 @@ export class DataFormComponent implements OnInit {
   cargos: any[];
   tecnologias: any[];
   newsLetterOp: any[];
-  nMinCheckBox =  4;
+  nMinCheckBox =  1;
+  opCfrW = [1, 2, 3, 4];
 
   frameworks =  ['Angluar', 'React', 'Vue', 'Sencha'];
 
@@ -76,7 +77,7 @@ export class DataFormComponent implements OnInit {
     });/*/
 
     this.formulario = this.formBuilder.group({
-      nome          : [null, [Validators.required, Validators.minLength(3),Validators.maxLength(5)] ],
+      nome          : [null, [Validators.required, Validators.minLength(3), Validators.maxLength(5)] ],
       email         : [null, [Validators.required, Validators.pattern('[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*')]
                           , [this.validarEmail.bind(this) ]],
       confirmEmail  : [null, [FormValidations.equalsTo('email')]],
@@ -93,6 +94,7 @@ export class DataFormComponent implements OnInit {
       tecnologia  : [null],
       newsLetter  : ['y'],
       termos      : [false, Validators.pattern('true')],
+      qtdFrw      : [0, Validators.required],
       frameworks  : this.buildFrameworks()
     });
   }
@@ -100,7 +102,7 @@ export class DataFormComponent implements OnInit {
   buildFrameworks() {
 
     const values = this.frameworks.map(v => new FormControl(false));
-    return this.formBuilder.array(values , FormValidations.requiredMinCheckBox(this.nMinCheckBox) );
+    return this.formBuilder.array(values , FormValidations.requiredMinCheckBox(  this.nMinCheckBox) );
 
     /*/return[
       new FormControl(false),
@@ -114,7 +116,7 @@ export class DataFormComponent implements OnInit {
 
   onSubmit() {
     if (this.submit) {
-     console.log(this.formulario);
+     // console.log(this.formulario);
 
      let valueSubmit = Object.assign({  }, this.formulario.value);
 
@@ -124,14 +126,14 @@ export class DataFormComponent implements OnInit {
        .filter(v => v !== null )
      });
 
-     console.log(valueSubmit);
+//     console.log(valueSubmit);
 
 
       if (this.formulario.valid) {
 
         this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
         .subscribe(dados => {
-          console.log(dados);
+          // console.log(dados);
           // Reser FOrm
           this.formulario.reset();
           },
@@ -169,7 +171,7 @@ export class DataFormComponent implements OnInit {
   checkFormValid(formGroup: FormGroup ) {
 
     Object.keys(formGroup.controls).forEach(campo => {
-      console.log(campo);
+      // console.log(campo);
       const controle = formGroup.get(campo);
       controle.markAsDirty();
       if ( controle instanceof FormGroup) {
@@ -215,13 +217,14 @@ export class DataFormComponent implements OnInit {
   }
   consultaCep() {
 
-    const cep = (this.formulario.get('endereco.cep').value).replace(/\D/g, '') ; // Nova variável "cep" somente com dígitos.
+    let cep =  this.formulario.get('endereco.cep').value ;
     this.resetaDadosForm();
 
     if (cep != null && cep !== '') {
-        this.cepService.consultaCep(cep)
-          .subscribe(dados => this.populaDadosForm(dados,  cep));
-      }
+      cep = cep.replace(/\D/g, '');
+      this.cepService.consultaCep(cep)
+        .subscribe(dados => this.populaDadosForm(dados,  cep));
+    }
 
   }
 
@@ -304,6 +307,9 @@ export class DataFormComponent implements OnInit {
   }
 
   setCarg() {
+    console.log('aqui');
+    console.log(this.nMinCheckBox);
+    this.nMinCheckBox = 3;
     const cargo =  {nome: 'Dev', nivel: 'Pleno', desc: 'Dev Pl'};
     this.formulario.get('cargo').setValue(cargo);
 
