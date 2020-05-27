@@ -11,11 +11,13 @@ export class FormValidations {
           totalChecked += 1 ;
         }
       }/*/
+      console.log(formArray.controls);
       const totalChecked = formArray.controls
         .map(v => v.value)
         .reduce(((total, current) => current ? total + current : total) , 0 );
         return totalChecked >= min ? null : { required: true };
     };
+    console.log(validator);
     return validator;
   }
 
@@ -74,7 +76,10 @@ export class FormValidations {
       'required': `${fieldName} is mandatory`,
       'minlength': `${fieldName} needs at least ${validatorValue.requiredLength} chars.`,
       'maxlength': `${fieldName} can have maximun  ${validatorValue.requiredLength} chars.`,
-      'cepInvalido': 'cep invalido'
+      'cepInvalido': 'c&p invalido',
+      'pattern': `${fieldName} is not valid.`,
+      'emailInvalid': `${fieldName}  ja cadastrado!`,
+      'equalsTo' :  `${fieldName}  do not match!`
 
     };
     return config[validatorName];

@@ -46,29 +46,19 @@
         placeholder="nome@email.com"
         formControlName="email"
       >
-    <app-campo-control-erro
-      [mostrarErro] = "verificaValidTouched('email')"
-       msgErro     = "email is mandatory"
-    ></app-campo-control-erro>
+      <app-error-msg
+        [control]= "formulario.get('email')"
+        label     = "em@il"
+      ></app-error-msg>
 
-    <app-campo-control-erro
-      [mostrarErro] = "verificaInvalidEmail()"
-       msgErro     = "email Invalido"
-    ></app-campo-control-erro>
-
-    <app-campo-control-erro
-      [mostrarErro] = "formulario.get('email').status.localeCompare('PENDING') ===0 "
-       msgErro     = "Validando email"
-    ></app-campo-control-erro>
-    <app-campo-control-erro
-      [mostrarErro] = "formulario.get('email').status.localeCompare('VALID') ===0 "
-       msgErro     = "Email Valido!"
-    ></app-campo-control-erro>
-    <app-campo-control-erro
-      [mostrarErro] = "formulario.get('email').hasError('emailInvalid')"
-       msgErro     = "Email ja cadastrado!"
-    ></app-campo-control-erro>
-
+      <app-campo-control-erro
+        [mostrarErro] = "formulario.get('email').status.localeCompare('PENDING') ===0 "
+        msgErro     = "Validando email"
+      ></app-campo-control-erro>
+      <app-campo-control-erro
+        [mostrarErro] = "formulario.get('email').status.localeCompare('VALID') ===0 "
+        msgErro     = "Email Valido!"
+      ></app-campo-control-erro>
 
     </div>
   </div>
@@ -89,10 +79,11 @@
          placeholder="nome@email.com"
          formControlName="confirmEmail"
        >
-        <app-campo-control-erro
-          [mostrarErro] = "formulario.get('confirmEmail').hasError('equalsTo')"
-            msgErro     = "emails are not the same "
-        ></app-campo-control-erro>
+       <app-error-msg
+         [control]= "formulario.get('confirmEmail')"
+         label     = "Confirm@tion "
+       ></app-error-msg>
+
      </div>
    </div>
 
@@ -111,17 +102,10 @@
           formControlName="cep"
           (blur)="consultaCep()">
 
-
-          <app-campo-control-erro
-          [mostrarErro] = "verificaValidRequired('endereco.cep')"
-          msgErro     = "Cep is mandatory"
-        ></app-campo-control-erro>
-        <app-campo-control-erro
-          [mostrarErro] = "formulario.get('endereco.cep').hasError('cepInvalido')"
-          msgErro     = "Cep is not valid"
-        ></app-campo-control-erro>
-
-
+          <app-error-msg
+            [control]= "formulario.get('endereco.cep')"
+            label     = "@Cep "
+          ></app-error-msg>
 
       </div>
       <div class="col-md-3"
@@ -134,11 +118,10 @@
             id="numero"
             formControlName="numero"
           >
-
-        <app-campo-control-erro
-          [mostrarErro] = "verificaValidTouched('endereco.numero')"
-          msgErro     = "number is not valid"
-        ></app-campo-control-erro>
+          <app-error-msg
+            [control]= "formulario.get('endereco.numero')"
+            label     = "Numb&er"
+          ></app-error-msg>
 
       </div>
       <div class="col-md-6">
@@ -169,11 +152,10 @@
         id="rua"
         formControlName="rua"
       >
-      <app-campo-control-erro
-        [mostrarErro] = "verificaValidTouched('endereco.rua')"
-        msgErro     = "Street is not valid"
-      ></app-campo-control-erro>
-
+      <app-error-msg
+        [control]= "formulario.get('endereco.rua')"
+        label     = "@dr&ss"
+      ></app-error-msg>
 
     </div>
     </div>
@@ -191,15 +173,10 @@
           formControlName="bairro"
         >
 
-
-
-        <app-campo-control-erro
-          [mostrarErro] = "verificaValidTouched('endereco.bairro')"
-          msgErro     = "Neighborhood  is not valid"
-        ></app-campo-control-erro>
-
-
-
+        <app-error-msg
+          [control]= "formulario.get('endereco.bairro')"
+          label     = "B@irr0"
+        ></app-error-msg>
 
       </div>
       <div class="col-md-4"
@@ -213,11 +190,10 @@
           formControlName="cidade"
         >
 
-
-        <app-campo-control-erro
-          [mostrarErro] = "verificaValidTouched('endereco.cidade')"
-          msgErro     = "City  is not valid"
-        ></app-campo-control-erro>
+        <app-error-msg
+          [control]= "formulario.get('endereco.cidade')"
+          label     = "Cid@D&"
+        ></app-error-msg>
 
 
       </div>
@@ -232,13 +208,10 @@
         >
           <option *ngFor="let estado of estados | async" [value]= "estado.sigla" > {{ estado.nome }}</option>
         </select>
-
-
-        <app-campo-control-erro
-          [mostrarErro] = "verificaValidTouched('endereco.estado')"
-          msgErro     = "State  is not valid"
-        ></app-campo-control-erro>
-
+        <app-error-msg
+          [control]= "formulario.get('endereco.estado')"
+          label     = "3$T@D0"
+        ></app-error-msg>
       </div>
     </div>
   </div>
@@ -298,12 +271,34 @@
           <input type="checkbox"
            formControlName="termos"> Acept the terms
         </label>
-        <app-campo-control-erro
-          [mostrarErro] = " !formulario.get('termos').valid"
-          msgErro     = "ACCCEPT THE THERMS NOOOOOOOW !"
-        ></app-campo-control-erro>
+        <app-error-msg
+          [control]= "formulario.get('termos')"
+          [noNeedTouch] = 'true'
+          custMessag = "ACCCEPT THE THERMS NOOOOOOOW !"
+        ></app-error-msg>
+
       </div>
     </div>
+
+    <div class="col-md-3"
+      [ngClass]="aplicaCssErro('qtdFrw')"
+    >
+    <label for="qtdFrw" class="control-label">Quantos frames voce conhece ? </label>
+    <select
+      class="form-control"
+      id="qtdFrw"
+      formControlName="qtdFrw"
+    >
+      <option *ngFor="let x of opCfrW " [value]= "opCfrW[x]"  > {{ opCfrW[x-1] }}</option>
+
+    </select>
+    <app-error-msg
+      [control]= "formulario.get('qtdFrw')"
+      label     = "QTD"
+    ></app-error-msg>
+  </div>
+
+
 
 
     <div class="col-md-3" [ngClass]="aplicaCssErro('frameworks')">
@@ -318,10 +313,12 @@
             <input type="checkbox" [formControlName]= "i" > {{ frameworks [i] }}
           </label>
         </div>
-        <app-campo-control-erro
-          [mostrarErro] = " !formulario.get('frameworks').valid"
-          msgErro     = "Selecione {{ nMinCheckBox }}  {{ getStrOpc() }}"
-        ></app-campo-control-erro>
+        <app-error-msg
+          [control]= "formulario.get('frameworks')"
+          [noNeedTouch] = 'true'
+          custMessag = "Selecione {{ nMinCheckBox }}  {{ getStrOpc() }}"
+        ></app-error-msg>
+
 
       </div>
     </div>
