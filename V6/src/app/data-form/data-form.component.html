@@ -288,12 +288,14 @@
       class="form-control"
       id="qtdFrw"
       formControlName="qtdFrw"
+      (change)="kindOfMagic()"
     >
-      <option *ngFor="let x of opCfrW " [value]= "opCfrW[x]"  > {{ opCfrW[x-1] }}</option>
+      <option  *ngFor="let x of opCfrW " [value]= "opCfrW[x-1]"  > {{ opCfrW[x-1] }}</option>
 
     </select>
     <app-error-msg
       [control]= "formulario.get('qtdFrw')"
+      [noNeedTouch] = 'true'
       label     = "QTD"
     ></app-error-msg>
   </div>
@@ -316,7 +318,7 @@
         <app-error-msg
           [control]= "formulario.get('frameworks')"
           [noNeedTouch] = 'true'
-          custMessag = "Selecione {{ nMinCheckBox }}  {{ getStrOpc() }}"
+          custMessag = "Selecione {{ getQtsFrm() }}  {{ getStrOpc() }}"
         ></app-error-msg>
 
 
