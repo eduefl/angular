@@ -2,22 +2,36 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 export class FormValidations {
 
-  static requiredMinCheckBox(min = 1) {
+  static requiredMinCheckBox(min = 0) {
     const validator = ( formArray: FormArray ) => {
-      /*/const values = formArray.controls;
-      let totalChecked = 0;
-      for (let i = 0; i < values.length; i++) {
+      const values = formArray.controls;
+      if (values.length > 0) {
+        if (!values[0].root.root || !(<FormGroup>values[0].root.root).controls) {
+
+         return null;
+        } else {
+
+         // console.log('sim e ');
+         // console.log(values[0].root);
+          const field = (<FormGroup>values[0]).root.get('qtdFrw');
+          if (field !== null) {
+           // console.log(field.value);
+            min = field.value;
+          }
+        }
+
+      }
+
+     /*/ for (let i = 0; i < values.length; i++) {
         if (values[i].value) {
           totalChecked += 1 ;
         }
-      }/*/
-      console.log(formArray.controls);
+      } /*/
       const totalChecked = formArray.controls
         .map(v => v.value)
         .reduce(((total, current) => current ? total + current : total) , 0 );
         return totalChecked >= min ? null : { required: true };
     };
-    console.log(validator);
     return validator;
   }
 
@@ -72,14 +86,15 @@ export class FormValidations {
   }
 
   static getErrorMsg(fieldName: string, validatorName: string, validatorValue?: any ) {
+    console.log(validatorValue);
     const config = {
       'required': `${fieldName} is mandatory`,
       'minlength': `${fieldName} needs at least ${validatorValue.requiredLength} chars.`,
       'maxlength': `${fieldName} can have maximun  ${validatorValue.requiredLength} chars.`,
-      'cepInvalido': 'c&p invalido',
-      'pattern': `${fieldName} is not valid.`,
-      'emailInvalid': `${fieldName}  ja cadastrado!`,
-      'equalsTo' :  `${fieldName}  do not match!`
+      'cepInvalido': 'cep invalido',
+      'min': `${fieldName} minimum value is   ${validatorValue.min} .`,
+
+
 
     };
     return config[validatorName];

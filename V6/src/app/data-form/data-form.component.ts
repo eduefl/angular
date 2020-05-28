@@ -94,15 +94,17 @@ export class DataFormComponent implements OnInit {
       tecnologia  : [null],
       newsLetter  : ['y'],
       termos      : [false, Validators.pattern('true')],
-      qtdFrw      : [0, Validators.required],
+      qtdFrw      : [0, Validators.min(1)],
       frameworks  : this.buildFrameworks()
     });
   }
 
   buildFrameworks() {
-
+   // console.log();
     const values = this.frameworks.map(v => new FormControl(false));
-    return this.formBuilder.array(values , FormValidations.requiredMinCheckBox(  this.nMinCheckBox) );
+    const ret = this.formBuilder.array(values , FormValidations.requiredMinCheckBox() );
+   // console.log(ret);
+    return ret ;
 
     /*/return[
       new FormControl(false),
@@ -324,9 +326,12 @@ export class DataFormComponent implements OnInit {
     this.formulario.get('tecnologia').setValue(['vb6', 'advpl']);
 
   }
+  getQtsFrm() {
+    return this.formulario.get('qtdFrw').value ;
+  }
   getStrOpc() {
     let cMessage: string;
-    if (this.nMinCheckBox === 1) {
+    if (this.formulario.get('qtdFrw').value < 2) {
       cMessage = 'opcao';
     } else {
       cMessage = 'opcoes';
@@ -342,6 +347,15 @@ export class DataFormComponent implements OnInit {
       .pipe(map( emailexiste => emailexiste ? {emailInvalid: true } : null ));
   }
 
+  kindOfMagic() {
+    // console.log(    this.formulario.get('frameworks')   );
+
+    // console.log(    this.formulario.get('frameworks').value    );
+
+    this.formulario.get('frameworks').setValue(this.formulario.get('frameworks').value );
+    console.log(    this.formulario.get('frameworks').value    );
+
+  }
 
 
 }
