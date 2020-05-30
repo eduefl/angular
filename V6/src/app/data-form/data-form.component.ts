@@ -7,8 +7,8 @@ import { DropdownService } from './../shared/services/dropdown.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, tap, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-data-form',
@@ -24,10 +24,10 @@ export class DataFormComponent implements OnInit {
   cargos: any[];
   tecnologias: any[];
   newsLetterOp: any[];
-  nMinCheckBox =  1;
+  nMinCheckBox = 1;
   opCfrW = [1, 2, 3, 4];
 
-  frameworks =  ['Angluar', 'React', 'Vue', 'Sencha'];
+  frameworks = ['Angluar', 'React', 'Vue', 'Sencha'];
 
   xcep: string;
 
@@ -46,10 +46,10 @@ export class DataFormComponent implements OnInit {
 
     // this.verificaEmailService.verificarEmail('email@email.com').subscribe();
 
-    this.estados        = this.dropdownService.getEstadosBr();
-    this.cargos         = this.dropdownService.getcargos();
-    this.tecnologias    = this.dropdownService.gettecnologias();
-    this.newsLetterOp   = this.dropdownService.geNewsLetter();
+    this.estados = this.dropdownService.getEstadosBr();
+    this.cargos = this.dropdownService.getcargos();
+    this.tecnologias = this.dropdownService.gettecnologias();
+    this.newsLetterOp = this.dropdownService.geNewsLetter();
 
 
 
@@ -59,7 +59,7 @@ export class DataFormComponent implements OnInit {
           console.log(dados);
         }
         );/*/
-  // tslint:disable: max-line-length
+    // tslint:disable: max-line-length
     /*/this.formulario = new FormGroup( {
 
       nome    : new FormControl(null,Validators.required),
@@ -77,34 +77,58 @@ export class DataFormComponent implements OnInit {
     });/*/
 
     this.formulario = this.formBuilder.group({
-      nome          : [null, [Validators.required, Validators.minLength(3), Validators.maxLength(5)] ],
-      email         : [null, [Validators.required, Validators.pattern('[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*')]
-                          , [this.validarEmail.bind(this) ]],
-      confirmEmail  : [null, [FormValidations.equalsTo('email')]],
-      endereco      : this.formBuilder.group({
-        cep           : [null, [Validators.required, FormValidations.cepValidator]],
-        numero        : [null, Validators.required],
-        complemento   : [null],
-        rua           : [null, Validators.required],
-        bairro        : [null, Validators.required],
-        cidade        : [null, Validators.required],
-        estado        : [null, Validators.required]
+      nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(5)]],
+      email: [null, [Validators.required, Validators.pattern('[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*')]
+        , [this.validarEmail.bind(this)]],
+      confirmEmail: [null, [FormValidations.equalsTo('email')]],
+      endereco: this.formBuilder.group({
+        cep: [null, [Validators.required, FormValidations.cepValidator]],
+        numero: [null, Validators.required],
+        complemento: [null],
+        rua: [null, Validators.required],
+        bairro: [null, Validators.required],
+        cidade: [null, Validators.required],
+        estado: [null, Validators.required]
       }),
-      cargo       : [null],
-      tecnologia  : [null],
-      newsLetter  : ['y'],
-      termos      : [false, Validators.pattern('true')],
-      qtdFrw      : [0, Validators.min(1)],
-      frameworks  : this.buildFrameworks()
+      cargo: [null],
+      tecnologia: [null],
+      newsLetter: ['y'],
+      termos: [false, Validators.pattern('true')],
+      qtdFrw: [0, Validators.min(1)],
+      frameworks: this.buildFrameworks()
     });
+
+    this.formulario.get('endereco.cep').valueChanges
+      .subscribe(value => console.log('valor cep:', value));
+    this.formulario.get('endereco.cep').statusChanges
+      .pipe(
+        distinctUntilChanged(),
+        tap(status => console.log('status cep:', status)),
+        switchMap(status => status === 'VALID' ?
+         this.cepService.consultaCep(this.formulario.get('endereco.cep').value.replace(/\D/g, ''))
+         : of({}))
+      )
+      // .subscribe(dados => dados.toString ?console.log('a') : console.log('b'));
+      // .subscribe(dados => console.log(this.isEmpty(dados)));
+        .subscribe(dados => this.isEmpty(dados) ?    this.resetaDadosForm()        : this.populaDadosForm(dados,  this.formulario.get('endereco.cep').value) );
+
+  }
+
+  isEmpty(obj) {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   buildFrameworks() {
-   // console.log();
+    // console.log();
     const values = this.frameworks.map(v => new FormControl(false));
-    const ret = this.formBuilder.array(values , FormValidations.requiredMinCheckBox() );
-   // console.log(ret);
-    return ret ;
+    const ret = this.formBuilder.array(values, FormValidations.requiredMinCheckBox());
+    // console.log(ret);
+    return ret;
 
     /*/return[
       new FormControl(false),
@@ -118,30 +142,30 @@ export class DataFormComponent implements OnInit {
 
   onSubmit() {
     if (this.submit) {
-     // console.log(this.formulario);
+      // console.log(this.formulario);
 
-     let valueSubmit = Object.assign({  }, this.formulario.value);
+      let valueSubmit = Object.assign({}, this.formulario.value);
 
-     valueSubmit = Object.assign (valueSubmit, {
-       frameworks: valueSubmit.frameworks
-       .map((v, i) => v ? this.frameworks[i] : null)
-       .filter(v => v !== null )
-     });
+      valueSubmit = Object.assign(valueSubmit, {
+        frameworks: valueSubmit.frameworks
+          .map((v, i) => v ? this.frameworks[i] : null)
+          .filter(v => v !== null)
+      });
 
-//     console.log(valueSubmit);
+      //     console.log(valueSubmit);
 
 
       if (this.formulario.valid) {
 
         this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
-        .subscribe(dados => {
-          // console.log(dados);
-          // Reser FOrm
-          this.formulario.reset();
+          .subscribe(dados => {
+            // console.log(dados);
+            // Reser FOrm
+            this.formulario.reset();
           },
-          // cath error
-          (error: any) => alert('Something Wrong')
-        );
+            // cath error
+            (error: any) => alert('Something Wrong')
+          );
       } else {
         alert('formulario invalido');
         /*/
@@ -160,7 +184,7 @@ export class DataFormComponent implements OnInit {
   }
 
   resetForm() {
-    if ( confirm('do you really want to reset the form ?') === true ) {
+    if (confirm('do you really want to reset the form ?') === true) {
       this.formulario.reset();
     } else {
       alert('ok');
@@ -170,13 +194,13 @@ export class DataFormComponent implements OnInit {
 
   }
 
-  checkFormValid(formGroup: FormGroup ) {
+  checkFormValid(formGroup: FormGroup) {
 
     Object.keys(formGroup.controls).forEach(campo => {
       // console.log(campo);
       const controle = formGroup.get(campo);
       controle.markAsDirty();
-      if ( controle instanceof FormGroup) {
+      if (controle instanceof FormGroup) {
         this.checkFormValid(controle);
       }
     });
@@ -201,7 +225,7 @@ export class DataFormComponent implements OnInit {
 
   verificaInvalidEmail() {
     const mailField = this.formulario.get('email');
-   // console.log(mailField.errors);
+    // console.log(mailField.errors);
     if (mailField.errors) {
       return mailField.errors['pattern'] && mailField.touched;
       // in my case is different fro  the example because i use pattern not the propery e-mail.
@@ -213,19 +237,19 @@ export class DataFormComponent implements OnInit {
 
   aplicaCssErro(campo: string) {
     return {
-      'has-error':    this.verificaValidTouched(campo) ,
+      'has-error': this.verificaValidTouched(campo),
       'has-feedback': this.verificaValidTouched(campo)
     };
   }
   consultaCep() {
 
-    let cep =  this.formulario.get('endereco.cep').value ;
+    let cep = this.formulario.get('endereco.cep').value;
     this.resetaDadosForm();
 
     if (cep != null && cep !== '') {
       cep = cep.replace(/\D/g, '');
       this.cepService.consultaCep(cep)
-        .subscribe(dados => this.populaDadosForm(dados,  cep));
+        .subscribe(dados => this.populaDadosForm(dados, cep));
     }
 
   }
@@ -253,20 +277,22 @@ export class DataFormComponent implements OnInit {
     if (!('debug' in dados)) {
       const validacep = /^[0-9]{8}$/;
       if (validacep.test(cep)) {
-        this.xcep = this.formatCep(cep); } else {
-          this.xcep = this.formulario.get('endereco.cep').value;
-        }
+        this.xcep = this.formatCep(cep);
+      } else {
+        this.xcep = this.formulario.get('endereco.cep').value;
+      }
 
 
       this.formulario.patchValue({
-        endereco : {
-          cep :   this.xcep ,
-          complemento:  dados.tipo_logradouro   ,
-          rua : dados.logradouro  ,
-          bairro : dados.bairro   ,
-          cidade : dados.cidade  ,
-          estado : dados.uf
-      }      }
+        endereco: {
+          cep: this.xcep,
+          complemento: dados.tipo_logradouro,
+          rua: dados.logradouro,
+          bairro: dados.bairro,
+          cidade: dados.cidade,
+          estado: dados.uf
+        }
+      }
       );
 
       /*/ the same but with set value examples
@@ -280,31 +306,32 @@ export class DataFormComponent implements OnInit {
       /*/
 
 
-//      this.formulario.get('nome').setValue('consultado');
+      //      this.formulario.get('nome').setValue('consultado');
     } else {
       alert('cep nao encontrado');
 
 
-   }
+    }
 
   }
 
   formatCep(cep: any) {
     return cep.substring(0, 5) + '-' + cep.substring(5, 8);
 
-   }
+  }
 
 
   resetaDadosForm() {
-
+    // console.log('entroi');
     this.formulario.patchValue({
-      endereco : {
-        complemento:  null  ,
-        rua : null  ,
-        bairro : null   ,
-        cidade : null  ,
-        estado : null
-     }      }
+      endereco: {
+        complemento: null,
+        rua: null,
+        bairro: null,
+        cidade: null,
+        estado: null
+      }
+    }
     );
   }
 
@@ -312,13 +339,13 @@ export class DataFormComponent implements OnInit {
     console.log('aqui');
     console.log(this.nMinCheckBox);
     this.nMinCheckBox = 3;
-    const cargo =  {nome: 'Dev', nivel: 'Pleno', desc: 'Dev Pl'};
+    const cargo = { nome: 'Dev', nivel: 'Pleno', desc: 'Dev Pl' };
     this.formulario.get('cargo').setValue(cargo);
 
   }
 
   compararCargos(obj1, obj2) {
-    return obj1 && obj2 ? (obj1.nome === obj2.nome && obj1.nivel === obj2.nivel) : obj1 === obj2 ;
+    return obj1 && obj2 ? (obj1.nome === obj2.nome && obj1.nivel === obj2.nivel) : obj1 === obj2;
 
   }
 
@@ -327,7 +354,7 @@ export class DataFormComponent implements OnInit {
 
   }
   getQtsFrm() {
-    return this.formulario.get('qtdFrw').value ;
+    return this.formulario.get('qtdFrw').value;
   }
   getStrOpc() {
     let cMessage: string;
@@ -343,10 +370,10 @@ export class DataFormComponent implements OnInit {
 
   validarEmail(formControl: FormControl) {
 
-    this.formulario.get('confirmEmail').setValue(this.formulario.get('confirmEmail').value );
+    this.formulario.get('confirmEmail').setValue(this.formulario.get('confirmEmail').value);
 
     return this.verificaEmailService.verificarEmail(formControl.value)
-      .pipe(map( emailexiste => emailexiste ? {emailInvalid: true } : null ));
+      .pipe(map(emailexiste => emailexiste ? { emailInvalid: true } : null));
   }
 
   kindOfMagic() {
@@ -354,8 +381,8 @@ export class DataFormComponent implements OnInit {
 
     // console.log(    this.formulario.get('frameworks').value    );
 
-    this.formulario.get('frameworks').setValue(this.formulario.get('frameworks').value );
-    console.log(    this.formulario.get('frameworks').value    );
+    this.formulario.get('frameworks').setValue(this.formulario.get('frameworks').value);
+    console.log(this.formulario.get('frameworks').value);
 
   }
 
