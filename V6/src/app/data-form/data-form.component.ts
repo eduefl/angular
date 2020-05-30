@@ -343,6 +343,8 @@ export class DataFormComponent implements OnInit {
 
   validarEmail(formControl: FormControl) {
 
+    this.formulario.get('confirmEmail').setValue(this.formulario.get('confirmEmail').value );
+
     return this.verificaEmailService.verificarEmail(formControl.value)
       .pipe(map( emailexiste => emailexiste ? {emailInvalid: true } : null ));
   }

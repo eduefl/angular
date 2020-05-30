@@ -86,16 +86,16 @@ export class FormValidations {
   }
 
   static getErrorMsg(fieldName: string, validatorName: string, validatorValue?: any ) {
-    console.log(validatorValue);
+    // console.log(validatorName);
     const config = {
-      'required': `${fieldName} is mandatory`,
-      'minlength': `${fieldName} needs at least ${validatorValue.requiredLength} chars.`,
-      'maxlength': `${fieldName} can have maximun  ${validatorValue.requiredLength} chars.`,
-      'cepInvalido': 'cep invalido',
-      'min': `${fieldName} minimum value is   ${validatorValue.min} .`,
-
-
-
+      'required'      : `${fieldName} is mandatory`,
+      'minlength'     : `${fieldName} needs at least ${validatorValue.requiredLength} chars.`,
+      'maxlength'     : `${fieldName} can have maximun  ${validatorValue.requiredLength} chars.`,
+      'pattern'       : `${fieldName} is invalid.`,
+      'cepInvalido'   : 'cep invalido',
+      'min'           : `${fieldName} minimum value is   ${validatorValue.min} .`,
+      'equalsTo'      : `${fieldName} needs same value as   in ${validatorValue} .`,
+      'emailInvalid'  : `${fieldName} already in database .`
     };
     return config[validatorName];
   }

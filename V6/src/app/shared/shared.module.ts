@@ -5,6 +5,7 @@ import { FormDebugComponent } from './form-debug/form-debug.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ErrorMsgComponent } from './error-msg/error-msg.component';
+import { GenericMsgComponent } from './generic-msg/generic-msg.component';
 
 @NgModule({
   imports: [
@@ -15,12 +16,14 @@ import { ErrorMsgComponent } from './error-msg/error-msg.component';
   declarations: [
     FormDebugComponent,
     CampoControlErroComponent,
-    ErrorMsgComponent
+    ErrorMsgComponent,
+    GenericMsgComponent
   ],
   exports: [
     FormDebugComponent,
     CampoControlErroComponent,
-    ErrorMsgComponent
+    ErrorMsgComponent,
+    GenericMsgComponent
   ],
   providers: [DropdownService]
 
