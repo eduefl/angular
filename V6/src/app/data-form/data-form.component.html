@@ -51,15 +51,15 @@
         label     = "em@il"
       ></app-error-msg>
 
-      <app-campo-control-erro
-        [mostrarErro] = "formulario.get('email').status.localeCompare('PENDING') ===0 "
-        msgErro     = "Validando email"
-      ></app-campo-control-erro>
-      <app-campo-control-erro
-        [mostrarErro] = "formulario.get('email').status.localeCompare('VALID') ===0 "
-        msgErro     = "Email Valido!"
-      ></app-campo-control-erro>
-
+      <app-generic-msg
+        [lShow] = "formulario.get('email').status.localeCompare('PENDING') ===0 "
+        cMsg     = "Validando email"
+      ></app-generic-msg>
+      <app-generic-msg
+        [lShow] = "formulario.get('email').status.localeCompare('VALID') ===0 "
+        cMsg     = "Email Valido!"
+        cStatus   = "ok"
+      ></app-generic-msg>
     </div>
   </div>
 

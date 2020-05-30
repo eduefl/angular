@@ -1,0 +1,21 @@
+<div *ngIf="lShow">
+  <span
+    id="nome"
+    class="sr-only"
+  >
+    (error)
+  </span>
+  <div
+    [class]="confgDiv()"
+    role="alert"
+    >
+   <span
+    [class]="confgSpan()"
+    ></span>
+
+
+    {{ cMsg }}
+  </div>
+
+</div>
+
