@@ -6,7 +6,20 @@
 
  -->
  <form  class="form-horizontal" [formGroup]="formulario" (ngSubmit)="onSubmit()" >
-  <div class="form-group" [ngClass]="aplicaCssErro('nome')">
+   <app-input-field
+   formControlName="nome"
+    class="col-sm-12"
+    [claseCss]= "aplicaCssErro('nome')"
+    id="nome"
+    label="Nome"
+    type = "text"
+    [control]= "formulario.get('nome')"
+
+
+     ></app-input-field>
+
+
+  <!--div class="form-group" [ngClass]="aplicaCssErro('nome')">
     <div class="col-sm-12">
       <label
         for="nome"
@@ -23,13 +36,13 @@
       >
 
     </div>
-    <!--Diferrent from the class in the clas this control is one div before but i liked this style :) -->
-    <app-error-msg
+        <!--Diferrent from the class in the clas this control is one div before but i liked this style :) -->
+    <!--app-error-msg
       [control]= "formulario.get('nome')"
       label     = "n@me"
-    ></app-error-msg>
+    ></!--app-error-msg>
 
-  </div>
+  </--div!-->
 
   <div class="form-group" [ngClass]="aplicaCssErro('email')"   >
    <div class="col-sm-12">
