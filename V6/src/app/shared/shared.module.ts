@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { ErrorMsgComponent } from './error-msg/error-msg.component';
 import { GenericMsgComponent } from './generic-msg/generic-msg.component';
 import { InputFieldComponent } from './input-field/input-field.component';
+import { BaseFormComponent } from './base-form/base-form.component';
 
 @NgModule({
   imports: [
