@@ -1,3 +1,4 @@
+import { BaseFormComponent } from './../shared/base-form/base-form.component';
 import { VerificaEmailService } from './services/verifica-email.service';
 import { FormValidations } from './../shared/form-validations';
 import { ConsultaCepService } from './../shared/services/consulta-cep.service';
@@ -15,10 +16,10 @@ import { Observable, of } from 'rxjs';
   templateUrl: './data-form.component.html',
   styleUrls: ['./data-form.component.css']
 })
-export class DataFormComponent implements OnInit {
+export class DataFormComponent extends BaseFormComponent implements OnInit {
 
-  formulario: FormGroup;
-  submit = true;
+//  formulario: FormGroup;
+  lSub = true;
   // estados: EstadoBr[];
   estados: Observable<EstadoBr[]>;
   cargos: any[];
@@ -39,7 +40,9 @@ export class DataFormComponent implements OnInit {
     private verificaEmailService: VerificaEmailService
 
 
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit() {
 
@@ -140,10 +143,8 @@ export class DataFormComponent implements OnInit {
 
   }
 
-  onSubmit() {
-    if (this.submit) {
-      // console.log(this.formulario);
-
+  submit() {
+    if (this.lSub) {
       let valueSubmit = Object.assign({}, this.formulario.value);
 
       valueSubmit = Object.assign(valueSubmit, {
@@ -151,96 +152,27 @@ export class DataFormComponent implements OnInit {
           .map((v, i) => v ? this.frameworks[i] : null)
           .filter(v => v !== null)
       });
-
-      //     console.log(valueSubmit);
-
-
-      if (this.formulario.valid) {
-
-        this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
-          .subscribe(dados => {
-            // console.log(dados);
-            // Reser FOrm
-            this.formulario.reset();
-          },
-            // cath error
-            (error: any) => alert('Something Wrong')
-          );
-      } else {
-        alert('formulario invalido');
-        /*/
-        Object.keys(this.formulario.controls).forEach(function(campo){
-
-        });/*/
-
-        this.checkFormValid(this.formulario);
-
-      }
-
+      this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
+      .subscribe(dados => {
+        // console.log(dados);
+        // Reser FOrm
+        this.formulario.reset();
+      },
+        // cath error
+        (error: any) => alert('Something Wrong')
+      );
     } else {
-      this.submit = true;
-    }
-
-  }
-
-  resetForm() {
-    if (confirm('do you really want to reset the form ?') === true) {
-      this.formulario.reset();
-    } else {
-      alert('ok');
-    }
-    this.submit = false;
-    return null;
-
-  }
-
-  checkFormValid(formGroup: FormGroup) {
-
-    Object.keys(formGroup.controls).forEach(campo => {
-      // console.log(campo);
-      const controle = formGroup.get(campo);
-      controle.markAsDirty();
-      if (controle instanceof FormGroup) {
-        this.checkFormValid(controle);
-      }
-    });
-
-
-
-  }
-
-  verificaValidTouched(campo: string) {
-    // this.formulario.controls[campo]; //do the same  as the next line
-    // this.formulario.get(campo) //do the same  as the previous line
-
-    return !this.formulario.get(campo).valid && (this.formulario.get(campo).touched || this.formulario.get(campo).dirty);
-
-  }
-
-  verificaValidRequired(campo: string) {
-
-    return this.formulario.get(campo).hasError('required') && (this.formulario.get(campo).touched || this.formulario.get(campo).dirty);
-
-  }
-
-  verificaInvalidEmail() {
-    const mailField = this.formulario.get('email');
-    // console.log(mailField.errors);
-    if (mailField.errors) {
-      return mailField.errors['pattern'] && mailField.touched;
-      // in my case is different fro  the example because i use pattern not the propery e-mail.
-
-
+      this.lSub = true;
     }
   }
 
 
-  aplicaCssErro(campo: string) {
-    return {
-      'has-error': this.verificaValidTouched(campo),
-      'has-feedback': this.verificaValidTouched(campo)
-    };
-  }
+
+
+
+
+
+
   consultaCep() {
 
     let cep = this.formulario.get('endereco.cep').value;
@@ -320,7 +252,16 @@ export class DataFormComponent implements OnInit {
 
   }
 
+  resetForm() {
+    if (confirm('do you really want to reset the form ?') === true) {
+      this.formulario.reset();
+    } else {
+      alert('ok');
+    }
+    this.lSub = false;
+    return null;
 
+  }
   resetaDadosForm() {
     // console.log('entroi');
     this.formulario.patchValue({
@@ -334,6 +275,7 @@ export class DataFormComponent implements OnInit {
     }
     );
   }
+
 
   setCarg() {
     console.log('aqui');
