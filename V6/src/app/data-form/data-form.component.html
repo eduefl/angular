@@ -17,6 +17,11 @@
 
 
      ></app-input-field>
+     <app-error-msg
+      [control]= "formulario.get('nome')"
+      label     = "nome"
+      [lSubmit] = "formSubmitAttempt"
+     ></app-error-msg>
 
 
   <!--div class="form-group" [ngClass]="aplicaCssErro('nome')">
