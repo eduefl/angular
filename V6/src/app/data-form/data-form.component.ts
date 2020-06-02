@@ -251,6 +251,9 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
     if (confirm('do you really want to reset the form ?') === true) {
       this.formSubmitAttempt = false;
       this.formulario.reset();
+      this.formulario.get('termos').setValue(false);
+      this.formulario.get('newsLetter').setValue('y');
+      this.formulario.get('qtdFrw').setValue(0);
     } else {
       alert('ok');
     }
