@@ -79,7 +79,7 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
     });/*/
 
     this.formulario = this.formBuilder.group({
-      nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(5)]],
+      nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       email: [null, [Validators.required, Validators.pattern('[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*')]
         , [this.validarEmail.bind(this)]],
       confirmEmail: [null, [FormValidations.equalsTo('email')]],
@@ -251,6 +251,9 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
     if (confirm('do you really want to reset the form ?') === true) {
       this.formSubmitAttempt = false;
       this.formulario.reset();
+      this.formulario.get('termos').setValue(false);
+      this.formulario.get('newsLetter').setValue('y');
+      this.formulario.get('qtdFrw').setValue(0);
     } else {
       alert('ok');
     }
