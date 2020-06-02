@@ -62,6 +62,7 @@
       <app-error-msg
         [control]= "formulario.get('email')"
         label     = "em@il"
+        [lSubmit] = "formSubmitAttempt"
       ></app-error-msg>
 
       <app-generic-msg
@@ -95,6 +96,7 @@
        <app-error-msg
          [control]= "formulario.get('confirmEmail')"
          label     = "Confirm@tion "
+         [lSubmit] = "formSubmitAttempt"
        ></app-error-msg>
 
      </div>
@@ -118,6 +120,7 @@
           <app-error-msg
             [control]= "formulario.get('endereco.cep')"
             label     = "@Cep "
+            [lSubmit] = "formSubmitAttempt"
           ></app-error-msg>
 
       </div>
@@ -134,6 +137,7 @@
           <app-error-msg
             [control]= "formulario.get('endereco.numero')"
             label     = "Numb&er"
+            [lSubmit] = "formSubmitAttempt"
           ></app-error-msg>
 
       </div>
@@ -168,6 +172,7 @@
       <app-error-msg
         [control]= "formulario.get('endereco.rua')"
         label     = "@dr&ss"
+        [lSubmit] = "formSubmitAttempt"
       ></app-error-msg>
 
     </div>
@@ -189,6 +194,7 @@
         <app-error-msg
           [control]= "formulario.get('endereco.bairro')"
           label     = "B@irr0"
+          [lSubmit] = "formSubmitAttempt"
         ></app-error-msg>
 
       </div>
@@ -206,6 +212,7 @@
         <app-error-msg
           [control]= "formulario.get('endereco.cidade')"
           label     = "Cid@D&"
+          [lSubmit] = "formSubmitAttempt"
         ></app-error-msg>
 
 
@@ -224,6 +231,7 @@
         <app-error-msg
           [control]= "formulario.get('endereco.estado')"
           label     = "3$T@D0"
+          [lSubmit] = "formSubmitAttempt"
         ></app-error-msg>
       </div>
     </div>

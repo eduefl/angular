@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export abstract class BaseFormComponent implements OnInit {
 
   formulario: FormGroup;
+  formSubmitAttempt = false;
+  lSub = true;
 
 
   constructor() { }
@@ -17,13 +19,18 @@ export abstract class BaseFormComponent implements OnInit {
 
   abstract submit();
   onSubmit() {
-    if (this.formulario.valid) {
-      this.submit();
+    if (this.lSub) {
+      this.formSubmitAttempt = true;
+      if (this.formulario.valid) {
+        this.submit();
+      } else {
+        alert('formulario invalido');
+      // this.checkFormValid(this.formulario);
+      }
     } else {
-      alert('formulario invalido');
-      this.checkFormValid(this.formulario);
-
+      this.lSub = true;
     }
+
 
   }
 

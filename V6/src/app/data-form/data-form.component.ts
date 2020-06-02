@@ -19,7 +19,6 @@ import { Observable, of } from 'rxjs';
 export class DataFormComponent extends BaseFormComponent implements OnInit {
 
 //  formulario: FormGroup;
-  lSub = true;
   // estados: EstadoBr[];
   estados: Observable<EstadoBr[]>;
   cargos: any[];
@@ -144,26 +143,22 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
   }
 
   submit() {
-    if (this.lSub) {
-      let valueSubmit = Object.assign({}, this.formulario.value);
+    let valueSubmit = Object.assign({}, this.formulario.value);
 
-      valueSubmit = Object.assign(valueSubmit, {
-        frameworks: valueSubmit.frameworks
-          .map((v, i) => v ? this.frameworks[i] : null)
-          .filter(v => v !== null)
-      });
-      this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
-      .subscribe(dados => {
-        // console.log(dados);
-        // Reser FOrm
-        this.formulario.reset();
-      },
-        // cath error
-        (error: any) => alert('Something Wrong')
-      );
-    } else {
-      this.lSub = true;
-    }
+    valueSubmit = Object.assign(valueSubmit, {
+      frameworks: valueSubmit.frameworks
+        .map((v, i) => v ? this.frameworks[i] : null)
+        .filter(v => v !== null)
+    });
+    this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
+    .subscribe(dados => {
+      // console.log(dados);
+      // Reser FOrm
+      this.formulario.reset();
+    },
+      // cath error
+      (error: any) => alert('Something Wrong')
+    );
   }
 
 
@@ -254,6 +249,7 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
 
   resetForm() {
     if (confirm('do you really want to reset the form ?') === true) {
+      this.formSubmitAttempt = false;
       this.formulario.reset();
     } else {
       alert('ok');

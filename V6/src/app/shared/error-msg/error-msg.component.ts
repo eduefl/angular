@@ -16,6 +16,8 @@ export class ErrorMsgComponent implements OnInit {
   @Input() label: string;
   @Input() noNeedTouch = false;
   @Input() custMessag: string;
+  @Input() lSubmit: string;
+
 
 
 
@@ -33,7 +35,7 @@ export class ErrorMsgComponent implements OnInit {
 
     for (const propertyName in this.control.errors) {
       if (this.control.errors.hasOwnProperty(propertyName) &&
-         (this.control.touched || this.noNeedTouch )) {
+         (this.control.touched || this.noNeedTouch || this.lSubmit )) {
           // to do
          //  console.log(this.control.errors[propertyName]);
           if (this.custMessag != null && this.custMessag !== '') {
