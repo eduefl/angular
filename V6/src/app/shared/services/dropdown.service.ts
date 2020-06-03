@@ -1,3 +1,4 @@
+import { Cidade } from './../models/cidade';
 import { EstadoBr } from './../models/estado-br';
 // import { Http, Response } from '@angular/http'; // used before Angular V6
 import { HttpClient } from '@angular/common/http';
@@ -13,6 +14,16 @@ export class DropdownService {
   getEstadosBr() {
     return this.http.get<EstadoBr[]>('assets/dados/estados.json');
   }
+
+  getCidades(idEst: number) {
+    return this.http.get<Cidade[]>('assets/dados/Cidades.json')
+      .pipe(
+        // tslint:disable-next-line: triple-equals
+        map((cidades: Cidade[]) => cidades.filter(c => c.estado == idEst) )
+      );
+
+  }
+
   getcargos() {
     return [
       {nome: 'Dev', nivel: 'Junior', desc: 'Dev Jr'},
