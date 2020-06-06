@@ -1,3 +1,36 @@
-<p>
-  cursos-lista works!
-</p>
+<div class="card">
+  <div  class="card-header" style="background-color: #FF8C00; color:#9400D3;">
+    <div  class="float-left">
+      <h4>Cursos</h4>
+    </div>
+    <div  class="float-right">
+      <button type="button" class="btn btn-dark" style="color:#00BFFF;" [routerLink]="['novo']" >+Add </button>
+    </div>
+
+  </div>
+  <div class="card-body">
+    <table class="table table-hover" style="color:#00BFFF;" >
+      <thead class="table-dark" style="color:#00BFFF;">
+        <tr >
+          <th>#</th>
+          <th>Cursos</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody style="background-color: #4B0082; color:#00FF00;">
+        <tr>
+          <td>{{' code ' }} </td>
+          <td>{{'curso'}}</td>
+          <td>
+            <span class="float-right">
+              <button  class="btn btn-outline-warning mb-1 btn-sm">Atualizar</button>
+              {{''}}
+              <button  class="btn btn-outline-danger mb-1 btn-sm">Remover</button>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
