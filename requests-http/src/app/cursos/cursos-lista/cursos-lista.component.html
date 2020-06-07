@@ -9,17 +9,17 @@
 
   </div>
   <div class="card-body">
-    <table class="table table-hover" style="color:#00BFFF;" >
-      <thead class="table-dark" style="color:#00BFFF;">
+    <table class="table table-hover table-dark" style="color:#00BFFF;" >
+      <thead style="color:#00BFFF;">
         <tr >
-          <th>#</th>
-          <th>Cursos</th>
-          <th></th>
+          <th scope="col">#</th>
+          <th scope="col">Cursos</th>
+          <th scope="col" ></th>
         </tr>
       </thead>
       <tbody style="background-color: #4B0082; color:#00FF00;">
         <tr *ngFor="let curso of cursos" >
-          <td>{{ curso.id }} </td>
+          <th scope="row">{{ curso.id }} </th>
           <td>{{ curso.nome }}</td>
           <td>
             <span class="float-right">
