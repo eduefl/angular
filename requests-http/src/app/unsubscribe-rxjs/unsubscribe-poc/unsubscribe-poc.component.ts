@@ -1,3 +1,4 @@
+import { EnviarValorService } from './../enviar-valor.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,12 +11,13 @@ export class UnsubscribePocComponent implements OnInit {
   classbtn = 'btn btn-outline-dark';
 
   mostrarComponentes = true;
-  constructor() { }
+  constructor(private service: EnviarValorService) { }
 
   ngOnInit() {
   }
 
-  emitirValor(valor: String) {
+  emitirValor(valor: string) {
+    this.service.emitirValor(valor);
 
   }
   destruir() {
