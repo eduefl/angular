@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UnsubscribeRxjsModule } from './unsubscribe-rxjs/unsubscribe-rxjs.module';
+import { SharedModule } from './shared/shared.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { UnsubscribeRxjsModule } from './unsubscribe-rxjs/unsubscribe-rxjs.modul
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    UnsubscribeRxjsModule
+    UnsubscribeRxjsModule,
+    SharedModule,
+    ModalModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
