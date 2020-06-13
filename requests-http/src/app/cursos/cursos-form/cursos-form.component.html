@@ -1,0 +1,50 @@
+<!-- icons
+
+https://fontawesome.bootstrapcheatsheets.com/#
+
+https://glyphicons.bootstrapcheatsheets.com/
+
+-->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
+
+<form
+  class="needs-validation"
+  novalidate
+  [formGroup]="form"
+  style="padding-top: 30px;"
+>
+  <div class="form-row">
+    <div class="col-md-12">
+      <label for="nome">Course Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="nome"
+        placeholder="Course Name"
+        formControlName="nome"
+        [ngClass]="{'is-invalid': submited && hasError('nome')}"
+      />
+      <div class="invalid-tooltip" *ngIf="hasError('nome')&& hasError('nome')['required']" >
+        Por favor informe um nome
+      </div>
+      <div class="invalid-tooltip" *ngIf="hasError('nome')&& hasError('nome')['minlength']" >
+        informe no minimo {{  hasError('nome')['minlength'].requiredLength  }} caracteres
+      </div>
+      <div class="invalid-tooltip" *ngIf="hasError('nome')&& hasError('nome')['maxlength']" >
+        informe no maximo {{  hasError('nome')['maxlength'].requiredLength  }} caracteres
+      </div>
+    </div>
+  </div>
+  <div style="padding-top: 40px;">
+    <button type="submit" class="greewhite btn btn-dark" (click)="onSubmit()" >
+      <i class="fa fa-save"></i> Save
+    </button>
+    {{ " " }}
+    <button type="button" class="redblack btn btn-dark" (click)="onCancel()">
+      <i class="fa fa-times-circle"></i> Cancel
+    </button>
+  </div>
+</form>

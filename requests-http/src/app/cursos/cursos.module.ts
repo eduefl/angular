@@ -4,13 +4,16 @@ import { CommonModule } from '@angular/common';
 
 import { CursosRoutingModule } from './cursos-routing.module';
 import { CursosListaComponent } from './cursos-lista/cursos-lista.component';
+import { CursosFormComponent } from './cursos-form/cursos-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     CursosRoutingModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ],
-  declarations: [CursosListaComponent]
+  declarations: [CursosListaComponent, CursosFormComponent]
 })
 export class CursosModule { }
