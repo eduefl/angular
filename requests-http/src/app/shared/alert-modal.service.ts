@@ -15,7 +15,7 @@ export class AlertModalService {
 
   constructor(private modalService: BsModalService) { }
 
-  private Showmsg(message: string, backdrop = true, ignoreBackdropClick = true, type: ALERTTYPES) {
+  private Showmsg(message: string, backdrop = true, ignoreBackdropClick = true, type: ALERTTYPES, dissmisstimeOut?:number) {
     const config = {
       backdrop: backdrop,
       ignoreBackdropClick: ignoreBackdropClick
@@ -24,6 +24,10 @@ export class AlertModalService {
     bsmodalRef.content.type = type;
     bsmodalRef.content.message = message;
 
+    if(dissmisstimeOut){
+      setTimeout(() => bsmodalRef.hide() , dissmisstimeOut);
+    }
+
 
   }
 
@@ -31,7 +35,7 @@ export class AlertModalService {
     this.Showmsg(message, backdrop, ignoreBackdropClick , ALERTTYPES.DANGER);
   }
   showAllertSuccess(message: string, backdrop = true, ignoreBackdropClick = true ) {
-    this.Showmsg(message, backdrop, ignoreBackdropClick , ALERTTYPES.SUCCESS);
+    this.Showmsg(message, backdrop, ignoreBackdropClick , ALERTTYPES.SUCCESS,3000);
   }
 
 
