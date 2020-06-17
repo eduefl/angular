@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AlertModalService } from './../../shared/alert-modal.service';
 import { CursosService } from './../cursos.service';
 import { Component, OnInit } from '@angular/core';
@@ -17,29 +18,28 @@ export class CursosFormComponent implements OnInit {
   constructor(private fb: FormBuilder,
      private service: CursosService,
       private modal: AlertModalService,
-      private location: Location  ) { }
+      private location: Location,
+      private router: Router
+      ) { }
 
   ngOnInit() {
     this.form = this.fb.group({
-      nome:[null,[Validators.required, Validators.minLength(3), Validators.maxLength(254)]]
+      nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(254)]]
     });
   }
 
-  hasError(field: string)
-  {
+  hasError(field: string) {
     return this.form.get(field).errors;
   }
 
-  onSubmit()
-  {
+  onSubmit() {
     this.submited = true;
     console.log(this.form.value);
     if (this.form.valid) {
       this.service.create(this.form.value).subscribe(
         () => {this.modal.showAllertSuccess('Curso Cirado com sucesso');
-        this.location.back();
-        //implement rout.navigate
-        // change icon msg confirm
+        // this.location.back(); to back to previouws pagge not very effective avoid to use
+        this.router.navigate(['/']);
 
       },
         () => this.modal.showAllertDanger('Erro ao criar curso'),
@@ -48,8 +48,7 @@ export class CursosFormComponent implements OnInit {
 
 
 
-    }
-    else {
+    } else {
       alert('formulario invalido');
     }
 
