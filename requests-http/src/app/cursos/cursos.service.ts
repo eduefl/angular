@@ -20,6 +20,15 @@ export class CursosService {
 
   }
 
+  loadById(id){
+    // example template literals
+   // return this.htpp.get(this.API_CURSOS.concat('/').concat(id)).pipe(take(1));
+     return this.htpp.get(`${this.API_CURSOS}/${id}`).pipe(take(1));
+
+
+
+  }
+
   create(curso) {
 
     return this.htpp.post(this.API_CURSOS, curso).pipe(take(1));

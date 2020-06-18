@@ -1,3 +1,4 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { AlertModalService } from './../../shared/alert-modal.service';
 import { CursosService } from './../cursos.service';
 import { Component, OnInit } from '@angular/core';
@@ -23,7 +24,10 @@ export class CursosListaComponent implements OnInit {
 
   constructor(private cursoService: CursosService,
 //    private modalService: BsModalService) { }
-    private alertModalService: AlertModalService) { }
+    private alertModalService: AlertModalService,
+    private router: Router,
+    private route: ActivatedRoute
+    ) { }
 
   ngOnInit() {
    // this.cursoService.list()
@@ -83,6 +87,11 @@ export class CursosListaComponent implements OnInit {
     this.bsmodalRef.content.message = 'erro ao carregar os dados';
     /*/
 
+  }
+
+  onEdit(id)
+  {
+    this.router.navigate(['editar', id],{relativeTo: this.route});
 
 
   }
