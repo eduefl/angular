@@ -38,7 +38,7 @@ https://glyphicons.bootstrapcheatsheets.com/
       </div>
     </div>
   </div>
-  <div style="padding-top: 40px;">
+  <div style="padding-top: 20px;" *ngIf="!view" >
     <button type="submit" class="greewhite btn btn-dark" (click)="onSubmit()" >
       <i class="fa fa-save"></i> Save
     </button>
@@ -47,4 +47,11 @@ https://glyphicons.bootstrapcheatsheets.com/
       <i class="fa fa-times-circle"></i> Cancel
     </button>
   </div>
+
+  <div style="padding-top: 20px;" *ngIf="view" >
+    <button type="button" class="blueorange btn btn-dark" (click)="onOK()">
+      <i class="fa fa-check-circle"></i> Confirm
+    </button>
+  </div>
+
 </form>

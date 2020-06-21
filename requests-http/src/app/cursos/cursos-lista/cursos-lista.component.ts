@@ -20,7 +20,7 @@ export class CursosListaComponent implements OnInit {
  config = {
   backdrop: true,
   ignoreBackdropClick: true
-};
+  };
 
   constructor(private cursoService: CursosService,
 //    private modalService: BsModalService) { }
@@ -89,9 +89,12 @@ export class CursosListaComponent implements OnInit {
 
   }
 
-  onEdit(id)
-  {
-    this.router.navigate(['editar', id],{relativeTo: this.route});
+  viewReg(id) {
+    this.router.navigate(['view', id], {relativeTo: this.route});
+  }
+
+  onEdit(id) {
+    this.router.navigate(['editar', id], {relativeTo: this.route});
 
 
   }

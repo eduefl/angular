@@ -6,7 +6,8 @@ import { CursosFormComponent } from './cursos-form/cursos-form.component';
 const routes: Routes = [
   {path: '', component: CursosListaComponent},
   {path: 'novo', component: CursosFormComponent},
-  {path: 'editar/:id', component: CursosFormComponent}
+  {path: 'editar/:id', component: CursosFormComponent},
+  {path: 'view/:id', component: CursosFormComponent}
 
 ];
 
