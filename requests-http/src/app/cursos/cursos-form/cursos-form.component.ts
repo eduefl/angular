@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Curso } from '../curso';
-import { map, switchMap, exhaustMap } from 'rxjs/operators';
+import { map, switchMap, exhaustMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cursos-form',
@@ -16,6 +16,10 @@ export class CursosFormComponent implements OnInit {
 
   form: FormGroup;
   submited = false;
+  view = false;
+  edit = false;
+  add = false;
+
 
   constructor(private fb: FormBuilder,
     private service: CursosService,
@@ -27,50 +31,69 @@ export class CursosFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-  /*/  this.route.params.subscribe(
-      (params:any) =>{
-        // const id = params.id both ways works
-        const id = params['id'];
-        alert( this.service.loadById(id));
-        const curso$ = this.service.loadById(id);
-        curso$.subscribe(curso => {
-          this.updateform(curso);
+    /*/  this.route.params.subscribe(
+        (params:any) =>{
+          // const id = params.id both ways works
+          const id = params['id'];
+          alert( this.service.loadById(id));
+          const curso$ = this.service.loadById(id);
+          curso$.subscribe(curso => {
+            this.updateform(curso);
 
-        })
-      }
-    )
-    /*/
-      // the same code refactored
-    this.route.params.pipe(
-      map((params:any) =>params['id']),
-      switchMap(id=> this.service.loadById(id)),
-     // switchMap(cursos=> obteraulas()), if necessary
+          })
+        }
+      )
+      /*/
+    // the same code refactored
 
-
-
-    ).
-    subscribe(curso =>this.updateform(curso) );
-
-    // to know
-    // concat map -> ordem da requisicao importa
-    // merge map -> ordem nao importa // mais rapido
-    // exhaustMap -> casos de login so comeca a segunda quando terminar a primeira
+    if (this.route.snapshot.url[0].path === 'view') {
+      this.view = true;
+    } else if (this.route.snapshot.url[0].path === 'editar') {
+      this.edit = true;
+    } else if (this.route.snapshot.url[0].path === 'novo') {
+      this.add = true;
+    }
 
 
+
+    if (!this.add) {
+      this.route.params.pipe(
+        //      tap((params:any) =>console.log()),
+        map((params: any) => params['id']),
+        switchMap(id => this.service.loadById(id)),
+        // switchMap(cursos=> obteraulas()), if necessary
+
+
+
+      ).
+        subscribe(curso => this.updateform(curso));
+
+      // to know
+      // concat map -> ordem da requisicao importa
+      // merge map -> ordem nao importa // mais rapido
+      // exhaustMap -> casos de login so comeca a segunda quando terminar a primeira
+
+    }
 
     this.form = this.fb.group({
       id: [null],
       nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(254)]]
     });
+
+    if (this.view) {
+      this.form.get('nome').disable();
+    }
+
+
+
   }
 
-  updateform(curso)
-  {
+  updateform(curso) {
     this.form.patchValue({
       id: curso.id,
       nome: curso.nome
 
-    })
+    });
 
   }
 
@@ -98,15 +121,19 @@ export class CursosFormComponent implements OnInit {
     } else {
       alert('formulario invalido');
     }
-
-
-
-
-
   }
+
+  onOK() {
+    this.router.navigate(['/']);
+  }
+
   onCancel() {
     this.submited = false;
-    this.form.reset();
+    if (this.edit) {
+      this.router.navigate(['/']);
+    } else {
+      this.form.reset();
+    }
     //    alert('cancel');
 
   }

@@ -19,8 +19,8 @@
         </tr>
       </thead>
       <tbody style="background-color: #4B0082; color:#00FF00;">
-        <tr *ngFor="let curso of cursos" >
-          <th scope="row">{{ curso.id }} </th>
+        <tr *ngFor="let curso of cursos" (dblclick)="viewReg(curso.id)">
+          <th scope="row" >{{ curso.id }} </th>
           <td>{{ curso.nome }}</td>
           <td>
             <span class="float-right">

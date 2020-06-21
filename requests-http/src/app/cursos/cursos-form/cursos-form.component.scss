@@ -20,3 +20,16 @@
   background-color: red;
   color:yellow;
 }
+
+
+
+.blueorange {
+  background-color: blue;
+  color: orange;
+  border: 2px solid black;
+}
+
+.blueorange:hover {
+  background-color: orange;
+  color:blue;
+}

@@ -20,7 +20,7 @@ export class CursosService {
 
   }
 
-  loadById(id){
+  loadById(id) {
     // example template literals
    // return this.htpp.get(this.API_CURSOS.concat('/').concat(id)).pipe(take(1));
      return this.htpp.get(`${this.API_CURSOS}/${id}`).pipe(take(1));
