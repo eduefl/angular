@@ -55,30 +55,30 @@ export class CursosFormComponent implements OnInit {
     }
 
 
-/*/
-    if (!this.add) {
-      this.route.params.pipe(
-        //      tap((params:any) =>console.log()),
-        map((params: any) => params['id']),
-        switchMap(id => this.service.loadById(id)),
-        // switchMap(cursos=> obteraulas()), if necessary
+    /*/
+        if (!this.add) {
+          this.route.params.pipe(
+            //      tap((params:any) =>console.log()),
+            map((params: any) => params['id']),
+            switchMap(id => this.service.loadById(id)),
+            // switchMap(cursos=> obteraulas()), if necessary
 
 
 
-      ).
-        subscribe(curso => this.updateform(curso));
+          ).
+            subscribe(curso => this.updateform(curso));
 
-      // to know
-      // concat map -> ordem da requisicao importa
-      // merge map -> ordem nao importa // mais rapido
-      // exhaustMap -> casos de login so comeca a segunda quando terminar a primeira
+          // to know
+          // concat map -> ordem da requisicao importa
+          // merge map -> ordem nao importa // mais rapido
+          // exhaustMap -> casos de login so comeca a segunda quando terminar a primeira
 
-    }
-/*/
+        }
+    /*/
     const curso = this.route.snapshot.data['curso'];
     this.form = this.fb.group({
       id: [curso.id],
-      nome: [curso.nome , [Validators.required, Validators.minLength(3), Validators.maxLength(254)]]
+      nome: [curso.nome, [Validators.required, Validators.minLength(3), Validators.maxLength(254)]]
     });
 
     if (this.view) {
@@ -88,16 +88,16 @@ export class CursosFormComponent implements OnInit {
 
 
   }
-/*/
-  updateform(curso) {
-    this.form.patchValue({
-      id: curso.id,
-      nome: curso.nome
+  /*/
+    updateform(curso) {
+      this.form.patchValue({
+        id: curso.id,
+        nome: curso.nome
 
-    });
+      });
 
-  }
-/*/
+    }
+  /*/
   hasError(field: string) {
     return this.form.get(field).errors;
   }
@@ -106,6 +106,28 @@ export class CursosFormComponent implements OnInit {
     this.submited = true;
     console.log(this.form.value);
     if (this.form.valid) {
+      let msgSuccess = '';
+      let msgErro = '';
+      if (this.add) {
+        msgSuccess = 'Curso Cirado com sucesso';
+        msgErro = 'Erro ao criar curso';
+      } else if (this.edit) {
+        msgSuccess = 'Curso alterado com sucesso';
+        msgErro = 'Erro ao alterar curso';
+      }
+
+      this.service.salve(this.form.value, this.route.snapshot.url[0].path).subscribe(
+        () => {
+          this.modal.showAllertSuccess(msgSuccess);
+          // this.location.back(); to back to previouws pagge not very effective avoid to use
+          this.router.navigate(['/']);
+
+        },
+        () => this.modal.showAllertDanger(msgErro),
+        () => console.log('request OK')
+      );
+      /*/
+    if (this.add) {
       this.service.create(this.form.value).subscribe(
         () => {
           this.modal.showAllertSuccess('Curso Cirado com sucesso');
@@ -116,7 +138,23 @@ export class CursosFormComponent implements OnInit {
         () => this.modal.showAllertDanger('Erro ao criar curso'),
         () => console.log('request OK')
       );
+    }
+    else if(this.edit)
+    {
+      this.service.update(this.form.value).subscribe(
+        () => {
+          this.modal.showAllertSuccess('Curso alterado com sucesso');
+          // this.location.back(); to back to previouws pagge not very effective avoid to use
+          this.router.navigate(['/']);
 
+        },
+        () => this.modal.showAllertDanger('Erro ao alterar curso'),
+        () => console.log('update OK')
+
+      )
+
+    }
+/*/
 
 
     } else {
