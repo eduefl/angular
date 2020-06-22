@@ -55,7 +55,7 @@ export class CursosFormComponent implements OnInit {
     }
 
 
-
+/*/
     if (!this.add) {
       this.route.params.pipe(
         //      tap((params:any) =>console.log()),
@@ -74,10 +74,11 @@ export class CursosFormComponent implements OnInit {
       // exhaustMap -> casos de login so comeca a segunda quando terminar a primeira
 
     }
-
+/*/
+    const curso = this.route.snapshot.data['curso'];
     this.form = this.fb.group({
-      id: [null],
-      nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(254)]]
+      id: [curso.id],
+      nome: [curso.nome , [Validators.required, Validators.minLength(3), Validators.maxLength(254)]]
     });
 
     if (this.view) {
@@ -87,7 +88,7 @@ export class CursosFormComponent implements OnInit {
 
 
   }
-
+/*/
   updateform(curso) {
     this.form.patchValue({
       id: curso.id,
@@ -96,7 +97,7 @@ export class CursosFormComponent implements OnInit {
     });
 
   }
-
+/*/
   hasError(field: string) {
     return this.form.get(field).errors;
   }
