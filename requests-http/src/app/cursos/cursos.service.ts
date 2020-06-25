@@ -45,7 +45,10 @@ export class CursosService {
       return this.update(curso);
 
     }
+  }
 
+  praVala(id: number) {
+    return this.htpp.delete(`${this.API_CURSOS}/${id}`).pipe(take(1));
 
   }
 
