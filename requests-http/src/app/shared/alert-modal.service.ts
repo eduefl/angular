@@ -1,3 +1,4 @@
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { AlertModalComponent } from './alert-modal/alert-modal.component';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Injectable } from '@angular/core';
@@ -47,6 +48,29 @@ export class AlertModalService {
     if (dissmisstimeOut) {
       setTimeout(() => bsmodalRef.hide(), dissmisstimeOut);
     }
+  }
+  showConfirm(    message = 'Posso perguntar',
+    backdrop = true,
+    ignoreBackdropClick = true,
+    img = this.defalutcErrorImg,
+    title = 'Esta certo Disso ?',
+    oktxt= 'Sim Silvio',
+    canctxt= 'Vou pular silvio Silvio',
+    ) {
+      const bsmodalRef: BsModalRef = this.modalService.show(ConfirmModalComponent);
+      const oModal = <ConfirmModalComponent>bsmodalRef.content;
+      oModal.title = title;
+      oModal.msg = message;
+      oModal.btnOK = oktxt;
+      oModal.btnCanc = canctxt;
+      // bsmodalRef.content.title = title;
+      // bsmodalRef.content.msg = message;
+      // bsmodalRef.content.btnOK = oktxt;
+      // bsmodalRef.content.btnCanc = canctxt;
+
+      return oModal.confirmResult ;
+
+
   }
 
   showAllertDanger(
