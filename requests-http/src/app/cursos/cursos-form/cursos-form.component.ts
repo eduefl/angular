@@ -19,6 +19,7 @@ export class CursosFormComponent implements OnInit {
   view = false;
   edit = false;
   add = false;
+  delete = false;
 
 
   constructor(private fb: FormBuilder,
@@ -52,7 +53,11 @@ export class CursosFormComponent implements OnInit {
       this.edit = true;
     } else if (this.route.snapshot.url[0].path === 'novo') {
       this.add = true;
+    } else if (this.route.snapshot.url[0].path === 'delete') {
+      this.delete = true;
     }
+
+
 
 
     /*/
@@ -81,7 +86,7 @@ export class CursosFormComponent implements OnInit {
       nome: [curso.nome, [Validators.required, Validators.minLength(3), Validators.maxLength(254)]]
     });
 
-    if (this.view) {
+    if (this.view || this.delete) {
       this.form.get('nome').disable();
     }
 
@@ -105,6 +110,11 @@ export class CursosFormComponent implements OnInit {
   onSubmit() {
     this.submited = true;
     console.log(this.form.value);
+    let ModMsg ;
+    let ModTitle ;
+    let modBtnOk ;
+    let modBtnCanc ;
+
     if (this.form.valid) {
       let msgSuccess = '';
       let msgErro = '';
@@ -113,19 +123,23 @@ export class CursosFormComponent implements OnInit {
         msgErro = 'Erro ao criar curso';
       } else if (this.edit) {
         msgSuccess = 'Curso alterado com sucesso';
-        msgErro = 'Erro ao alterar curso';
+        msgErro     = 'Erro ao alterar curso';
+        ModMsg      =  `Confirma alteracao do curso ${this.form.get('id').value}?`;
+        ModTitle    = `Alteracao curso ${this.form.get('id').value}!`;
+        modBtnOk    = `Confirmar Alteracao `;
+        modBtnCanc  = `Cancelar Alteracao `;
+      } else if (this.delete) {
+        msgSuccess = 'Curso excluido com sucesso';
+        msgErro = 'Erro ao excluir curso';
+        ModMsg      =  `Confirma delecao do curso ${this.form.get('id').value}?`;
+        ModTitle    = `Deletar curso ${this.form.get('id').value}!`;
+        modBtnOk    = `Confirmar Exclusao `;
+        modBtnCanc  = `Cancelar Exclusao `;
       }
 
-      this.service.salve(this.form.value, this.route.snapshot.url[0].path).subscribe(
-        () => {
-          this.modal.showAllertSuccess(msgSuccess);
-          // this.location.back(); to back to previouws pagge not very effective avoid to use
-          this.router.navigate(['/']);
-
-        },
-        () => this.modal.showAllertDanger(msgErro),
-        () => console.log('request OK')
-      );
+      // console.log(this.route.snapshot.url[0].path);
+      this.service.salve(this.form.value, this.route.snapshot.url[0].path, msgSuccess, msgErro, !this.add,
+        ModMsg, ModTitle, modBtnOk, modBtnCanc );
       /*/
     if (this.add) {
       this.service.create(this.form.value).subscribe(
@@ -168,7 +182,7 @@ export class CursosFormComponent implements OnInit {
 
   onCancel() {
     this.submited = false;
-    if (this.edit) {
+    if (this.edit || this.delete) {
       this.router.navigate(['/']);
     } else {
       this.form.reset();

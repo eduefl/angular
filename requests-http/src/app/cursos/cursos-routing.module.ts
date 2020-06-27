@@ -13,16 +13,25 @@ const routes: Routes = [
 
     }
   },
-  { path: 'editar/:id', component: CursosFormComponent,    resolve: {
-    curso: CursoResolverGuard
+  {
+    path: 'editar/:id', component: CursosFormComponent, resolve: {
+      curso: CursoResolverGuard
 
-  }
-},
-  { path: 'view/:id', component: CursosFormComponent,    resolve: {
-    curso: CursoResolverGuard
+    }
+  },
+  {
+    path: 'view/:id', component: CursosFormComponent, resolve: {
+      curso: CursoResolverGuard
 
-  }
-}
+    }
+  },
+  {
+    path: 'delete/:id', component: CursosFormComponent, resolve: {
+      curso: CursoResolverGuard
+
+    }
+  },
+
 
 ];
 
