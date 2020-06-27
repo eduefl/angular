@@ -50,14 +50,19 @@ export class AlertModalService {
     }
   }
   showConfirm(    message = 'Posso perguntar',
-    backdrop = true,
-    ignoreBackdropClick = true,
-    img = this.defalutcErrorImg,
+    // img = this.defalutcErrorImg,
     title = 'Esta certo Disso ?',
     oktxt= 'Sim Silvio',
     canctxt= 'Vou pular silvio Silvio',
+    backdrop = true,
+    ignoreBackdropClick = true,
     ) {
-      const bsmodalRef: BsModalRef = this.modalService.show(ConfirmModalComponent);
+      const config = {
+        backdrop: backdrop,
+        ignoreBackdropClick: ignoreBackdropClick,
+      }; // popup setting
+
+      const bsmodalRef: BsModalRef = this.modalService.show(ConfirmModalComponent, config);
       const oModal = <ConfirmModalComponent>bsmodalRef.content;
       oModal.title = title;
       oModal.msg = message;

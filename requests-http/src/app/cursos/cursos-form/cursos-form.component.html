@@ -38,7 +38,7 @@ https://glyphicons.bootstrapcheatsheets.com/
       </div>
     </div>
   </div>
-  <div style="padding-top: 20px;" *ngIf="!view" >
+  <div style="padding-top: 20px;" *ngIf="!view && !delete" >
     <button type="submit" class="greewhite btn btn-dark" (click)="onSubmit()" >
       <i class="fa fa-save"></i> Save
     </button>
@@ -51,6 +51,16 @@ https://glyphicons.bootstrapcheatsheets.com/
   <div style="padding-top: 20px;" *ngIf="view" >
     <button type="button" class="blueorange btn btn-dark" (click)="onOK()">
       <i class="fa fa-check-circle"></i> Voltar
+    </button>
+  </div>
+
+  <div style="padding-top: 20px;" *ngIf="delete" >
+    <button type="submit" class="greewhite btn btn-dark" (click)="onSubmit()" >
+      <i class="fa fa-trash-o"></i> Delete
+    </button>
+    {{ " " }}
+    <button type="button" class="redblack btn btn-dark" (click)="onCancel()">
+      <i class="fa fa-times-circle"></i> Cancel
     </button>
   </div>
 

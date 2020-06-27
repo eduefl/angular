@@ -105,8 +105,11 @@ export class CursosListaComponent implements OnInit {
 
 
   }
+  onDelete(id) {
+    this.router.navigate(['delete', id], { relativeTo: this.route });
 
-  onDelete(curso) {
+  }
+  /*/efetivadelDelete(curso) {
     this.selectedCourse = curso;
     // this.deletebsmodalRef = this.modalService.show(this.deleteModal, {class: 'modal-sm'});
     const result$ = this.alertModalService.showConfirm();
@@ -125,7 +128,8 @@ export class CursosListaComponent implements OnInit {
         }
       );
   }
-
+/*/
+/*/
   onConfirmDelete() {
     this.deletebsmodalRef.hide();
     this.cursoService.praVala(this.selectedCourse.id).subscribe(
@@ -142,7 +146,7 @@ export class CursosListaComponent implements OnInit {
     );
     //  this.deletebsmodalRef = this.modalService.show(this.deleteModal, {class: 'modal-sm'});
   }
-
+/*/
   onDeclineDelete() {
     this.deletebsmodalRef.hide();
   }
