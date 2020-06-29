@@ -18,7 +18,8 @@ export class CursosService {
     private modal: AlertModalService,
     private router: Router,
   ) { }
-  list() {
+/*/  list() {
+    console.log(this.API_CURSOS);
     return this.htpp.get<Curso[]>(this.API_CURSOS)
       .pipe(
         delay(1000),
@@ -120,8 +121,6 @@ export class CursosService {
   }
 
 
-
-
-
+/*/
 
 }
