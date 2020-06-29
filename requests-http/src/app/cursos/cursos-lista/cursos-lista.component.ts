@@ -1,3 +1,4 @@
+import { Cursos2Service } from './../cursos2.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertModalService } from './../../shared/alert-modal.service';
@@ -29,7 +30,7 @@ export class CursosListaComponent implements OnInit {
 
   selectedCourse: Curso;
 
-  constructor(private cursoService: CursosService,
+  constructor(private cursoService: Cursos2Service,
     private modalService: BsModalService,
     private alertModalService: AlertModalService,
     private router: Router,
