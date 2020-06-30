@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UnsubscribeRxjsModule } from './unsubscribe-rxjs/unsubscribe-rxjs.module';
 import { SharedModule } from './shared/shared.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { UploadFileModule } from './upload-file/upload-file.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     HttpClientModule,
     UnsubscribeRxjsModule,
     SharedModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    UploadFileModule
   ],
   providers: [],
   bootstrap: [AppComponent]
