@@ -1,5 +1,21 @@
 <Div style="margin-top: 20px;">
   <div class="custom-file">
-    <input type="file" class="custom-file-input" id="customFileLangHTML" (change)="onchange($event)" multiple  >
-    <label class="custom-file-label" for="customFileLangHTML" data-browse="selecinar arquivo" id ="customFileLabel" >Pega arquivo</label>
-  </div></Div>
+    <input
+      type="file"
+      class="custom-file-input"
+      id="customFileLangHTML"
+      (change)="onchange($event)"
+      multiple
+    />
+    <label
+      class="custom-file-label"
+      for="customFileLangHTML"
+      data-browse="Pegar"
+      id="customFileLabel"
+      >Pega arquivo</label
+    >
+  </div>
+</Div>
+<Div style="margin-top: 20px;">
+  <button type="button" class="btn btn-primary" (click)="onUpload()" [disabled] = "!files" > Uppar </button>
+</Div>
