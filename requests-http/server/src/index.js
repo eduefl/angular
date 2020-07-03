@@ -16,14 +16,19 @@ const corsOptions = {
 } ;
 
 app.use(cors(corsOptions));
-const  multipartyMiddleware = multiparty({uploadDir: './uploads'})
+const  multipartyMiddleware = multiparty({uploadDir: './uploads'});
 app.post('/upload', multipartyMiddleware, (req, res ) =>{
   const files = req.files;
+  console.log(req);
+  console.log('req.file');
   console.log(files);
+
   res.json({message: files});
+  console.log(req.files);
+
 });
 
-app.use((err, req, next ) => res.json({Erro: err.message}));
+app.use((err, req, res, next ) => res.json({Erro: err.message}));
 
 app.listen(8000,()=>{
   console.log('server iniciado na porta 8000');
