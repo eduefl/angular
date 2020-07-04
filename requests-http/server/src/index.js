@@ -2,12 +2,13 @@ const express = require('express') ;
 const cors = require('cors') ;
 const bodyparser = require('body-parser') ;
 const multiparty = require('connect-multiparty') ;
+var multer  = require('multer')
 
-
+const fileupload = require("express-fileupload");
 
 const app  = express() ;
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({extended: true}));
+//app.use(fileupload());
+
 
 const corsOptions = {
   origin: '*',
@@ -16,19 +17,29 @@ const corsOptions = {
 } ;
 
 app.use(cors(corsOptions));
-const  multipartyMiddleware = multiparty({uploadDir: './uploads'});
-app.post('/upload', multipartyMiddleware, (req, res ) =>{
+//const  multipartyMiddleware = multiparty({uploadDir: './uploads'})
+
+var storage = multer.diskStorage(
+  {
+      destination: './uploads/',
+      filename: function ( req, file, cb ) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+          cb( null, uniqueSuffix + '-'+ file.originalname );
+      }
+  }
+);
+//const upload = multer({ dest: './uploads' })
+var upload = multer( { storage: storage } );
+//app.use(bodyparser.json());
+//app.use(bodyparser.urlencoded({extended: false}));
+app.post('/upload', upload.any(), (req, res ) =>{
   const files = req.files;
-  console.log(req);
-  console.log('req.file');
+  console.log(res.body);
   console.log(files);
-
   res.json({message: files});
-  console.log(req.files);
-
 });
 
-app.use((err, req, res, next ) => res.json({Erro: err.message}));
+app.use((err, req, next ) => res.json({Erro: err.message}));
 
 app.listen(8000,()=>{
   console.log('server iniciado na porta 8000');
