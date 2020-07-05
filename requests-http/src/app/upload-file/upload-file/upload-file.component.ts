@@ -1,18 +1,42 @@
+import { Subscription } from 'rxjs';
 import { UploadFileService } from './../upload-file.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
   styleUrls: ['./upload-file.component.scss']
 })
-export class UploadFileComponent implements OnInit {
+export class UploadFileComponent implements OnInit, OnDestroy {
 
   files: Set<File>;
+  sub: Subscription[] = []; // to work with several subscriptions
+
 
   constructor(private uploadFileService: UploadFileService) { }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+  /*/  this.sub.forEach(s => {
+      console.log(s);
+      console.log('desinscreveu');
+      s.unsubscribe();
+    });
+    /*/
+    this.desinscreve();
+
+  }
+
+  private desinscreve(){
+    this.sub.forEach(s => {
+      console.log(s);
+      console.log('desinscreveu');
+      s.unsubscribe();
+    });
+
+    this.sub = [];
   }
 
   onchange(event) {
@@ -32,15 +56,15 @@ export class UploadFileComponent implements OnInit {
     document.getElementById('customFileLabel').innerHTML = fileNames.join('|');
 
   }
-  onUpload()
-  {
-    if(this.files && this.files.size > 0){
+  onUpload() {
+    this.desinscreve();
+    if (this.files && this.files.size > 0) {
       console.log(this.files);
 
-      this.uploadFileService.upload(this.files,'http://localhost:8000/upload')
-        .subscribe(response=> {console.log('upload concluido');
-        console.log(response);}
-        );
+      this.sub.push(this.uploadFileService.upload(this.files, 'http://localhost:8000/upload')
+        .subscribe(response => {console.log('upload concluido');
+        console.log(response); }
+        ));
 
     }
 
