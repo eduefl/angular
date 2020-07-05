@@ -15,7 +15,26 @@
       >Pega arquivo</label
     >
   </div>
+  <div class="progress" style="color:rgb(0, 255, 76); text-align: center;" >
+    <div
+      class="progress-bar-animated progress-bar-striped bg-danger"
+      role="progressbar"
+      [style.width]="ordemEProgresso"
+      aria-valuenow= "ordemEProgresso"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    >
+      {{ ordemEProgresso }}
+    </div>
+  </div>
 </Div>
 <Div style="margin-top: 20px;">
-  <button type="button" class="btn btn-primary" (click)="onUpload()" [disabled] = "!files" > Uppar </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="onUpload()"
+    [disabled]="!files"
+  >
+    Uppar
+  </button>
 </Div>
