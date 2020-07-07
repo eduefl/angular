@@ -15,12 +15,19 @@
       >Pega arquivo</label
     >
   </div>
-  <div class="progress" style="color:rgb(0, 255, 76); text-align: center;" >
+  <div
+    class="progress"
+    style="color: rgb(0, 255, 76); text-align: center;"
+    *ngIf="lLoad"
+  >
     <div
-      class="progress-bar-animated progress-bar-striped bg-danger"
+      [ngClass]="{
+        'progress-bar progress-bar-striped bg-warning progress-bar-animated':  vProgress(1),
+        'progress-bar bg-success':  vProgress(2)
+      }"
       role="progressbar"
       [style.width]="ordemEProgresso"
-      aria-valuenow= "ordemEProgresso"
+      aria-valuenow="ordemEProgresso"
       aria-valuemin="0"
       aria-valuemax="100"
     >
