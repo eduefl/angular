@@ -1,3 +1,8 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
+
 <Div style="margin-top: 20px;">
   <div class="custom-file">
     <input
@@ -17,10 +22,11 @@
   </div>
   <div
     class="progress"
-    style="color: rgb(0, 255, 76); text-align: center;"
+    style="color: rgb(195, 0, 255); text-align: center;"
     *ngIf="lLoad"
   >
     <div
+      style="color: rgb(0, 38, 255);"
       [ngClass]="{
         'progress-bar progress-bar-striped bg-warning progress-bar-animated':  vProgress(1),
         'progress-bar bg-success':  vProgress(2)
@@ -34,7 +40,11 @@
       {{ ordemEProgresso }}
     </div>
   </div>
+  <div style="margin-top: 7px; height: 30px; line-height:0px; "  class="alert alert-success" role="alert" *ngIf="lSucesso" >
+    <i class="fa fa-hand-peace-o"></i>   Carregado com sucesso !
+  </div>
 </Div>
+
 <Div style="margin-top: 20px;">
   <button
     type="button"

@@ -17,6 +17,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   ordemEProgresso = '0';
   aLogs = [];
   lLoad = false;
+  lSucesso = false;
 
 
   constructor(private uploadFileService: UploadFileService) { }
@@ -79,8 +80,9 @@ export class UploadFileComponent implements OnInit, OnDestroy {
           if (event.type === HttpEventType.Response) {
             console.log('upload concluido');
             console.log(this.aLogs);
-
+            this.lSucesso = true;
             setTimeout(() => { this.lLoad = false; }, 5000);
+            setTimeout(() => { this.lSucesso = false; }, 5250);
           } else if (event.type === HttpEventType.UploadProgress) {
             const percent = Math.round((event.loaded * 100) / event.total);
             this.ordemEProgresso = percent + '%';
