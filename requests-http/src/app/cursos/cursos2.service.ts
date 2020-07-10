@@ -23,8 +23,8 @@ export class Cursos2Service extends CrudService<Curso> {
   }
 
   loadById(id) {
-    // so um exemplo de sobreposicao porque sim 
-    console.log('ta voltando esse metodo e nao o outroz')
+    // so um exemplo de sobreposicao porque sim
+    console.log('ta voltando esse metodo e nao o outroz');
     return this.htpp.get<Curso>(`${this.API_URL}/${id}`).pipe(take(1));
 
 

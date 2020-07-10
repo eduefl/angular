@@ -15,9 +15,21 @@ content-type: application/json
 ###
 PUT http://localhost:3000/cursos/5 HTTP/1.1
 content-type: application/json
-
   {
     "nome": "PORTINARI"
   }
 ###
-DELETE http://localhost:3000/cursos/5 HTTP/1.1
+DELETE http://localhost:3000/cursos/7 HTTP/1.1
+###
+
+POST http://localhost:3000/files HTTP/1.1
+content-type: application/json
+
+ [ {
+    "originalname": "junior",
+    "filename": "1594379088014-239732968-Max Payne 3 - Invadindo a favela!.mp4"
+  },
+  {
+    "originalname": "my",
+    "filename": "aloha"
+  }]
