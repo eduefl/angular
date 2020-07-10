@@ -32,7 +32,7 @@ export class PocUnsubComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub.forEach(s=> s.unsubscribe());
+    this.sub.forEach(s => s.unsubscribe());
     console.log(this.nome, 'foi destruido' );
     alert(this.nome + ' foi destruido');
 
