@@ -1,10 +1,10 @@
 import { AlertModalService } from './../../shared/alert-modal.service';
 import { environment } from './../../../environments/environment';
-import { Subscription, of, EMPTY, Subject } from 'rxjs';
+import { Subscription, EMPTY, Subject, Observable } from 'rxjs';
 import { UploadFileService } from './../upload-file.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpEventType, HttpEvent, HttpClient } from '@angular/common/http';
-import { delay, tap, flatMap, map, take } from 'rxjs/operators';
+import { take, catchError } from 'rxjs/operators';
 import { Registro } from '../registro';
 
 @Component({
@@ -14,6 +14,8 @@ import { Registro } from '../registro';
 })
 export class UploadFileComponent implements OnInit, OnDestroy {
   private readonly API_FILES = `${environment.API}files`;
+  error$ = new Subject<boolean>();
+  obRegistro$: Observable<Registro[]>;
 
   reg: Registro;
   areg: Registro[] = [];
@@ -34,7 +36,10 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.onRefresh();
   }
+
+
 
   ngOnDestroy() {
     /*/  this.sub.forEach(s => {
@@ -80,8 +85,21 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     this.ordemEProgresso = '0';
 
   }
+  onRefresh() {
+    this.obRegistro$ = this.uploadFileService.list()
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          this.error$.next(true);
+          this.alertModalService.showAllertDanger('erro ao carregar os dados');
+          return EMPTY;
+        })
+      );
+  }
+
   onUpload() {
     // Checkar https://stackoverflow.com/questions/57868537/post-collection-of-objects-in-json-server
+    this.areg = [];
     this.ordemEProgresso = '0';
     this.lLoad = true;
     this.desinscreve();
@@ -92,7 +110,6 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       this.sub.push(this.uploadFileService.upload(this.files, environment.BASE_URL + '/upload')
         .subscribe((event: HttpEvent<Object>) => {
           // HttpEventType
-
           // console.log(event);
           if (event.type === HttpEventType.Response) {
             console.log('upload concluido');
@@ -112,18 +129,19 @@ export class UploadFileComponent implements OnInit, OnDestroy {
             );
             console.log(this.areg);
             this.areg.forEach((reg) => {
-            // this.reg.file = event.body['message'][0].filename;
-            this.create(reg).subscribe(
-              () => {
-                console.log('Incluido com sucesso');
+              // this.reg.file = event.body['message'][0].filename;
+              this.create(reg).subscribe(
+                () => {
+                  console.log('Incluido com sucesso');
+                  this.onRefresh();
 
-              },
-              () => this.alertModalService.showAllertDanger('Erro ao registrar arquivo'),
-              () => console.log('arquivo registrado')
+
+                },
+                () => this.alertModalService.showAllertDanger('Erro ao registrar arquivo'),
+                () => console.log('arquivo registrado')
+              );
+            }
             );
-
-
-            });
             console.log(this.aLogs);
             this.lSucesso = true;
             setTimeout(() => { this.lLoad = false; }, this.nTimeOutBar);
@@ -145,6 +163,10 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     }
 
   }
+
+
+
+
 
   private unpercent(porcentagen) {
     return Number(porcentagen.replace('%', ''));
