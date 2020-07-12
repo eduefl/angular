@@ -1,3 +1,7 @@
+import {  tap } from 'rxjs/operators';
+import { AlertModalService } from './../shared/alert-modal.service';
+import { environment } from './../../environments/environment';
+import { Registro } from './registro';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -5,8 +9,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class UploadFileService {
+  private readonly API_FILES = `${environment.API}files`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private alertModalService: AlertModalService
+    ) { }
 
   upload(files: Set<File>, url: string)  {
 
@@ -24,4 +31,16 @@ export class UploadFileService {
     });
 
   }
+
+
+
+  list() {
+    console.log(this.API_FILES);
+    return this.http.get<Registro[]>(this.API_FILES)
+      .pipe(
+        tap(console.log)
+      );
+
+  }
+
 }
