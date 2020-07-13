@@ -6,6 +6,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpEventType, HttpEvent, HttpClient } from '@angular/common/http';
 import { take, catchError, delay } from 'rxjs/operators';
 import { Registro } from '../registro';
+import { filterResponse, uploadProgress } from 'src/app/shared/rxjs-operators';
 
 @Component({
   selector: 'app-upload-file',
@@ -89,12 +90,12 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     this.obRegistro$ = this.uploadFileService.list()
       .pipe(
         delay(ndelay),
-    catchError(error => {
-      console.error(error);
-      this.error$.next(true);
-      this.alertModalService.showAllertDanger('erro ao carregar os dados');
-      return EMPTY;
-    })
+        catchError(error => {
+          console.error(error);
+          this.error$.next(true);
+          this.alertModalService.showAllertDanger('erro ao carregar os dados');
+          return EMPTY;
+        })
       );
   }
 
@@ -105,21 +106,32 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     this.lLoad = true;
     this.desinscreve();
     this.aLogs = [];
+//    let percent = 0;
     if (this.files && this.files.size > 0) {
       console.log(this.files);
 
       this.sub.push(this.uploadFileService.upload(this.files, environment.BASE_URL + '/upload')
-        .subscribe((event: HttpEvent<Object>) => {
-          if (event.type === HttpEventType.Response) {
-            // console.log(event.body.message[0]);
-            this.terminateUpload(event.body['message']);
-          } else if (event.type === HttpEventType.UploadProgress) {
-            const percent = Math.round((event.loaded * 100) / event.total);
-            this.ordemEProgresso = percent + '%';
+        .pipe(
+          uploadProgress(progress => {
+            // console.log (progress);
+            // percent = progress;
+            this.ordemEProgresso = progress + '%';
             this.aLogs.push('progresso ' + this.ordemEProgresso);
-          }
-        }
-        ));
+          }),
+          filterResponse()
+        )
+        .subscribe(response => this.terminateUpload(response['message'])));
+      // .subscribe((event: HttpEvent<Object>) => {
+      //   if (event.type === HttpEventType.Response) {
+      //     // console.log(event.body.message[0]);
+      //     this.terminateUpload(event.body['message']);
+      //   } else if (event.type === HttpEventType.UploadProgress) {
+      //      percent = Math.round((event.loaded * 100) / event.total);
+      //     this.ordemEProgresso = percent + '%';
+      //     this.aLogs.push('progresso ' + this.ordemEProgresso);
+      //   }
+      // }
+      // ));
 
     }
 
@@ -140,7 +152,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     }
     );
     console.log(this.areg);
-    this.areg.forEach((reg, n) => { //inclui na lista de arquivos gravados
+    this.areg.forEach((reg, n) => { // inclui na lista de arquivos gravados
       // this.reg.file = event.body['message'][0].filename;
       this.create(reg).subscribe(
         () => {
