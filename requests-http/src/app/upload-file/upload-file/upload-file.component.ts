@@ -4,7 +4,7 @@ import { Subscription, EMPTY, Subject, Observable } from 'rxjs';
 import { UploadFileService } from './../upload-file.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpEventType, HttpEvent, HttpClient } from '@angular/common/http';
-import { take, catchError } from 'rxjs/operators';
+import { take, catchError, delay } from 'rxjs/operators';
 import { Registro } from '../registro';
 
 @Component({
@@ -85,15 +85,16 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     this.ordemEProgresso = '0';
 
   }
-  onRefresh() {
+  onRefresh(ndelay = 0) {
     this.obRegistro$ = this.uploadFileService.list()
       .pipe(
-        catchError(error => {
-          console.error(error);
-          this.error$.next(true);
-          this.alertModalService.showAllertDanger('erro ao carregar os dados');
-          return EMPTY;
-        })
+        delay(ndelay),
+    catchError(error => {
+      console.error(error);
+      this.error$.next(true);
+      this.alertModalService.showAllertDanger('erro ao carregar os dados');
+      return EMPTY;
+    })
       );
   }
 
@@ -109,39 +110,45 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
       this.sub.push(this.uploadFileService.upload(this.files, environment.BASE_URL + '/upload')
         .subscribe((event: HttpEvent<Object>) => {
-          // HttpEventType
-          // console.log(event);
           if (event.type === HttpEventType.Response) {
-            console.log('upload concluido');
             // console.log(event.body.message[0]);
-            console.log(event.body['message'][0].originalname);
-            console.log(event.body['message'][0].filename);
-            event.body['message'].forEach((message, n) => {
-              console.log(message);
-              console.log(n);
-              this.reg = {
-                id: null,
-                originalname: message.originalname,
-                filename: message.filename,
-              };
-              this.areg.push(this.reg);
-            }
-            );
-            console.log(this.areg);
-            this.areg.forEach((reg) => {
-              // this.reg.file = event.body['message'][0].filename;
-              this.create(reg).subscribe(
-                () => {
-                  console.log('Incluido com sucesso');
-                  this.onRefresh();
+            this.terminateUpload(event.body['message']);
+          } else if (event.type === HttpEventType.UploadProgress) {
+            const percent = Math.round((event.loaded * 100) / event.total);
+            this.ordemEProgresso = percent + '%';
+            this.aLogs.push('progresso ' + this.ordemEProgresso);
+          }
+        }
+        ));
+
+    }
+
+  }
 
 
-                },
-                () => this.alertModalService.showAllertDanger('Erro ao registrar arquivo'),
-                () => console.log('arquivo registrado')
-              );
-            }
-            );
+  private terminateUpload(evBody) {
+    console.log('upload concluido');
+    evBody.forEach((message, n) => { // monto a lista para gerar o registro
+      console.log(message);
+      console.log(n);
+      this.reg = {
+        id: null,
+        originalname: message.originalname,
+        filename: message.filename,
+      };
+      this.areg.push(this.reg);
+    }
+    );
+    console.log(this.areg);
+    this.areg.forEach((reg, n) => { //inclui na lista de arquivos gravados
+      // this.reg.file = event.body['message'][0].filename;
+      this.create(reg).subscribe(
+        () => {
+          console.log('Incluido com sucesso');
+          console.log(this.areg.length, n);
+          if (n === (this.areg.length - 1)) {
+            console.log('Atualizou');
+            this.onRefresh(100);
             console.log(this.aLogs);
             this.lSucesso = true;
             setTimeout(() => { this.lLoad = false; }, this.nTimeOutBar);
@@ -151,20 +158,15 @@ export class UploadFileComponent implements OnInit, OnDestroy {
               // tslint:disable-next-line: max-line-length
               , 'https://w7.pngwing.com/pngs/574/549/png-transparent-computer-icons-peace-symbols-v-sign-symbol-miscellaneous-text-hand-thumbnail.png'
               , 'Load');
-          } else if (event.type === HttpEventType.UploadProgress) {
-            const percent = Math.round((event.loaded * 100) / event.total);
-            this.ordemEProgresso = percent + '%';
-            this.aLogs.push('progresso ' + this.ordemEProgresso);
           }
-
-        }
-        ));
-
+        },
+        () => this.alertModalService.showAllertDanger('Erro ao registrar arquivo'),
+        () => console.log('arquivo registrado')
+      );
     }
+    );
 
   }
-
-
 
 
 

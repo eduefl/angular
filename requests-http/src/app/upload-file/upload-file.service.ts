@@ -34,6 +34,7 @@ export class UploadFileService {
 
 
 
+
   list() {
     console.log(this.API_FILES);
     return this.http.get<Registro[]>(this.API_FILES)
