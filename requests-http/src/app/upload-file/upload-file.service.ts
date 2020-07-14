@@ -1,4 +1,4 @@
-import {  tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { AlertModalService } from './../shared/alert-modal.service';
 import { environment } from './../../environments/environment';
 import { Registro } from './registro';
@@ -13,9 +13,9 @@ export class UploadFileService {
 
   constructor(private http: HttpClient,
     private alertModalService: AlertModalService
-    ) { }
+  ) { }
 
-  upload(files: Set<File>, url: string)  {
+  upload(files: Set<File>, url: string) {
 
     const formData = new FormData();
 
@@ -33,7 +33,14 @@ export class UploadFileService {
   }
 
 
+  dowload(url: string) {
+    return this.http.get(url, {
+      responseType: 'blob' as 'json',
 
+      // reportProgress
+    })
+
+  }
 
   list() {
     console.log(this.API_FILES);
@@ -41,6 +48,44 @@ export class UploadFileService {
       .pipe(
         tap(console.log)
       );
+
+  }
+
+  handleFile(res: any, fileName: string) {
+    const file = new Blob([res],
+      {
+        type: res.type
+      });
+
+    // IE
+
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveOrOpenBlob(file)
+      return;
+    }
+
+    const blob = window.URL.createObjectURL(file);
+
+    const link = document.createElement('a');
+
+    link.href = blob;
+
+    link.download = fileName;
+
+    // link.click(); do not works on firefox
+    link.dispatchEvent(new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window
+    }));
+    // timeout for firefox
+    setTimeout(() => {
+      window.URL.revokeObjectURL(blob);
+
+      link.remove();
+
+    }, 100);
+
 
   }
 

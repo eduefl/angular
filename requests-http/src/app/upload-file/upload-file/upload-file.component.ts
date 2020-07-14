@@ -99,6 +99,21 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       );
   }
 
+  onDowloadExcel() {
+    this.uploadFileService.dowload(environment.BASE_URL + '/dowloadExcel?color1=red&color2=blue').
+      subscribe((res: any) => {
+        this.uploadFileService.handleFile(res, 'toString.xlsx');
+      });
+
+  }
+
+  onDowloadPdf() {
+    this.uploadFileService.dowload(environment.BASE_URL + '/dowloadPDF?color1=PDF1&color2=blue').
+      subscribe((res: any) => {
+        this.uploadFileService.handleFile(res, 'TESTE.PDF')
+      });
+
+  }
   onUpload() {
     // Checkar https://stackoverflow.com/questions/57868537/post-collection-of-objects-in-json-server
     this.areg = [];
@@ -106,7 +121,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     this.lLoad = true;
     this.desinscreve();
     this.aLogs = [];
-//    let percent = 0;
+    //    let percent = 0;
     if (this.files && this.files.size > 0) {
       console.log(this.files);
 

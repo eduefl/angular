@@ -39,7 +39,19 @@ app.post('/upload', upload.any(), (req, res ) =>{
   res.json({message: files});
 });
 
+app.get('/dowloadExcel',(req,res)=>{
+  console.log(req.query.color1);
+  //console.log(res);
+  res.download('./uploads/1594560932530-307007592-LEGACY TABLES RUSSIA.xlsx');
+
+});
+
+app.get('/dowloadPDF',(req,res)=>{
+  res.download('./uploads/1594736932440-409088621-FERREIRA LIMA EDUARDO MR 18JAN2019 GRU.PDF');
+});
+
 app.use((err, req, next ) => res.json({Erro: err.message}));
+
 
 app.listen(8000,()=>{
   console.log('server iniciado na porta 8000');
