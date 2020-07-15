@@ -88,7 +88,7 @@
       </tr>
     </thead>
     <tbody style="background-color: #FFAC1B; color: #5861B7;">
-      <tr *ngFor="let registro of registros">
+      <tr *ngFor="let registro of registros" (dblclick)="baixa(registro.filename,registro.originalname)">
         <th scope="row">{{ registro.originalname }}</th>
         <td>{{ registro.filename }}</td>
       </tr>

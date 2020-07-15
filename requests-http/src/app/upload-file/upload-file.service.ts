@@ -38,7 +38,7 @@ export class UploadFileService {
       responseType: 'blob' as 'json',
 
       // reportProgress
-    })
+    });
 
   }
 
@@ -60,7 +60,7 @@ export class UploadFileService {
     // IE
 
     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-      window.navigator.msSaveOrOpenBlob(file)
+      window.navigator.msSaveOrOpenBlob(file);
       return;
     }
 

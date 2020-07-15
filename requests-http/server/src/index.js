@@ -40,11 +40,17 @@ app.post('/upload', upload.any(), (req, res ) =>{
 });
 
 app.get('/dowloadExcel',(req,res)=>{
-  console.log(req.query.color1);
+  console.log(req.query.color1); // an exemple how to use param queryes
   //console.log(res);
   res.download('./uploads/1594560932530-307007592-LEGACY TABLES RUSSIA.xlsx');
-
 });
+
+app.get('/dowloadFile',(req,res)=>{
+  console.log(req.query.file1); //to see the file name
+  //console.log(res);
+  res.download('./uploads/'+req.query.file1);
+});
+
 
 app.get('/dowloadPDF',(req,res)=>{
   res.download('./uploads/1594736932440-409088621-FERREIRA LIMA EDUARDO MR 18JAN2019 GRU.PDF');

@@ -99,6 +99,28 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       );
   }
 
+  baixa(filename, originalname) {
+
+    const result = this.alertModalService.showConfirm(
+      'Deseja baixar o arquivo ' + originalname, 'Dowload file' + originalname, 'Baixar', 'Cancelar', true, true);
+    result.subscribe(lConf => {
+      if (lConf) {
+        this.Efctbaixa(filename, originalname);
+      }
+      result.unsubscribe();
+    });
+    return;
+  }
+
+  private Efctbaixa(filename, originalname) {
+    this.uploadFileService.dowload(environment.BASE_URL + '/dowloadFile?file1=' + filename).
+      subscribe((res: any) => {
+        this.uploadFileService.handleFile(res, originalname);
+      });
+  }
+
+
+
   onDowloadExcel() {
     this.uploadFileService.dowload(environment.BASE_URL + '/dowloadExcel?color1=red&color2=blue').
       subscribe((res: any) => {
@@ -110,7 +132,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   onDowloadPdf() {
     this.uploadFileService.dowload(environment.BASE_URL + '/dowloadPDF?color1=PDF1&color2=blue').
       subscribe((res: any) => {
-        this.uploadFileService.handleFile(res, 'TESTE.PDF')
+        this.uploadFileService.handleFile(res, 'TESTE.PDF');
       });
 
   }
