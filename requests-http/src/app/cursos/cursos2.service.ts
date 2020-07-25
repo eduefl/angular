@@ -17,7 +17,7 @@ export class Cursos2Service extends CrudService<Curso> {
     protected alertModalService: AlertModalService,
     protected modal: AlertModalService,
     protected router: Router,
-      ) {
+  ) {
 
     super(htpp, `${environment.API}cursos`, alertModalService, modal, router);
   }
@@ -29,6 +29,10 @@ export class Cursos2Service extends CrudService<Curso> {
 
 
 
+  }
+
+  inicioCursos() {
+    this.router.navigate(['/cursos']);
   }
 
 

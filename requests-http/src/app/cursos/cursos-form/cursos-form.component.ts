@@ -140,7 +140,7 @@ export class CursosFormComponent implements OnInit {
 
       // console.log(this.route.snapshot.url[0].path);
       this.service.salve(this.form.value, this.route.snapshot.url[0].path, msgSuccess, msgErro, !this.add,
-        ModMsg, ModTitle, modBtnOk, modBtnCanc );
+        ModMsg, ModTitle, modBtnOk, modBtnCanc, null, null, 'cursos' );
       /*/
     if (this.add) {
       this.service.create(this.form.value).subscribe(
@@ -177,14 +177,16 @@ export class CursosFormComponent implements OnInit {
     }
   }
 
-  onOK() {
-    this.router.navigate(['/']);
-  }
+  // onOK() {
+  //   this.service.inicioCursos();
+  //   // this.router.navigate(['/']);
+  // }
 
   onCancel() {
     this.submited = false;
     if (this.edit || this.delete) {
-      this.router.navigate(['/']);
+      this.service.inicioCursos();
+      // this.router.navigate(['/']);
     } else {
       this.form.reset();
     }
