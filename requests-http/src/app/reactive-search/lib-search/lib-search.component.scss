@@ -1,0 +1,27 @@
+.search-table{
+  padding: 10%;
+  margin-top: -6%;
+}
+.search-box{
+  background: darkorange;
+  border: 1px solid #151e69;
+  padding: 3%;
+}
+.search-box input:focus{
+  box-shadow:none;
+  border:2px solid #eeeeee;
+}
+.search-list{
+  background: #000000;
+
+  border: 1px solid #ababab;
+  border-top: none;
+  border-bottom: none;
+
+}
+.search-list h3{
+  color: #151e69;
+  background:yellow;
+  padding: 3%;
+  margin-bottom: 0%;
+}
