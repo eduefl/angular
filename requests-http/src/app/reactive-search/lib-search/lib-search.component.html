@@ -1,3 +1,6 @@
+<!-- https://bootsnipp.com/snippets/Q0eE1   -->
+<!-- https://api.cdnjs.com/libraries?fields=name,filename,version,description,homepage&search=angular   -->
+
 <div class="container search-table">
   <div class="search-box">
     <div class="row">
@@ -16,18 +19,19 @@
     </div>
   </div>
   <div class="search-list">
-    <h3>303 Records Found</h3>
-    <table class="table" id="myTable">
-      <thead style="color: chartreuse; background: #000000;">
+    <h3 *ngIf="total === 1" >{{ total }} Registro encontrado </h3>
+    <h3 *ngIf="total > 1" >{{ total }} Registros encontrados </h3>
+    <table class="table" id="myTable" >
+      <thead *ngIf="total > 0"  style="color: chartreuse; background: #000000;">
         <tr>
-          <th>Title</th>
-          <th>Category</th>
+          <th>Nome</th>
+          <th>Versao</th>
         </tr>
       </thead>
       <tbody style="color: midnightblue; background: darkturquoise;">
-        <tr>
-          <td>HTML</td>
-          <td>Web Development</td>
+        <tr *ngFor="let result of results$ | async"  >
+          <td>{{ result.name }}</td>
+          <td>{{ result.version }}</td>
         </tr>
       </tbody>
     </table>
