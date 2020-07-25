@@ -18,6 +18,9 @@ export class CursosService {
     private modal: AlertModalService,
     private router: Router,
   ) { }
+
+
+
 /*/  list() {
     console.log(this.API_CURSOS);
     return this.htpp.get<Curso[]>(this.API_CURSOS)
