@@ -28,8 +28,10 @@
     <div
       style="color: rgb(0, 38, 255);"
       [ngClass]="{
-        'progress-bar progress-bar-striped bg-warning progress-bar-animated':  vProgress(1),
-        'progress-bar bg-success':  vProgress(2)
+        'progress-bar progress-bar-striped bg-warning progress-bar-animated': vProgress(
+          1
+        ),
+        'progress-bar bg-success': vProgress(2)
       }"
       role="progressbar"
       [style.width]="ordemEProgresso"
@@ -40,8 +42,13 @@
       {{ ordemEProgresso }}
     </div>
   </div>
-  <div style="margin-top: 7px; height: 30px; line-height:0px; "  class="alert alert-success" role="alert" *ngIf="lSucesso" >
-    <i class="fa fa-hand-peace-o"></i>   Carregado com sucesso !
+  <div
+    style="margin-top: 7px; height: 30px; line-height: 0px;"
+    class="alert alert-success"
+    role="alert"
+    *ngIf="lSucesso"
+  >
+    <i class="fa fa-hand-peace-o"></i> Carregado com sucesso !
   </div>
 </Div>
 
@@ -57,22 +64,25 @@
 </Div>
 
 <Div style="margin-top: 20px;">
-  <button
-    type="button"
-    class="btn btn-primary"
-    (click)="onDowloadExcel()"
-  >
-    tST eXCEL
-  </button>
-  <button
-    type="button"
-    class="btn btn-primary"
-    (click)="onDowloadPdf()"
-  >
-    tST PDF
-  </button>
-</Div>
-
+  <div class="container search-table">
+    <div class="search-box">
+      <div class="row">
+        <div class="col-md-9">
+          <input
+            type="text"
+            id="myInput"
+            class="form-control"
+            [formControl] = 'queryField'
+            placeholder="Pesquisar Libs"
+          />
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-lg btn-success" (click)="onSearch()"  >Pesquisar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </Div>
 
 <div class="card-body">
   <table
@@ -87,8 +97,11 @@
         <!--th scope="col"></!--th!-->
       </tr>
     </thead>
-    <tbody style="background-color: #FFAC1B; color: #5861B7;">
-      <tr *ngFor="let registro of registros" (dblclick)="baixa(registro.filename,registro.originalname)">
+    <tbody style="background-color: #ffac1b; color: #5861b7;">
+      <tr
+        *ngFor="let registro of registros"
+        (dblclick)="baixa(registro.filename, registro.originalname)"
+      >
         <th scope="row">{{ registro.originalname }}</th>
         <td>{{ registro.filename }}</td>
       </tr>
@@ -97,9 +110,7 @@
 </div>
 
 <ng-template #loading_Error>
-  <div *ngIf="error$ | async; else loadingNoError">
-
-  </div>
+  <div *ngIf="error$ | async; else loadingNoError"></div>
   <ng-template #loadingNoError>
     <div class="spinner-grow text-primary" role="status">
       <span class="sr-only">Loading...</span>
@@ -128,4 +139,3 @@
     <span class="blinking"><h4>Carregando arquivos ...</h4></span>
   </ng-template>
 </ng-template>
-

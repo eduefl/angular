@@ -42,9 +42,15 @@ export class UploadFileService {
 
   }
 
-  list() {
-    console.log(this.API_FILES);
-    return this.http.get<Registro[]>(this.API_FILES)
+  list(cquery = null) {
+    let link = this.API_FILES
+    if (cquery!==null)
+    {
+      link= `${environment.API}${cquery}`
+    }
+
+    console.log(link);
+    return this.http.get<Registro[]>(link)
       .pipe(
         tap(console.log)
       );

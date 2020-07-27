@@ -7,6 +7,7 @@ import { HttpEventType, HttpEvent, HttpClient } from '@angular/common/http';
 import { take, catchError, delay } from 'rxjs/operators';
 import { Registro } from '../registro';
 import { filterResponse, uploadProgress } from 'src/app/shared/rxjs-operators';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-upload-file',
@@ -14,6 +15,8 @@ import { filterResponse, uploadProgress } from 'src/app/shared/rxjs-operators';
   styleUrls: ['./upload-file.component.scss']
 })
 export class UploadFileComponent implements OnInit, OnDestroy {
+
+  queryField = new FormControl();
   private readonly API_FILES = `${environment.API}files`;
   error$ = new Subject<boolean>();
   obRegistro$: Observable<Registro[]>;
@@ -86,8 +89,8 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     this.ordemEProgresso = '0';
 
   }
-  onRefresh(ndelay = 0) {
-    this.obRegistro$ = this.uploadFileService.list()
+  onRefresh(ndelay = 0, cquery = null) {
+    this.obRegistro$ = this.uploadFileService.list(cquery)
       .pipe(
         delay(ndelay),
         catchError(error => {
@@ -97,6 +100,14 @@ export class UploadFileComponent implements OnInit, OnDestroy {
           return EMPTY;
         })
       );
+  }
+
+  onSearch()
+  {
+    let value = this.queryField.value;
+
+    this.onRefresh(0, 'files?originalname_like=' + value);
+
   }
 
   baixa(filename, originalname) {
