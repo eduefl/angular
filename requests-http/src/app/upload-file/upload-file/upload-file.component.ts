@@ -31,6 +31,11 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   lSucesso = false;
   nTimeOutBar = 1000;
   nTimeOutDivSuc = 5250;
+  lUpSel = true;
+  lSeekSel = false;
+
+
+
 
 
 
@@ -41,6 +46,41 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.onRefresh();
+  }
+
+  cngTab(nOpc) {
+    if (nOpc === 1) {
+      this.lUpSel = true;
+      this.lSeekSel = false;
+    } else if (nOpc === 2) {
+      this.lUpSel = false;
+      this.lSeekSel = true;
+    }
+
+  }
+
+  chkPane(nOpc) {
+    {
+      if (nOpc === 1) {
+        if (this.lUpSel) { return 'tab-pane fade show active'; } else { return 'tab-pane fade'; }
+
+      } else if (nOpc === 2) {
+        if (this.lSeekSel) { return 'tab-pane fade show active'; } else { return 'tab-pane fade'; }
+
+      }
+
+    }
+
+  }
+  chkactive(nOpc) {
+    if (nOpc === 1) {
+      if (this.lUpSel) { return 'nav-link active'; } else { return 'nav-link'; }
+
+    } else if (nOpc === 2) {
+      if (this.lSeekSel) { return 'nav-link active'; } else { return 'nav-link'; }
+
+    }
+
   }
 
 
@@ -102,9 +142,8 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       );
   }
 
-  onSearch()
-  {
-    let value = this.queryField.value;
+  onSearch() {
+    const value = this.queryField.value;
 
     this.onRefresh(0, 'files?originalname_like=' + value);
 
