@@ -129,8 +129,8 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     this.ordemEProgresso = '0';
 
   }
-  onRefresh(ndelay = 0, cquery = null) {
-    this.obRegistro$ = this.uploadFileService.list(cquery)
+  onRefresh(ndelay = 0,  cValue = null) {
+    this.obRegistro$ = this.uploadFileService.list(cValue)
       .pipe(
         delay(ndelay),
         catchError(error => {
@@ -145,7 +145,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   onSearch() {
     const value = this.queryField.value;
 
-    this.onRefresh(0, 'files?originalname_like=' + value);
+    this.onRefresh(0,  value);
 
   }
 
