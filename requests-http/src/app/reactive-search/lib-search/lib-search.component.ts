@@ -31,6 +31,9 @@ export class LibSearchComponent implements OnInit {
         fields: fields
       };
 
+      // example of original query
+    // https://api.cdnjs.com/libraries?fields=name,filename,version,description,homepage&search=angular
+
       let params = new HttpParams();
       params = params.set('search', value);
       params = params.set('fields', fields);
@@ -38,12 +41,13 @@ export class LibSearchComponent implements OnInit {
 
 
       // this.results$ = this.http.get(this.SEARCH_URL,{ params: params } )
-       this.results$ = this.http.get(this.SEARCH_URL,{  params } )
+      console.log('LibSearchComponent -> onSearch -> params', params);
+       this.results$ = this.http.get(this.SEARCH_URL, {  params } )
       .pipe(
           tap((res: any) => this.total = res.total),
           map((res: any) => res.results)
         );
-      console.log("LibSearchComponent -> onSearch -> this.queryField.value", this.queryField.value)
+      console.log('LibSearchComponent -> onSearch -> this.queryField.value', this.queryField.value);
     }
   }
 

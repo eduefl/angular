@@ -2,7 +2,7 @@ import { tap } from 'rxjs/operators';
 import { AlertModalService } from './../shared/alert-modal.service';
 import { environment } from './../../environments/environment';
 import { Registro } from './registro';
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -42,15 +42,28 @@ export class UploadFileService {
 
   }
 
-  list(cquery = null) {
-    let link = this.API_FILES
-    if (cquery!==null)
+  list(cValue = null) {
+    // http://localhost:3000/
+
+
+    let params = new HttpParams();
+
+    if (cValue!==null)
     {
-      link= `${environment.API}${cquery}`
+      // link= `${link}${cquery}`
+      const params_ = {
+        originalname_like: cValue,
+      };
+      params = params.set('originalname_like', cValue);
+
     }
 
-    console.log(link);
-    return this.http.get<Registro[]>(link)
+    // example of original query
+    // http://localhost:3000/files?originalname_like=legacy
+
+    //console.log(link);
+    console.log("LibSearchComponent -> onSearch -> params", params)
+    return this.http.get<Registro[]>(this.API_FILES,{params})
       .pipe(
         tap(console.log)
       );
