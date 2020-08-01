@@ -65,7 +65,7 @@ export class UploadFileService {
     console.log("LibSearchComponent -> onSearch -> params", params)
     return this.http.get<Registro[]>(this.API_FILES,{params})
       .pipe(
-        tap(console.log)
+        //tap(console.log)
       );
 
   }

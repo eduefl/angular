@@ -33,3 +33,6 @@ content-type: application/json
     "originalname": "my",
     "filename": "aloha"
   }]
+
+
+GET http://localhost:3000/files?_page=1&_limit=1

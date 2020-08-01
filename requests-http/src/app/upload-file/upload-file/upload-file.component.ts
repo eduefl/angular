@@ -4,7 +4,7 @@ import { Subscription, EMPTY, Subject, Observable } from 'rxjs';
 import { UploadFileService } from './../upload-file.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpEventType, HttpEvent, HttpClient } from '@angular/common/http';
-import { take, catchError, delay } from 'rxjs/operators';
+import { take, catchError, delay, tap } from 'rxjs/operators';
 import { Registro } from '../registro';
 import { filterResponse, uploadProgress } from 'src/app/shared/rxjs-operators';
 import { FormControl } from '@angular/forms';
@@ -33,6 +33,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   nTimeOutDivSuc = 5250;
   lUpSel = true;
   lSeekSel = false;
+  nTotal = 0;
 
 
 
@@ -132,6 +133,8 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   onRefresh(ndelay = 0,  cValue = null) {
     this.obRegistro$ = this.uploadFileService.list(cValue)
       .pipe(
+        tap(v =>  this.nTotal =  v.length ),
+//        tap(console.log),
         delay(ndelay),
         catchError(error => {
           console.error(error);
@@ -140,6 +143,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
           return EMPTY;
         })
       );
+      // this.obRegistro$
   }
 
   onSearch() {
