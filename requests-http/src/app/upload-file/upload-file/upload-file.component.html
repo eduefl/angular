@@ -84,16 +84,6 @@
       </div>
     </Div>
 
-    <Div style="margin-top: 20px;">
-      <button
-        type="button"
-        class="btn btn-primary"
-        (click)="onUpload()"
-        [disabled]="!files"
-      >
-        Uppar
-      </button>
-    </Div>
   </div>
   <div
     [ngClass]="chkPane(2)"
@@ -101,21 +91,21 @@
     role="tabpanel"
     aria-labelledby="search-tab"
   >
-    <Div style="margin-top: 20px;">
-      <div class="container search-table">
+    <Div style="margin-top: 20px; margin-left: 0px;" >
+      <div class="container search-table" style="margin-left: 0px;">
         <div class="search-box">
           <div class="row">
             <div class="col-md-10">
-              <input
+              <input 
                 type="text"
                 id="myInput"
                 class="form-control"
                 [formControl]="queryField"
-                placeholder="Pesquisar Libs"
+                placeholder="Pesquisar Arquivos"
               />
             </div>
-            <div class="col-auto">
-              <button class="btn btn-lg btn-success" (click)="onSearch()">
+            <div class="col-md-2 clearfix" >
+              <button class="btn btn-lg btn-success pull-right" (click)="onSearch()">
                 Pesquisar
               </button>
             </div>
@@ -125,6 +115,23 @@
     </Div>
   </div>
 </div>
+
+<div class="row" style="margin-top: 20px;">
+  <div class="col-sm-8"> <DIV *ngIf="lUpSel"> <button
+    type="button"
+    class="btn btn-primary"
+    (click)="onUpload()"
+    [disabled]="!files"
+  >
+    Uppar
+  </button>
+</DIV>
+</div>
+  <div class="col-sm-4" style="text-align: right;">  <h3 *ngIf="nTotal === 1" >{{ nTotal }} Arquivo Listado </h3>
+    <h3 *ngIf="nTotal > 1" >{{ nTotal }} Arquivos Listados </h3>
+  </div>
+</div>
+
 
 <div class="card-body">
   <table
