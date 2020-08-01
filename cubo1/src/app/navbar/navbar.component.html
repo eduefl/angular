@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <div >
+        <span class="navbar-brand">Angular + Bootstrap</span>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active"><a class="nav-link" href="#">
+            Link <span class="sr-only">(current)</span>
+          </a></li>
+          <li><a class="nav-link" href="#">Link</a></li>
+          <li class="nav-item dropdown" nav-item dropdown> <!-- {1} -->
+              <a class="nav-link dropdown-toggle" dropdownToggle role="button"> <!-- {2} -->
+                Dropdown <span class="caret"></span></a>
+                <div *dropdownMenu class="dropdown-menu"> <!-- {3} -->
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Separated link</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#"> anoter Separated link</a>
+                </div>
+          </li>
+      </ul>
+  </div>
+</div>
+</nav>
+<button type="button" class="btn btn-primary"
+      tooltip="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+Button with tooltip
+</button>
+
+
+<button type="button" class="btn btn-info"
+      (click)="openModal(template)">Create template modal</button>
+
+<ng-template #template>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">Modal</h4>
+      <button type="button" class="close pull-right"
+              aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  <div class="modal-body">
+      This is a modal.
+  </div>
+</ng-template>
