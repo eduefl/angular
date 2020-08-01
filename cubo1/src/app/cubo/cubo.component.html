@@ -1,0 +1,12 @@
+<DIV class="pardao, justify-content-center align-items-center row">
+  <table class="b">
+    <tr *ngFor="let linha of aFace1; index as i">
+      <td
+        *ngFor="let coluna of aFace1[i]; index as j"
+        [style.background-color]="aFace1[i][j]"
+      >
+        {{ i }} / {{ j }}
+      </td>
+    </tr>
+  </table>
+</DIV>
