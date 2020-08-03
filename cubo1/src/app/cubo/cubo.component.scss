@@ -1,8 +1,8 @@
 .pardao {
-  margin-left: 20px; /* ?????? ????? */
-  padding: 10px; /* ???? ?????? ?????? */
-  margin-top: 10px; /* ?????? ????? */
-  margin-right: 20px; /* ?????? ????? */
+  margin-left: 20px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-right: 20px;
  }
 
  #externa {
@@ -22,8 +22,28 @@
 
 th,td {
   border: 4px solid black;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  color: sienna;
+
+}
+
+th.a,td.a {
+  border: 4px solid black;
   width: 80px;
   height: 80px;
+  text-align: center;
+  color: sienna;
+
+}
+
+th.b,td.b {
+  border: 4px solid black;
+  width: 180px;
+  height: 180px;
+  text-align: center;
+  color: sienna;
 
 }
 
@@ -39,8 +59,9 @@ table.b {
 }
 
 .table.c {
-  table-layout: auto;
-  width: 100%;
+  table-layout: fixed;
+  width: 80px;
+  height: 80px;
 }
 
 .table.d {

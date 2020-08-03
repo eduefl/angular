@@ -1,12 +1,89 @@
 <DIV class="pardao, justify-content-center align-items-center row">
+
+</DIV>
+
+<DIV class="pardao, justify-content-center align-items-center row">
   <table class="b">
-    <tr *ngFor="let linha of aFace1; index as i">
-      <td
-        *ngFor="let coluna of aFace1[i]; index as j"
-        [style.background-color]="aFace1[i][j]"
+    <tr class="a" *ngFor="let linha of aCubo[nSelect]; index as i">
+      <td class="a" (click)="move(i,j)"
+        *ngFor="let coluna of aCubo[nSelect]; index as j"
+        [style.background-color]="aCubo[nSelect][i][j]"
       >
         {{ i }} / {{ j }}
       </td>
     </tr>
   </table>
 </DIV>
+
+
+
+<br>
+<div class="container">
+  <div class="row">
+<DIV class="pardao">
+  <table>
+    <tr  class="width: 80px;" *ngFor="let linha of aFaceVis; index as i">
+      <td class="width: 80px;" (click)="move(i,j)"
+        *ngFor="let coluna of aCubo[getUp(nSelect)]; index as j"
+        [style.background-color]="aCubo[getUp(nSelect)][i][j]"
+      >
+        {{ i }} / {{ j }}
+      </td>
+    </tr>
+  </table>
+  <h3>CIMA</h3>
+</DIV>
+<DIV class="pardao">
+  <table>
+    <tr  class="width: 80px;" *ngFor="let linha of aFaceVis; index as i">
+      <td class="width: 80px;" (click)="move(i,j)"
+        *ngFor="let coluna of aCubo[getDown(nSelect)]; index as j"
+        [style.background-color]="aCubo[getDown(nSelect)][i][j]"
+      >
+        {{ i }} / {{ j }}
+      </td>
+    </tr>
+  </table>
+  <h3>Baixo</h3>
+</DIV>
+<DIV class="pardao">
+  <table>
+    <tr  class="width: 80px;" *ngFor="let linha of aFaceVis; index as i">
+      <td class="width: 80px;" (click)="move(i,j)"
+        *ngFor="let coluna of aCubo[getRight(nSelect)]; index as j"
+        [style.background-color]="aCubo[getRight(nSelect)][i][j]"
+      >
+        {{ i }} / {{ j }}
+      </td>
+    </tr>
+  </table>
+  <h3>Direita</h3>
+</DIV>
+<DIV class="pardao">
+  <table>
+    <tr  class="width: 80px;" *ngFor="let linha of aFaceVis; index as i">
+      <td class="width: 80px;" (click)="move(i,j)"
+        *ngFor="let coluna of aCubo[getLeft(nSelect)]; index as j"
+        [style.background-color]="aCubo[getLeft(nSelect)][i][j]"
+      >
+        {{ i }} / {{ j }}
+      </td>
+    </tr>
+  </table>
+  <h3>Esquerda</h3>
+</DIV>
+<DIV class="pardao">
+  <table>
+    <tr  class="width: 80px;" *ngFor="let linha of aFaceVis; index as i">
+      <td class="width: 80px;" (click)="move(i,j)"
+        *ngFor="let coluna of aCubo[getBack(nSelect)]; index as j"
+        [style.background-color]="aCubo[getBack(nSelect)][i][j]"
+      >
+        {{ i }} / {{ j }}
+      </td>
+    </tr>
+  </table>
+  <h3>Atraz</h3>
+</DIV>
+</div>
+</div>
