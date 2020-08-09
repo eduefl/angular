@@ -25,11 +25,11 @@ export class CuboComponent implements OnInit {
   static readonly _FACE_LARANJA = 4;
   static readonly _FACE_VERMELHO = 5;
 
-  static readonly _UP     = 0
-  static readonly _DOWN   = 1
-  static readonly _RIGHT  = 2
-  static readonly _LEFT   = 3
-  static readonly _BACK   = 4
+  static readonly _UP = 0
+  static readonly _DOWN = 1
+  static readonly _RIGHT = 2
+  static readonly _LEFT = 3
+  static readonly _BACK = 4
 
 
 
@@ -51,24 +51,19 @@ export class CuboComponent implements OnInit {
     this.aFaceVis = this.aCubo[this.nSelect]
 
   }
-  getUp(nSelect)
-  {
+  getUp(nSelect) {
     return this.aMapa[nSelect][CuboComponent._UP]
   }
-  getDown(nSelect)
-  {
+  getDown(nSelect) {
     return this.aMapa[nSelect][CuboComponent._DOWN]
   }
-  getRight(nSelect)
-  {
+  getRight(nSelect) {
     return this.aMapa[nSelect][CuboComponent._RIGHT]
   }
-  getLeft(nSelect)
-  {
+  getLeft(nSelect) {
     return this.aMapa[nSelect][CuboComponent._LEFT]
   }
-  getBack(nSelect)
-  {
+  getBack(nSelect) {
     return this.aMapa[nSelect][CuboComponent._BACK]
   }
   montaMapa(nOpc)
@@ -126,46 +121,46 @@ export class CuboComponent implements OnInit {
       case CuboComponent._FACE_BRANCO: // 0 Branca
         aLine.push(CuboComponent._AMARELO);
         aLine.push(CuboComponent._BRANCO);
+        aLine.push(CuboComponent._VERDE);
+        aFaceRet.push(aLine);
+
+        aLine = [];
+        // ----------------------------------------------------------------
+        aLine.push(CuboComponent._BRANCO);
+        aLine.push(CuboComponent._BRANCO);
+        aLine.push(CuboComponent._VERDE);
+
+        aFaceRet.push(aLine);
+        aLine = [];
+        // ----------------------------------------------------------------
+
         aLine.push(CuboComponent._AMARELO);
-        aFaceRet.push(aLine);
-
-        aLine = [];
-        // ----------------------------------------------------------------
         aLine.push(CuboComponent._LARANJA);
-        aLine.push(CuboComponent._BRANCO);
-        aLine.push(CuboComponent._BRANCO);
-
-        aFaceRet.push(aLine);
-        aLine = [];
-        // ----------------------------------------------------------------
-
         aLine.push(CuboComponent._AZUL);
-        aLine.push(CuboComponent._VERDE);
-        aLine.push(CuboComponent._VERDE);
 
         aFaceRet.push(aLine);
         console.log("CuboComponent -> ngOnInit -> aFaceRet", aFaceRet)
         // ----------------------------------------------------------------
         break;
       case CuboComponent._FACE_AZUL: // 1 Azul
-        aLine.push(CuboComponent._AMARELO);
-        aLine.push(CuboComponent._AMARELO);
         aLine.push(CuboComponent._BRANCO);
-        aFaceRet.push(aLine);
-
-        aLine = [];
-        // ----------------------------------------------------------------
-        aLine.push(CuboComponent._AMARELO);
-        aLine.push(CuboComponent._AZUL);
         aLine.push(CuboComponent._VERMELHO);
+        aLine.push(CuboComponent._VERDE);
+        aFaceRet.push(aLine);
+
+        aLine = [];
+        // ----------------------------------------------------------------
+        aLine.push(CuboComponent._AMARELO);
+        aLine.push(CuboComponent._AZUL);
+        aLine.push(CuboComponent._AMARELO);
 
         aFaceRet.push(aLine);
         aLine = [];
         // ----------------------------------------------------------------
 
-        aLine.push(CuboComponent._AZUL);
         aLine.push(CuboComponent._AMARELO);
-        aLine.push(CuboComponent._VERDE);
+        aLine.push(CuboComponent._AMARELO);
+        aLine.push(CuboComponent._AZUL);
 
         aFaceRet.push(aLine);
         console.log("CuboComponent -> ngOnInit -> aFaceRet", aFaceRet)
@@ -173,22 +168,22 @@ export class CuboComponent implements OnInit {
         break;
       case CuboComponent._FACE_AMARELO: // 2 Amarela
         aLine.push(CuboComponent._VERMELHO);
-        aLine.push(CuboComponent._VERMELHO);
-        aLine.push(CuboComponent._VERMELHO);
+        aLine.push(CuboComponent._LARANJA);
+        aLine.push(CuboComponent._LARANJA);
         aFaceRet.push(aLine);
 
         aLine = [];
         // ----------------------------------------------------------------
-        aLine.push(CuboComponent._AZUL);
+        aLine.push(CuboComponent._VERMELHO);
         aLine.push(CuboComponent._AMARELO);
-        aLine.push(CuboComponent._LARANJA);
+        aLine.push(CuboComponent._VERDE);
 
         aFaceRet.push(aLine);
         aLine = [];
         // ----------------------------------------------------------------
 
-        aLine.push(CuboComponent._LARANJA);
-        aLine.push(CuboComponent._VERDE);
+        aLine.push(CuboComponent._VERMELHO);
+        aLine.push(CuboComponent._AZUL);
         aLine.push(CuboComponent._LARANJA);
 
         aFaceRet.push(aLine);
@@ -197,22 +192,22 @@ export class CuboComponent implements OnInit {
         break;
       case CuboComponent._FACE_VERDE: // 3 Verde
         aLine.push(CuboComponent._AZUL);
-        aLine.push(CuboComponent._VERMELHO);
-        aLine.push(CuboComponent._AZUL);
-        aFaceRet.push(aLine);
-
-        aLine = [];
-        // ----------------------------------------------------------------
-        aLine.push(CuboComponent._VERDE);
-        aLine.push(CuboComponent._VERDE);
         aLine.push(CuboComponent._AMARELO);
+        aLine.push(CuboComponent._VERDE);
+        aFaceRet.push(aLine);
+
+        aLine = [];
+        // ----------------------------------------------------------------
+        aLine.push(CuboComponent._VERMELHO);
+        aLine.push(CuboComponent._VERDE);
+        aLine.push(CuboComponent._AZUL);
 
         aFaceRet.push(aLine);
         aLine = [];
         // ----------------------------------------------------------------
 
-        aLine.push(CuboComponent._VERDE);
         aLine.push(CuboComponent._AZUL);
+        aLine.push(CuboComponent._VERDE);
         aLine.push(CuboComponent._VERDE);
 
         aFaceRet.push(aLine);
@@ -220,48 +215,48 @@ export class CuboComponent implements OnInit {
         // ----------------------------------------------------------------
         break;
       case CuboComponent._FACE_LARANJA: // 4 Laranja
-        aLine.push(CuboComponent._VERMELHO);
-        aLine.push(CuboComponent._AZUL);
         aLine.push(CuboComponent._AMARELO);
-        aFaceRet.push(aLine);
-
-        aLine = [];
-        // ----------------------------------------------------------------
-        aLine.push(CuboComponent._LARANJA);
-        aLine.push(CuboComponent._LARANJA);
         aLine.push(CuboComponent._AZUL);
+        aLine.push(CuboComponent._BRANCO);
+        aFaceRet.push(aLine);
+
+        aLine = [];
+        // ----------------------------------------------------------------
+        aLine.push(CuboComponent._AZUL);
+        aLine.push(CuboComponent._LARANJA);
+        aLine.push(CuboComponent._BRANCO);
 
         aFaceRet.push(aLine);
         aLine = [];
         // ----------------------------------------------------------------
 
+        aLine.push(CuboComponent._VERMELHO);
         aLine.push(CuboComponent._LARANJA);
-        aLine.push(CuboComponent._BRANCO);
-        aLine.push(CuboComponent._BRANCO);
+        aLine.push(CuboComponent._LARANJA);
 
         aFaceRet.push(aLine);
         console.log("CuboComponent -> ngOnInit -> aFaceRet", aFaceRet)
         // ----------------------------------------------------------------
         break;
       case CuboComponent._FACE_VERMELHO: // 5 Vermelha
-        aLine.push(CuboComponent._BRANCO);
-        aLine.push(CuboComponent._BRANCO);
         aLine.push(CuboComponent._LARANJA);
-        aFaceRet.push(aLine);
-
-        aLine = [];
-        // ----------------------------------------------------------------
-        aLine.push(CuboComponent._VERMELHO);
-        aLine.push(CuboComponent._VERMELHO);
         aLine.push(CuboComponent._VERDE);
+        aLine.push(CuboComponent._VERMELHO);
+        aFaceRet.push(aLine);
+
+        aLine = [];
+        // ----------------------------------------------------------------
+        aLine.push(CuboComponent._BRANCO);
+        aLine.push(CuboComponent._VERMELHO);
+        aLine.push(CuboComponent._LARANJA);
 
         aFaceRet.push(aLine);
         aLine = [];
         // ----------------------------------------------------------------
 
         aLine.push(CuboComponent._BRANCO);
-        aLine.push(CuboComponent._LARANJA);
         aLine.push(CuboComponent._VERMELHO);
+        aLine.push(CuboComponent._BRANCO);
 
         aFaceRet.push(aLine);
         console.log("CuboComponent -> ngOnInit -> aFaceRet", aFaceRet)
@@ -298,15 +293,58 @@ export class CuboComponent implements OnInit {
 
   }
 
+
+
+  giraMais45(aCubo: [][][], nSelect, lback = false) {
+    let aNewFace = new Array;
+    let aRow = new Array;
+    let aFace = aCubo[nSelect]
+
+    for (let i = 0; i < aFace.length; i++) {
+      for (let j = 0; j < aFace[i].length; j++) {
+        aRow.push(aFace[aFace.length - j - 1][i])
+      }
+      aNewFace.push(aRow);
+      aRow = new Array;
+    }
+    aCubo[nSelect] = aNewFace;
+    if (!lback) {
+      aCubo = this.giraMais45(aCubo, this.getBack(nSelect), true);
+    }
+
+
+    return aCubo;
+  }
+  giraMenus45(aCubo: [][][], nSelect, lback = false) {
+    let aNewFace = new Array;
+    let aRow = new Array;
+    let aFace = aCubo[nSelect]
+
+    for (let i = 0; i < aFace.length; i++) {
+      for (let j = 0; j < aFace[i].length; j++) {
+        aRow.push(aFace[j][aFace[j].length - i - 1])
+      }
+      aNewFace.push(aRow);
+      aRow = new Array;
+    }
+    aCubo[nSelect] = aNewFace;
+    if (!lback) {
+      aCubo = this.giraMenus45(aCubo, this.getBack(nSelect), true);
+    }
+
+    return aCubo;
+  }
+
   private moveFace(i, j) {
     if (i === 1) {
       if (j == 0) {
-        alert('move face pra esquerda')
+        this.aCubo = this.giraMenus45(this.aCubo, this.nSelect);
+
       }
       else if (j == 2)
-        alert('move face pra direita')
+        this.aCubo = this.giraMais45(this.aCubo, this.nSelect);
       else {
-        alert('meio')
+        this.aCubo = this.giraMais45(this.aCubo, this.nSelect);
       }
 
     }
