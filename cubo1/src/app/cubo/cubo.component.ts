@@ -293,9 +293,44 @@ export class CuboComponent implements OnInit {
 
   }
 
+  rolaDireita()
+  {
+    this.aCubo = this.giraMais45(this.aCubo, this.nSelect);
+    for (let i = 0; i < this.aMapa[this.nSelect].length; i++) {
+      if (i === this.aMapa[this.nSelect].length-1)
+      {
+        this.aCubo = this.giraMenus45(this.aCubo, this.aMapa[this.nSelect][i]);
+      }
+      else{
+        this.aCubo = this.giraMais45(this.aCubo, this.aMapa[this.nSelect][i]);
+      }
+    }
+
+    // this.aCubo = this.giraMenus45(this.aCubo, this.getBack(this.nSelect));
+    // this.aCubo = this.giraMais45(this.aCubo, this.getUp(this.nSelect));
+    // this.aCubo = this.giraMais45(this.aCubo, this.getDown(this.nSelect));
+    // this.aCubo = this.giraMais45(this.aCubo, this.getLeft(this.nSelect));
+    // this.aCubo = this.giraMais45(this.aCubo, this.getRight(this.nSelect));
+
+    const myClonedArray  = new Array;
+
+    console.log("CuboComponent -> constructor -> myClonedArray", myClonedArray)
+
+    myClonedArray.push(this.aMapa[this.nSelect][CuboComponent._LEFT])
+    myClonedArray.push(this.aMapa[this.nSelect][CuboComponent._RIGHT])
+    myClonedArray.push(this.aMapa[this.nSelect][CuboComponent._UP])
+    myClonedArray.push(this.aMapa[this.nSelect][CuboComponent._DOWN])
+    myClonedArray.push(this.aMapa[this.nSelect][CuboComponent._BACK])
 
 
-  giraMais45(aCubo: [][][], nSelect, lback = false) {
+    this.aMapa[this.nSelect] = myClonedArray;
+
+
+  }
+
+
+
+  giraMais45(aCubo: [][][], nSelect,) {
     let aNewFace = new Array;
     let aRow = new Array;
     let aFace = aCubo[nSelect]
@@ -308,14 +343,9 @@ export class CuboComponent implements OnInit {
       aRow = new Array;
     }
     aCubo[nSelect] = aNewFace;
-    if (!lback) {
-      aCubo = this.giraMais45(aCubo, this.getBack(nSelect), true);
-    }
-
-
     return aCubo;
   }
-  giraMenus45(aCubo: [][][], nSelect, lback = false) {
+  giraMenus45(aCubo: [][][], nSelect,) {
     let aNewFace = new Array;
     let aRow = new Array;
     let aFace = aCubo[nSelect]
@@ -328,10 +358,6 @@ export class CuboComponent implements OnInit {
       aRow = new Array;
     }
     aCubo[nSelect] = aNewFace;
-    if (!lback) {
-      aCubo = this.giraMenus45(aCubo, this.getBack(nSelect), true);
-    }
-
     return aCubo;
   }
 
@@ -342,7 +368,7 @@ export class CuboComponent implements OnInit {
 
       }
       else if (j == 2)
-        this.aCubo = this.giraMais45(this.aCubo, this.nSelect);
+         this.rolaDireita();
       else {
         this.aCubo = this.giraMais45(this.aCubo, this.nSelect);
       }
